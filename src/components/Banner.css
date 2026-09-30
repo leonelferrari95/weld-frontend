@@ -1,0 +1,11 @@
+.weld-banner,
+.weld-banner picture {
+  display: block;
+  width: 100%;
+}
+
+.weld-banner-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}

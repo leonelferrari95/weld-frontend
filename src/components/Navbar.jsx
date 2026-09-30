@@ -18,7 +18,7 @@ function Navbar() {
 
   return (
     <>
-      <BootstrapNavbar expand="lg" className="weld-navbar">
+      <BootstrapNavbar expand="xxl" className="weld-navbar">
         <Container fluid className="weld-navbar-container">
           <div className="weld-navbar-left">
             <BootstrapNavbar.Toggle

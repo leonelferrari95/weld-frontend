@@ -4,10 +4,11 @@ Weld es un proyecto de sitio web para una marca de ropa urbana y actual. Se est�
 
 ## Estado actual
 
-- Navbar responsive con enlaces a Inicio, Nosotros, Productos y Contacto.
+- Navbar responsive con enlaces a Shop Now, Franquicias, Preguntas frecuentes y Contáctanos.
 - Logo centrado, menú desplegable para pantallas pequeñas y accesos al carrito y a la cuenta.
+- Banner de inicio responsive: usa `weldbannercelu.png` hasta 425 px y `weldbannercompu.png` desde 426 px.
 - Modal de cuenta provisional; el formulario de registro se agregará en una feature posterior.
-- Las secciones de Shop Now, Franquicias, Preguntas frecuentrs y Contactanos todavía están pendientes de desarrollo para la identidad de Weld.
+- Las secciones de productos, Franquicias, Preguntas frecuentes y Contacto todavía están pendientes de desarrollo para la identidad de Weld.
 
 ## Tecnologías
 
@@ -66,4 +67,4 @@ weld-frontend/
 
 ## Próximas features
 
-Se agregarán progresivamente las secciones de Inicio, Nosotros, Productos de ropa urbana, carrito y Contacto, además del formulario de cuenta y sus interacciones.
+Se agregarán progresivamente las secciones de productos de ropa urbana, Franquicias, Preguntas frecuentes, carrito y Contacto, además del formulario de cuenta y sus interacciones.

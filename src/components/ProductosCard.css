@@ -16,13 +16,71 @@
   padding: 1.75rem 0.75rem 1.75rem;
   border: 1px solid #000;
   background: #000;
-  font-family: 'Montserrat', sans-serif;
-  font-optical-sizing: auto;
+  font-family: 'BBH Bartle', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: 'XROT' 0, 'YROT' 0;
   text-align: center;
   color: #fff;
 }
 
+.productos-marquee {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  overflow: hidden;
+  background: #ededed;
+  color: #858585;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.productos-marquee-track,
+.productos-marquee-group {
+  display: flex;
+  width: max-content;
+  align-items: center;
+}
+
+.productos-marquee-track {
+  animation: productos-marquee-scroll 28s linear infinite;
+}
+
+.productos-marquee-group {
+  min-height: 2.5rem;
+  flex-shrink: 0;
+  gap: clamp(2.5rem, 8vw, 7rem);
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+}
+
+.productos-marquee-item {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: clamp(2rem, 7vw, 6rem);
+}
+
+.productos-marquee-brand {
+  letter-spacing: 0.03em;
+}
+
+@keyframes productos-marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .productos-marquee-track {
+    animation: none;
+  }
+}
+
 .productos-card-image-frame {
+  position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
   overflow: hidden;
@@ -34,6 +92,101 @@
   object-fit: cover;
   border-radius: 0;
   transform: scale(1.08);
+  animation: productos-card-image-enter 360ms ease both;
+}
+
+@keyframes productos-card-image-enter {
+  from {
+    opacity: 0.65;
+    transform: scale(1.12);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+.productos-card-image-control {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  width: 1.6rem;
+  aspect-ratio: 1;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #252525;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 180ms ease, background-color 180ms ease, visibility 180ms;
+  cursor: pointer;
+}
+
+.productos-card-image-control:hover {
+  background: #ededed;
+}
+
+.productos-card-image-chevron {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+}
+
+.productos-card-image-control--previous {
+  left: 0.5rem;
+}
+
+.productos-card-image-control--previous .productos-card-image-chevron {
+  transform: translateX(0.12rem) rotate(-135deg);
+}
+
+.productos-card-image-control--next {
+  right: 0.5rem;
+}
+
+.productos-card-image-control--next .productos-card-image-chevron {
+  transform: translateX(-0.12rem) rotate(45deg);
+}
+
+.productos-card:hover .productos-card-image-control,
+.productos-card:focus-within .productos-card-image-control {
+  opacity: 1;
+  visibility: visible;
+}
+
+.productos-card-image-control:focus-visible {
+  opacity: 1;
+  visibility: visible;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.productos-card-image-indicators {
+  position: absolute;
+  right: 0;
+  bottom: 0.75rem;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.productos-card-image-indicator {
+  width: 0.45rem;
+  height: 0.45rem;
+  padding: 0;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.productos-card-image-indicator.is-active {
+  background: #fff;
 }
 
 .productos-card .card-body {
@@ -53,6 +206,14 @@
   font-optical-sizing: auto;
   font-size: 1.1rem;
   font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .productos-card-image,
+  .productos-card-image-control {
+    animation: none;
+    transition: none;
+  }
 }
 
 @media (max-width: 575.98px) {

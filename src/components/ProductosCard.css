@@ -1,0 +1,67 @@
+.productos-card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.productos-section h4 {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  padding: 1.75rem 0.75rem 1.75rem;
+  border: 1px solid #000;
+  background: #000;
+  font-family: 'Montserrat', sans-serif;
+  font-optical-sizing: auto;
+  text-align: center;
+  color: #fff;
+}
+
+.productos-card-image-frame {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.productos-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  transform: scale(1.08);
+}
+
+.productos-card .card-body {
+  flex: 1;
+}
+
+.productos-card .card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.0rem;
+  color: #808080;
+  font-optical-sizing: auto;
+  font-weight: 400;
+}
+
+.productos-card-price {
+  font-family: 'Montserrat', sans-serif;
+  font-optical-sizing: auto;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+@media (max-width: 575.98px) {
+  .productos-card .card-title {
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+
+  .productos-card-price {
+    font-size: 0.9rem;
+  }
+}

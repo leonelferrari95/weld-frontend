@@ -5,11 +5,11 @@ function Banner() {
     <section id="inicio" className="weld-banner" aria-label="Presentación de Weld">
       <picture>
         <source
-          media="(max-width: 425px)"
+          media="(max-width: 767px)"
           srcSet="/img/weldbannercelu.png"
         />
         <source
-          media="(min-width: 426px)"
+          media="(min-width: 768px)"
           srcSet="/img/weldbannercompu.png"
         />
         <img

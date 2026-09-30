@@ -17,7 +17,7 @@ Weld es un proyecto de sitio web para una marca de ropa urbana y actual. Se est√
 - Bootstrap 5
 - React Bootstrap
 - CSS
-- Ropa Sans, cargada desde Google Fonts
+- Ropa Sans y Montserrat, cargadas desde Google Fonts
 
 ## Requisitos
 

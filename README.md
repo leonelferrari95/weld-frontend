@@ -1,16 +1,69 @@
-# React + Vite
+# Weld
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Weld es un proyecto de sitio web para una marca de ropa urbana y actual. Se está desarrollando como una aplicación de una sola página con React y Vite. La interfaz se está construyendo progresivamente y este README describe el estado actual.
 
-Currently, two official plugins are available:
+## Estado actual
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Navbar responsive con enlaces a Inicio, Nosotros, Productos y Contacto.
+- Logo centrado, menú desplegable para pantallas pequeñas y accesos al carrito y a la cuenta.
+- Modal de cuenta provisional; el formulario de registro se agregará en una feature posterior.
+- Las secciones de Shop Now, Franquicias, Preguntas frecuentrs y Contactanos todavía están pendientes de desarrollo para la identidad de Weld.
 
-## React Compiler
+## Tecnologías
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- Vite
+- Bootstrap 5
+- React Bootstrap
+- CSS
+- Ropa Sans, cargada desde Google Fonts
 
-## Expanding the ESLint configuration
+## Requisitos
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Node.js y npm instalados.
+
+## Instalación y ejecución
+
+1. Clonar o descargar este repositorio.
+2. Abrir una terminal en la carpeta del proyecto, donde está `package.json`.
+3. Instalar las dependencias:
+
+   ```bash
+   npm install
+   ```
+
+4. Iniciar el servidor local:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Abrir en el navegador la dirección que muestra Vite en la terminal.
+
+## Comandos disponibles
+
+- `npm run dev`: inicia el servidor de desarrollo.
+- `npm run build`: genera la versión de producción en `dist/`.
+- `npm run preview`: sirve localmente la versión generada.
+- `npm run lint`: revisa el código con ESLint.
+
+## Estructura actual
+
+```text
+weld-frontend/
+├── public/
+│   └── img/                 # Imágenes disponibles mediante rutas como /img/weldblanco.png
+├── src/
+│   ├── components/
+│   │   ├── Navbar.jsx       # Estructura y comportamiento de la navbar
+│   │   └── Navbar.css       # Estilos responsive de la navbar
+│   ├── App.jsx              # Componente principal de la aplicación
+│   ├── index.css            # Estilos globales
+│   └── main.jsx             # Punto de entrada de React
+├── index.html               # Documento base y metadatos de la página
+└── package.json
+```
+
+## Próximas features
+
+Se agregarán progresivamente las secciones de Inicio, Nosotros, Productos de ropa urbana, carrito y Contacto, además del formulario de cuenta y sus interacciones.

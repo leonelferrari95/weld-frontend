@@ -33,9 +33,14 @@ function ProductosCard({ product }) {
       className="h-100 productos-card"
       onMouseEnter={() => {
         setHoverImage(0)
+        setIsTouchPreview(false)
         setIsHovered(true)
       }}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => {
+        setIsHovered(false)
+        setIsTouchPreview(false)
+        setHoverImage(0)
+      }}
     >
       <div className="productos-card-image-frame">
         <Card.Img

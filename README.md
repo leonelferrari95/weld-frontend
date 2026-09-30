@@ -1,70 +1,69 @@
 # Weld
 
-Weld es un proyecto de sitio web para una marca de ropa urbana y actual. Se está desarrollando como una aplicación de una sola página con React y Vite. La interfaz se está construyendo progresivamente y este README describe el estado actual.
+Sitio web de Weld, una marca de ropa urbana. La aplicación está construida como una SPA con React y Vite.
 
-## Estado actual
+## Funcionalidades actuales
 
-- Navbar responsive con enlaces a Shop Now, Franquicias, Preguntas frecuentes y Contáctanos.
-- Logo centrado, menú desplegable para pantallas pequeñas y accesos al carrito y a la cuenta.
-- Banner de inicio responsive: usa `weldbannercelu.png` hasta 425 px y `weldbannercompu.png` desde 426 px.
-- Modal de cuenta provisional; el formulario de registro se agregará en una feature posterior.
-- Las secciones de productos, Franquicias, Preguntas frecuentes y Contacto todavía están pendientes de desarrollo para la identidad de Weld.
+- Navbar responsive con navegación a las secciones disponibles, logo y accesos de cuenta y carrito.
+- Banner de inicio responsive: usa `weldbannercelu.png` hasta 767 px y `weldbannercompu.png` desde 768 px.
+- Sección de productos con tarjetas, nombre, precio y carrusel de imágenes.
+- En las tarjetas con tres o más fotos, al pasar el cursor se muestra primero la tercera imagen y las flechas permiten recorrer la primera y la segunda. Al salir, vuelve la selección normal.
+- En dispositivos táctiles, se puede tocar la imagen para activar o quitar esa vista previa.
+- Flechas compactas con animación de aparición al pasar el cursor o enfocar la tarjeta. Las imágenes también tienen una transición al cambiar.
+- Franja gris animada debajo del título “PRODUCTOS”, con el mensaje de envío y el nombre Weld Company.
+- El encabezado de productos usa BBH Bartle; las tarjetas conservan Montserrat.
 
 ## Tecnologías
 
-- React
+- React y React DOM
 - Vite
-- Bootstrap 5
-- React Bootstrap
+- Bootstrap 5 y React Bootstrap
 - CSS
-- Ropa Sans y Montserrat, cargadas desde Google Fonts
+- Google Fonts: Ropa Sans, Montserrat y BBH Bartle
 
 ## Requisitos
 
-- Node.js y npm instalados.
+- Node.js y npm
 
 ## Instalación y ejecución
 
-1. Clonar o descargar este repositorio.
-2. Abrir una terminal en la carpeta del proyecto, donde está `package.json`.
-3. Instalar las dependencias:
+1. Abre una terminal en la carpeta que contiene `package.json`.
+2. Instala las dependencias:
 
    ```bash
    npm install
    ```
 
-4. Iniciar el servidor local:
+3. Inicia el servidor de desarrollo:
 
    ```bash
    npm run dev
    ```
 
-5. Abrir en el navegador la dirección que muestra Vite en la terminal.
+4. Abre la dirección local que indica Vite en la terminal.
 
-## Comandos disponibles
+## Comandos
 
 - `npm run dev`: inicia el servidor de desarrollo.
 - `npm run build`: genera la versión de producción en `dist/`.
 - `npm run preview`: sirve localmente la versión generada.
 - `npm run lint`: revisa el código con ESLint.
 
-## Estructura actual
+## Estructura principal
 
 ```text
-weld-frontend/
-├── public/
-│   └── img/                 # Imágenes disponibles mediante rutas como /img/weldblanco.png
-├── src/
-│   ├── components/
-│   │   ├── Navbar.jsx       # Estructura y comportamiento de la navbar
-│   │   └── Navbar.css       # Estilos responsive de la navbar
-│   ├── App.jsx              # Componente principal de la aplicación
-│   ├── index.css            # Estilos globales
-│   └── main.jsx             # Punto de entrada de React
-├── index.html               # Documento base y metadatos de la página
-└── package.json
+public/
+└── img/                 # Banners, productos y otros recursos visuales
+src/
+├── components/
+│   ├── Banner.jsx       # Banner responsive de inicio
+│   ├── Banner.css
+│   ├── Navbar.jsx       # Navegación principal
+│   ├── Navbar.css
+│   ├── Productos.jsx    # Catálogo y datos de productos
+│   ├── ProductosCard.jsx # Tarjeta y controles del carrusel
+│   └── ProductosCard.css
+├── App.jsx              # Composición de la página
+├── index.css            # Estilos globales
+└── main.jsx             # Punto de entrada de React
 ```
-
-## Próximas features
-
-Se agregarán progresivamente las secciones de productos de ropa urbana, Franquicias, Preguntas frecuentes, carrito y Contacto, además del formulario de cuenta y sus interacciones.

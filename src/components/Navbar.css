@@ -1,53 +1,21 @@
 .weld-navbar {
-  position: relative;
   z-index: 10;
-  padding-block: 0.5rem;
   background: #000;
   border-bottom: 1px solid #666;
-  font-family: 'Ropa Sans', sans-serif;
 }
 
 .weld-navbar-container {
-  position: relative;
   min-height: 48px;
-  justify-content: space-between;
-}
-
-.weld-navbar-left {
-  display: flex;
-  align-items: center;
-}
-
-.weld-navbar .navbar-brand {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 2;
-  margin: 0;
-  padding: 0;
-  transform: translate(-50%, -50%);
 }
 
 .logo-navbar {
-  display: block;
   width: 76px;
   height: 44px;
   object-fit: contain;
 }
 
-.weld-section-links,
-.weld-navbar-actions {
-  display: flex;
-  align-items: center;
-}
-
-.weld-section-links {
-  gap: 0.5rem;
-}
-
 .weld-navbar .nav-link {
   color: #fff;
-  font-family: 'Ropa Sans', sans-serif;
   font-size: 1rem;
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -64,26 +32,10 @@
   background: transparent;
 }
 
-.weld-navbar-actions {
-  z-index: 3;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 0.25rem;
-  margin-left: auto;
-  white-space: nowrap;
-}
-
 .weld-navbar .cart-nav-link,
 .weld-navbar .user-nav-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: 40px;
   height: 44px;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -143,7 +95,7 @@
 
   .weld-section-links {
     align-items: flex-start;
-    gap: 0;
+    gap: 0 !important;
   }
 
   .weld-section-links .nav-link {
@@ -153,7 +105,14 @@
 }
 
 @media (min-width: 1400px) {
-  .weld-navbar .navbar-collapse {
-    flex-grow: 0;
-  }
+  .weld-navbar .navbar-collapse { flex-grow: 0; }
+}
+
+@media (min-width: 1920px) {
+  .weld-navbar-container { min-height: 3rem; }
+  .logo-navbar { width: 4.75rem; height: 2.75rem; }
+  .weld-navbar .cart-nav-link,
+  .weld-navbar .user-nav-link { width: 2.5rem; height: 2.75rem; }
+  .user-logo { width: 1.5rem; height: 1.5rem; }
+  .cart-logo { width: 1.75rem; height: 1.75rem; }
 }

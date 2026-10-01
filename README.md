@@ -5,6 +5,7 @@ Sitio web de Weld, una marca de ropa urbana. La aplicación está construida com
 ## Funcionalidades actuales
 
 - Navbar responsive con navegación a las secciones disponibles, logo y accesos de cuenta y carrito.
+- Layouts responsive y footer construidos con componentes y utilidades de React Bootstrap; el CSS personalizado queda para identidad visual, animaciones y controles específicos.
 - Banner de inicio responsive: usa `weldbannercelu.png` hasta 767 px y `weldbannercompu.png` desde 768 px.
 - Sección de productos con tarjetas, nombre, precio y carrusel de imágenes.
 - En las tarjetas con tres o más fotos, al pasar el cursor se muestra primero la tercera imagen y las flechas permiten recorrer la primera y la segunda. Al salir, vuelve la selección normal.
@@ -60,6 +61,8 @@ src/
 │   ├── Banner.css
 │   ├── Navbar.jsx       # Navegación principal
 │   ├── Navbar.css
+│   ├── Footer.jsx      # Pie de página
+│   ├── Footer.css
 │   ├── Productos.jsx    # Catálogo y datos de productos
 │   ├── ProductosCard.jsx # Tarjeta y controles del carrusel
 │   └── ProductosCard.css

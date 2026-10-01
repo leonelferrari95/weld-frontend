@@ -59,11 +59,11 @@ function Productos() {
       <Container>
         <h4 className="productos-heading mb-0">PRODUCTOS</h4>
         <div className="productos-marquee" aria-label="Envío gratis a partir de $120.000. Weld Company.">
-          <div className="productos-marquee-track" aria-hidden="true">
+          <div className="d-flex align-items-center productos-marquee-track" aria-hidden="true">
             {[0, 1].map((copy) => (
-              <div className="productos-marquee-group" key={copy}>
+              <div className="d-flex align-items-center flex-shrink-0 productos-marquee-group" key={copy}>
                 {[0, 1, 2, 3].map((item) => (
-                  <div className="productos-marquee-item" key={item}>
+                  <div className="d-flex align-items-center flex-shrink-0 productos-marquee-item" key={item}>
                     <span>ENVÍO GRATIS: A PARTIR DE $120.000</span>
                     <span className="productos-marquee-brand">® WELD COMPANY</span>
                   </div>

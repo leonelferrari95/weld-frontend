@@ -28,9 +28,23 @@ function ProductosCard({ product }) {
     setActiveImage(nextImage)
   }
 
+  const toggleTouchPreview = () => {
+    if (isTouchPreview) {
+      setIsTouchPreview(false)
+      setActiveImage(0)
+    } else {
+      setHoverImage(0)
+      setIsTouchPreview(true)
+    }
+
+    // Touch browsers can synthesize mouse-enter events; don't let that keep
+    // the hover ordering active after the touch preview is turned off.
+    setIsHovered(false)
+  }
+
   return (
     <Card
-      className="h-100 productos-card"
+      className="h-100 d-flex flex-column overflow-hidden border-0 rounded-0 bg-transparent productos-card"
       onMouseEnter={() => {
         setHoverImage(0)
         setIsTouchPreview(false)
@@ -42,27 +56,25 @@ function ProductosCard({ product }) {
         setHoverImage(0)
       }}
     >
-      <div className="productos-card-image-frame">
+      <div className="position-relative w-100 overflow-hidden productos-card-image-frame">
         <Card.Img
           key={`${displayedImage}-${selectedImage}`}
           variant="top"
           src={displayedImage}
           alt={`${product.name}, foto ${selectedImage + 1}`}
-          className="productos-card-image"
+          className="w-100 h-100 object-fit-cover rounded-0 productos-card-image"
           role={images.length > 2 ? 'button' : undefined}
           tabIndex={images.length > 2 ? 0 : undefined}
           aria-label={images.length > 2 ? `Alternar vista de fotos de ${product.name}` : undefined}
           onClick={() => {
             if (images.length > 2 && window.matchMedia('(hover: none)').matches) {
-              setHoverImage(0)
-              setIsTouchPreview((isActive) => !isActive)
+              toggleTouchPreview()
             }
           }}
           onKeyDown={(event) => {
             if (images.length > 2 && (event.key === 'Enter' || event.key === ' ')) {
               event.preventDefault()
-              setHoverImage(0)
-              setIsTouchPreview((isActive) => !isActive)
+              toggleTouchPreview()
             }
           }}
         />
@@ -70,7 +82,7 @@ function ProductosCard({ product }) {
           <>
             <button
               type="button"
-              className="productos-card-image-control productos-card-image-control--previous"
+              className="position-absolute productos-card-image-control productos-card-image-control--previous"
               aria-label={`Ver foto anterior de ${product.name}`}
               onClick={() => showImage(selectedImage - 1)}
             >
@@ -78,13 +90,13 @@ function ProductosCard({ product }) {
             </button>
             <button
               type="button"
-              className="productos-card-image-control productos-card-image-control--next"
+              className="position-absolute productos-card-image-control productos-card-image-control--next"
               aria-label={`Ver foto siguiente de ${product.name}`}
               onClick={() => showImage(selectedImage + 1)}
             >
               <span className="productos-card-image-chevron" aria-hidden="true" />
             </button>
-            <div className="productos-card-image-indicators" aria-label="Fotos del producto">
+            <div className="position-absolute d-flex justify-content-center productos-card-image-indicators" aria-label="Fotos del producto">
               {visibleImages.map((image, index) => (
                 <button
                   key={`${image}-${index}`}
@@ -99,7 +111,7 @@ function ProductosCard({ product }) {
           </>
         )}
       </div>
-      <Card.Body>
+      <Card.Body className="flex-grow-1">
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>{product.description}</Card.Text>
         <strong className="productos-card-price">{product.price}</strong>

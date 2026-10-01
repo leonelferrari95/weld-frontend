@@ -18,25 +18,26 @@ function Navbar() {
 
   return (
     <>
-      <BootstrapNavbar expand="xxl" className="weld-navbar">
-        <Container fluid className="weld-navbar-container">
-          <div className="weld-navbar-left">
+      <BootstrapNavbar expand="xxl" className="position-relative py-2 weld-navbar">
+        <Container fluid className="position-relative justify-content-between weld-navbar-container">
+          <div className="d-flex align-items-center">
             <BootstrapNavbar.Toggle
               aria-controls="weld-navbar-links"
               aria-label="Abrir menú"
             />
 
             <BootstrapNavbar.Collapse id="weld-navbar-links">
-              <Nav className="weld-section-links">
+              <Nav className="gap-2 weld-section-links">
                 {sectionLink('#productos', 'SHOP NOW')}
                 {sectionLink('#franquicias', 'FRANQUICIAS')}
                 {sectionLink('#preguntas', 'PREGUNTAS FRECUENTES')}
                 {sectionLink('#contacto', 'CONTACTANOS')}
+                {sectionLink('#nosotros', 'NOSOTROS')}
               </Nav>
             </BootstrapNavbar.Collapse>
           </div>
 
-          <BootstrapNavbar.Brand href="#inicio" aria-label="Weld, inicio">
+          <BootstrapNavbar.Brand href="#inicio" aria-label="Weld, inicio" className="position-absolute top-50 start-50 z-2 translate-middle m-0 p-0">
             <img
               src="/img/weldblanco.png"
               alt="Weld"
@@ -44,14 +45,14 @@ function Navbar() {
             />
           </BootstrapNavbar.Brand>
 
-          <Nav className="weld-navbar-actions">
-            <Nav.Link href="#carrito" aria-label="Ver carrito" className="cart-nav-link">
+          <Nav className="d-flex align-items-center flex-row flex-nowrap gap-1 ms-auto z-3 text-nowrap weld-navbar-actions">
+            <Nav.Link href="#carrito" aria-label="Ver carrito" className="d-inline-flex align-items-center justify-content-center p-0 border-0 rounded-0 bg-transparent cart-nav-link">
               <img src="/img/carritosinfondo.png" alt="" className="cart-logo" />
             </Nav.Link>
             <Button
               type="button"
               variant="link"
-              className="user-nav-link"
+              className="d-inline-flex align-items-center justify-content-center p-0 border-0 rounded-0 bg-transparent user-nav-link"
               aria-label="Registrarse"
               onClick={() => setShowRegister(true)}
             >

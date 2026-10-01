@@ -1,9 +1,7 @@
-import './Banner.css'
-
 function Banner() {
   return (
-    <section id="inicio" className="weld-banner" aria-label="Presentación de Weld">
-      <picture>
+    <section id="inicio" aria-label="Presentación de Weld">
+      <picture className="d-block w-100">
         <source
           media="(max-width: 767px)"
           srcSet="/img/weldbannercelu.png"
@@ -15,7 +13,7 @@ function Banner() {
         <img
           src="/img/weldbannercelu.png"
           alt="Weld: ropa urbana. No rules, just style."
-          className="weld-banner-image"
+          className="d-block w-100 h-auto"
         />
       </picture>
     </section>

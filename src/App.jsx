@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar'
 import Banner from './components/Banner'
 import Productos from './components/Productos'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Banner />
         <Productos />
       </main>
+      <Footer />
     </>
   )
 }

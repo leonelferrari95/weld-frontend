@@ -1,29 +1,30 @@
+.weld-navbar-brand {
+  position: absolute;
+  margin: 0;
+  transform: translate(-50%, -50%);
+}
+
 .weld-navbar {
   z-index: 10;
-  background: #000;
   border-bottom: 1px solid #666;
 }
 
 .weld-navbar-container {
-  min-height: 48px;
+  min-height: 3rem;
 }
 
 .logo-navbar {
-  width: 76px;
-  height: 44px;
-  object-fit: contain;
+  width: 4.75rem;
+  height: 2.75rem;
 }
 
 .weld-navbar .nav-link {
   color: #fff;
-  font-size: 1rem;
-  font-weight: 400;
   letter-spacing: 0.04em;
   padding-inline: 0.75rem;
 }
 
-.weld-navbar .nav-link:hover,
-.weld-navbar .nav-link:focus-visible {
+.weld-navbar .nav-link:is(:hover, :focus-visible) {
   color: #c8c8c8;
 }
 
@@ -32,70 +33,47 @@
   background: transparent;
 }
 
-.weld-navbar .cart-nav-link,
-.weld-navbar .user-nav-link {
-  width: 40px;
-  height: 44px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+.weld-navbar-action {
+  width: 2.5rem;
+  height: 2.75rem;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
-.weld-navbar .cart-nav-link:hover,
-.weld-navbar .user-nav-link:hover,
-.weld-navbar .cart-nav-link:focus-visible,
-.weld-navbar .user-nav-link:focus-visible {
-  background: transparent;
+.weld-navbar-action:is(:hover, :focus-visible) {
   opacity: 0.8;
   transform: translateY(-1px);
 }
 
-.cart-logo,
-.user-logo {
-  display: block;
-  width: 24px;
-  height: 24px;
-}
-
-.cart-logo {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
+.user-logo,
+.weld-navbar .navbar-toggler-icon {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .user-logo {
   fill: #fff;
 }
 
-@media (max-width: 1399.98px) {
-  .weld-navbar .navbar-toggler {
-    z-index: 3;
-    margin: 0;
-    padding: 0.25rem;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-  }
+.cart-logo {
+  width: 1.75rem;
+  height: 1.75rem;
+  filter: brightness(0) invert(1);
+}
 
+@media (max-width: 1399.98px) {
   .weld-navbar .navbar-toggler-icon {
-    width: 1.5rem;
-    height: 1.5rem;
     filter: invert(1);
   }
 
   .weld-navbar .navbar-collapse {
     position: absolute;
-    top: 100%;
-    right: 0;
-    left: 0;
+    inset: 100% 0 auto;
     z-index: 5;
     padding: 0.5rem 0.75rem 0.75rem;
     background: #000;
     border-top: 1px solid #292929;
-  }
-
-  .weld-section-links {
-    align-items: flex-start;
-    gap: 0 !important;
   }
 
   .weld-section-links .nav-link {
@@ -105,14 +83,10 @@
 }
 
 @media (min-width: 1400px) {
-  .weld-navbar .navbar-collapse { flex-grow: 0; }
-}
-
-@media (min-width: 1920px) {
-  .weld-navbar-container { min-height: 3rem; }
-  .logo-navbar { width: 4.75rem; height: 2.75rem; }
-  .weld-navbar .cart-nav-link,
-  .weld-navbar .user-nav-link { width: 2.5rem; height: 2.75rem; }
-  .user-logo { width: 1.5rem; height: 1.5rem; }
-  .cart-logo { width: 1.75rem; height: 1.75rem; }
+  .weld-navbar-brand {
+    position: static;
+    transform: none;
+    margin-left: auto;
+    margin-right: 0.75rem;
+  }
 }

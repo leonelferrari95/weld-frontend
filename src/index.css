@@ -1,12 +1,9 @@
-
 :root {
   font-family: 'Ropa Sans', sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --primary-color: hsl(106, 78%, 41%);
-  --main-font: 'Ropa Sans', sans-serif;
 }
 
 body {
@@ -14,7 +11,8 @@ body {
   min-height: 100vh;
   margin: 0;
   background: url('/img/fondotodocompu.png') center center / cover no-repeat fixed;
-  font-family: var(--main-font);
+  font-family: 'Montserrat', sans-serif;
+  color: #6e4204;
 }
 
 button,
@@ -23,6 +21,11 @@ a {
 }
 
 @media (min-width: 1920px) {
+  .productos-section > .container,
+  .producto-detalle {
+    max-width: min(68.75vw, 2880px);
+  }
+
   :root {
     font-size: clamp(1rem, calc(0.5rem + 0.416667vw), 1.5rem);
   }

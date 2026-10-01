@@ -1,30 +1,25 @@
-.weld-footer-heading {
+.weld-footer-heading,
+.weld-footer-link {
   letter-spacing: 0.06em;
 }
 
 .weld-footer-link {
   font-size: 0.95rem;
-  letter-spacing: 0.06em;
   transition: color 180ms ease;
 }
 
-.weld-footer-link:hover,
-.weld-footer-link:focus-visible {
+.weld-footer-link:is(:hover, :focus-visible) {
   color: #aaa !important;
 }
 .weld-footer-logo {
-  display: block;
   width: 70%;
   max-width: 320px;
-  height: auto;
-  margin-inline: auto;
 }
 
 @media (min-width: 1200px) {
   .weld-footer-logo {
-    width: 200px;
+    width: 12.5rem;
     max-width: 100%;
-    margin-inline: 0;
   }
 }
 
@@ -32,9 +27,4 @@
   .weld-footer-link {
     transition: none;
   }
-}
-
-@media (min-width: 1920px) {
-  .weld-footer-logo { width: 12.5rem; }
-  .weld-footer-link svg { width: 1.25rem; height: 1.25rem; }
 }

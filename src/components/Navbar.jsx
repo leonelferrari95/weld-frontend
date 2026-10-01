@@ -115,7 +115,7 @@ function Navbar({ mostrarPreguntas, setMostrarPreguntas }) {
             <Button
               type="button"
               variant="link"
-              className="d-inline-flex align-items-center justify-content-center p-0 border-0 rounded-0 bg-transparent user-nav-link"
+              className="d-inline-flex align-items-center justify-content-center p-0 border-0 rounded-0 bg-transparent weld-navbar-action"
               aria-label="Registrarse"
               onClick={() => setShowRegister(true)}
             >

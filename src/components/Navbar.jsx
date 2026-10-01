@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { Button, Container, Modal, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
 import './Navbar.css'
 
-function Navbar() {
+function Navbar({ onFranquiciasClick }) {
   const [showRegister, setShowRegister] = useState(false)
+  const [menuExpanded, setMenuExpanded] = useState(false)
   const [activeSection, setActiveSection] = useState(() => window.location.hash)
 
   const sectionLink = (href, label) => (
     <Nav.Link
-      href={`?${href}`}
+      href={href === '#franquicias' && !window.location.search ? href : `?${href}`}
       className={`fs-6 fw-normal${activeSection === href ? ' active' : ''}`}
       onClick={() => setActiveSection(href)}
     >
@@ -18,7 +19,12 @@ function Navbar() {
 
   return (
     <>
-      <BootstrapNavbar expand="xxl" className="position-relative py-2 bg-black weld-navbar">
+      <BootstrapNavbar
+        expand="xxl"
+        expanded={menuExpanded}
+        onToggle={setMenuExpanded}
+        className="position-relative py-2 bg-black weld-navbar"
+      >
         <Container
           fluid
           className="position-relative justify-content-between weld-navbar-container"
@@ -27,13 +33,24 @@ function Navbar() {
             <BootstrapNavbar.Toggle
               className="z-3 m-0 p-1 border-0 rounded-0 shadow-none"
               aria-controls="weld-navbar-links"
-              aria-label="Abrir menú"
+              aria-label={menuExpanded ? 'Cerrar menú' : 'Abrir menú'}
             />
 
             <BootstrapNavbar.Collapse id="weld-navbar-links" className="flex-xxl-grow-0">
               <Nav className="gap-0 gap-xxl-2 align-items-start align-items-xxl-stretch weld-section-links">
                 {sectionLink('#productos', 'SHOP NOW')}
-                {sectionLink('#franquicias', 'FRANQUICIAS')}
+                <Nav.Link
+                  href="#franquicias"
+                  className={`fs-6 fw-normal${activeSection === '#franquicias' ? ' active' : ''}`}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    setActiveSection('#franquicias')
+                    setMenuExpanded(false)
+                    onFranquiciasClick()
+                  }}
+                >
+                  FRANQUICIAS
+                </Nav.Link>
                 {sectionLink('#preguntas', 'PREGUNTAS FRECUENTES')}
                 {sectionLink('#contacto', 'CONTACTANOS')}
                 {sectionLink('#nosotros', 'NOSOTROS')}

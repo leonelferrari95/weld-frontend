@@ -1,13 +1,16 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import Banner from './components/Banner'
 import Productos from './components/Productos'
 import Footer from './components/Footer'
 import ProductoDetalle from './components/ProductoDetalle'
 import EnvioGratis from './components/EnvioGratis'
+import PreguntasFrecuentes from './components/PreguntasFrecuentes'
 import { products } from './data/products'
 
 function App() {
+  const [mostrarPreguntas, setMostrarPreguntas] = useState(false)
+
   useEffect(() => {
     if (window.location.hash === '#productos') {
       document.getElementById('productos')?.scrollIntoView()
@@ -19,9 +22,15 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      <Navbar
+        mostrarPreguntas={mostrarPreguntas}
+        setMostrarPreguntas={setMostrarPreguntas}
+      />
+
       <main className={productId !== null ? 'producto-detalle-fondo' : undefined}>
-        {productId !== null ? (
+        {mostrarPreguntas ? (
+          <PreguntasFrecuentes />
+        ) : productId !== null ? (
           <>
             <EnvioGratis />
             <ProductoDetalle product={product} />
@@ -33,6 +42,7 @@ function App() {
           </>
         )}
       </main>
+
       <Footer />
     </>
   )

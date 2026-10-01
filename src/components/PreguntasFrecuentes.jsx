@@ -5,7 +5,7 @@ function PreguntasFrecuentes() {
   return (
     <section id="preguntas">
       <Container className="my-5">
-        <h2 className="text-center mb-4">Preguntas frecuentes</h2>
+        <h2 className="text-center mb-4">PREGUNTAS FRECUENTES</h2>
 
         <Accordion>
           <Accordion.Item eventKey="0">
@@ -48,10 +48,10 @@ function PreguntasFrecuentes() {
 
           <Accordion.Item eventKey="3">
             <Accordion.Header>
-              ¿Puedo realizar un cambio?
+              ¿Como puedo realizar un cambio?
             </Accordion.Header>
             <Accordion.Body>
-              Sí. Para consultar las condiciones de cambio, comunicate con
+              Para consultar las condiciones de cambio, comunicate con
               nosotros indicando los datos de tu compra.
             </Accordion.Body>
           </Accordion.Item>

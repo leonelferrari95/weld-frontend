@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useState } from 'react'
 
 import Navbar from './components/Navbar'
 import Banner from './components/Banner'
@@ -6,29 +6,29 @@ import Productos from './components/Productos'
 import Footer from './components/Footer'
 import PreguntasFrecuentes from './components/PreguntasFrecuentes'
 
-function Inicio() {
+function App() {
+  const [mostrarPreguntas, setMostrarPreguntas] = useState(false)
+
   return (
     <>
-      <Banner />
-      <Productos />
-    </>
-  )
-}
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Navbar />
+      <Navbar
+        mostrarPreguntas={mostrarPreguntas}
+        setMostrarPreguntas={setMostrarPreguntas}
+      />
 
       <main>
-        <Routes>
-          <Route path="/" element={<Inicio />} />
-          <Route path="/preguntas-frecuentes" element={<PreguntasFrecuentes />} />
-        </Routes>
+        {mostrarPreguntas ? (
+          <PreguntasFrecuentes />
+        ) : (
+          <>
+            <Banner />
+            <Productos />
+          </>
+        )}
       </main>
 
       <Footer />
-    </BrowserRouter>
+    </>
   )
 }
 

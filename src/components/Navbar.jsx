@@ -1,11 +1,8 @@
 import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Container, Modal, Nav,
-  Navbar as BootstrapNavbar
-} from 'react-bootstrap'
+import { Button, Container, Modal, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
 import './Navbar.css'
 
-function Navbar() {
+function Navbar({ mostrarPreguntas, setMostrarPreguntas }) {
   const [showRegister, setShowRegister] = useState(false)
   const [activeSection, setActiveSection] = useState(() => window.location.hash)
   const navbarToggleRef = useRef(null)
@@ -14,11 +11,24 @@ function Navbar() {
     <Nav.Link
       href={href}
       className={activeSection === href ? 'active' : undefined}
-      onClick={() => setActiveSection(href)}
+      onClick={() => {
+        setActiveSection(href)
+        setMostrarPreguntas(false)
+      }}
     >
       {label}
     </Nav.Link>
   )
+
+  const irAlInicio = () => {
+    setMostrarPreguntas(false)
+    navbarToggleRef.current?.click()
+  }
+
+  const irAPreguntas = () => {
+    setMostrarPreguntas(true)
+    navbarToggleRef.current?.click()
+  }
 
   return (
     <>
@@ -41,19 +51,27 @@ function Navbar() {
               <Nav className="gap-2 weld-section-links">
 
                 <Nav.Link
-                  as={Link} to="/"
-                  onClick={() => navbarToggleRef.current?.click()}
-            >
-                    SHOP NOW
-                    </Nav.Link>
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    irAlInicio()
+                  }}
+                  className={!mostrarPreguntas ? 'active' : undefined}
+                >
+                  SHOP NOW
+                </Nav.Link>
 
                 {sectionLink('#franquicias', 'FRANQUICIAS')}
 
                 <Nav.Link
-                  as={Link} to="/preguntas-frecuentes"
-                  onClick={() => navbarToggleRef.current?.click()}
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    irAPreguntas()
+                  }}
+                  className={mostrarPreguntas ? 'active' : undefined}
                 >
-                    PREGUNTAS FRECUENTES
+                  PREGUNTAS FRECUENTES
                 </Nav.Link>
 
                 {sectionLink('#contacto', 'CONTACTANOS')}
@@ -65,8 +83,12 @@ function Navbar() {
           </div>
 
           <BootstrapNavbar.Brand
-            as={Link} to="/"
+            href="#"
             aria-label="Weld, inicio"
+            onClick={(e) => {
+              e.preventDefault()
+              irAlInicio()
+            }}
             className="position-absolute top-50 start-50 z-2 translate-middle m-0 p-0"
           >
             <img

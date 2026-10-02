@@ -1,0 +1,102 @@
+.franquicias-page {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100svh;
+  color: #fff;
+  background-color: #242424;
+}
+
+.franquicias-page-container {
+  position: relative;
+  display: grid;
+  min-height: 100vh;
+  min-height: 100svh;
+  place-items: center;
+  padding: 6rem 1.5rem;
+  text-align: center;
+}
+
+.franquicias-home-link {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  padding: 0;
+  border: 0;
+  color: #fff;
+  background: transparent;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.franquicias-home-link:hover,
+.franquicias-home-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.franquicias-page-content {
+  width: 100%;
+  transform: translateY(2rem);
+}
+
+.franquicias-page-title {
+  max-width: 15ch;
+  margin: 0 auto 2rem;
+  font-family: 'BBH Bartle', sans-serif;
+  font-weight: 600;
+  line-height: 1.05;
+  color: #edeaeae4;
+}
+
+.franquicias-page .franquicias-more-button,
+.franquicias-page .franquicias-more-button:hover,
+.franquicias-page .franquicias-more-button:focus,
+.franquicias-page .franquicias-more-button:active {
+  border-color: #000;
+  color: #fff;
+  background-color: #090909;
+}
+
+@media (max-width: 767.98px) {
+  .franquicias-page-container {
+    padding: 5rem 1rem 3rem;
+  }
+
+  .franquicias-home-link {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .franquicias-page-content {
+    max-width: 32rem;
+    margin: 0 auto;
+    transform: translateY(1rem);
+  }
+
+  .franquicias-page-title {
+    max-width: 12ch;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+  }
+
+  .franquicias-page .franquicias-more-button {
+    width: min(100%, 16rem);
+    padding: 0.65rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .franquicias-page-title {
+    max-width: 13ch;
+    font-size: 1.75rem;
+  }
+
+  .franquicias-page .franquicias-more-button {
+    width: min(100%, 14rem);
+    padding: 0.6rem 0.75rem;
+    font-size: 0.95rem;
+  }
+}

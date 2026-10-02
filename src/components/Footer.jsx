@@ -19,16 +19,30 @@ const footerSections = [
     ],
   },
 ]
-function Footer() {
+function Footer({ onFranquiciasClick }) {
   const sections = []
   for (const section of footerSections) {
     const links = []
     for (const link of section.links) {
+      const href =
+        link.href === '#franquicias' && !window.location.search
+          ? link.href
+          : link.href.startsWith('#')
+            ? `?${link.href}`
+            : link.href
       links.push(
         <Nav.Link
           key={link.href}
           className="text-white text-decoration-none p-0 weld-footer-link"
-          href={link.href.startsWith('#') ? `?${link.href}` : link.href}
+          href={href}
+          onClick={
+            link.href === '#franquicias'
+              ? (event) => {
+                  event.preventDefault()
+                  onFranquiciasClick()
+                }
+              : undefined
+          }
         >
           {link.label}
         </Nav.Link>,

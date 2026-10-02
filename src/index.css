@@ -6,6 +6,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;
@@ -28,5 +32,11 @@ a {
 
   :root {
     font-size: clamp(1rem, calc(0.5rem + 0.416667vw), 1.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }

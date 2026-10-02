@@ -1,23 +1,17 @@
 import { useState } from 'react'
-import {
-  Button,
-  Container,
-  Modal,
-  Nav,
-  Navbar as BootstrapNavbar,
-} from 'react-bootstrap'
+import { Button, Container, Modal, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
 import './Navbar.css'
 
 function Navbar({
   onFranquiciasClick,
+  onNosotrosClick,
+  seccionAbierta,
   mostrarPreguntas,
   setMostrarPreguntas,
 }) {
   const [showRegister, setShowRegister] = useState(false)
   const [expanded, setExpanded] = useState(false)
-  const [activeSection, setActiveSection] = useState(
-    () => window.location.hash,
-  )
+  const [activeSection, setActiveSection] = useState(() => window.location.hash)
 
   const cerrarSecciones = () => {
     setMostrarPreguntas(false)
@@ -28,7 +22,7 @@ function Navbar({
     <Nav.Link
       href={`?${href}`}
       className={`fs-6 fw-normal${
-        !mostrarPreguntas && activeSection === href ? ' active' : ''
+        !mostrarPreguntas && !seccionAbierta && activeSection === href ? ' active' : ''
       }`}
       onClick={() => {
         setActiveSection(href)
@@ -73,20 +67,13 @@ function Navbar({
               aria-label={expanded ? 'Cerrar menú' : 'Abrir menú'}
             />
 
-            <BootstrapNavbar.Collapse
-              id="weld-navbar-links"
-              className="flex-xxl-grow-0"
-            >
+            <BootstrapNavbar.Collapse id="weld-navbar-links" className="flex-xxl-grow-0">
               <Nav className="gap-0 gap-xxl-2 align-items-start align-items-xxl-stretch weld-section-links">
                 {sectionLink('#productos', 'SHOP NOW')}
 
                 <Nav.Link
                   href="#franquicias"
-                  className={`fs-6 fw-normal${
-                    !mostrarPreguntas && activeSection === '#franquicias'
-                      ? ' active'
-                      : ''
-                  }`}
+                  className={`fs-6 fw-normal${seccionAbierta === 'franquicias' ? ' active' : ''}`}
                   onClick={abrirFranquicias}
                 >
                   FRANQUICIAS
@@ -94,16 +81,24 @@ function Navbar({
 
                 <Nav.Link
                   href="#preguntas"
-                  className={`fs-6 fw-normal${
-                    mostrarPreguntas ? ' active' : ''
-                  }`}
+                  className={`fs-6 fw-normal${mostrarPreguntas ? ' active' : ''}`}
                   onClick={abrirPreguntas}
                 >
                   PREGUNTAS FRECUENTES
                 </Nav.Link>
 
                 {sectionLink('#contacto', 'CONTACTANOS')}
-                {sectionLink('#nosotros', 'NOSOTROS')}
+                <Nav.Link
+                  href="#nosotros"
+                  className={`fs-6 fw-normal${seccionAbierta === 'nosotros' ? ' active' : ''}`}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    setExpanded(false)
+                    onNosotrosClick()
+                  }}
+                >
+                  NOSOTROS
+                </Nav.Link>
               </Nav>
             </BootstrapNavbar.Collapse>
           </div>
@@ -114,11 +109,7 @@ function Navbar({
             onClick={cerrarSecciones}
             className="weld-navbar-brand top-50 start-50 flex-shrink-0 z-2 p-0"
           >
-            <img
-              src="/img/weldblanco.png"
-              alt="Weld"
-              className="logo-navbar object-fit-contain"
-            />
+            <img src="/img/weldblanco.png" alt="Weld" className="logo-navbar object-fit-contain" />
           </BootstrapNavbar.Brand>
 
           <Nav className="d-flex align-items-center flex-row flex-nowrap flex-shrink-0 gap-1 ms-auto ms-xxl-0 z-3 text-nowrap weld-navbar-actions">
@@ -154,11 +145,7 @@ function Navbar({
         </Container>
       </BootstrapNavbar>
 
-      <Modal
-        show={showRegister}
-        onHide={() => setShowRegister(false)}
-        centered
-      >
+      <Modal show={showRegister} onHide={() => setShowRegister(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Registrarse</Modal.Title>
         </Modal.Header>

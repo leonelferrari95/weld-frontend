@@ -35,7 +35,13 @@ Abrí la dirección que muestra Vite. En PowerShell, si la política de ejecuci�
 - Footer con logo centrado y secciones debajo en pantallas menores a 1200 px.
 - Fondo ilustrado del detalle desde 1400 px y fondo blanco por debajo. Escala de tipografía y catálogo adaptada a pantallas mayores a 1920 px.
 
-Los enlaces a secciones como Nosotros y Franquicias siguen siendo referencias: sus secciones aún no están implementadas.
+Franquicias y Nosotros se despliegan sobre el contenido actual desde el menú o el footer. Abrir una cierra la otra. Franquicias tiene un botón “Volver al inicio”; Nosotros contiene únicamente una imagen responsive, sin textos, botones ni enlaces internos. Preguntas frecuentes también cierra estas secciones. El enlace a Contactanos sigue pendiente de una sección propia.
+
+## Imágenes de Nosotros
+
+`src/components/NosotrosPage.jsx` configura las imágenes móvil y de escritorio. Por ahora reutiliza `/img/sucursalweldcel.png` (950 × 1656) y `/img/sucursalweldpc.png` (1672 × 941). Al reemplazarlas, actualizá `srcSet`, `width` y `height` en `<source>` para celular y `src`, `width` y `height` en `<img>` para escritorio.
+
+La versión móvil se usa hasta 767.98 px; desde 768 px se usa la de escritorio. Nosotros muestra la imagen completa al ancho disponible con altura automática, sin recortarla ni deformarla. Su altura depende de las proporciones de la imagen, como en el banner de inicio. Franquicias conserva su fondo a pantalla completa con recorte, su título y su botón “Ver más”.
 
 ## Editar productos
 
@@ -57,7 +63,7 @@ Guardá los precios como números, sin símbolos ni separadores. `src/utils/prec
 
 Bootstrap resuelve distribución, alineación, bordes, pesos de fuente y otras propiedades comunes mediante sus componentes y utilidades. El CSS propio conserva colores exactos, medidas particulares, animaciones, estados de interacción y ajustes responsive.
 
-Tras las dos pasadas de refactorización y el ajuste responsive del botón, el CSS propio pasó de **257 a 140 declaraciones** (aproximadamente **46% menos**) y de **9846 a 6403 bytes** (aproximadamente **35% menos**), sumando todos los `.css` de `src/`. La segunda pasada reemplazó ajustes de la navbar por utilidades responsive de Bootstrap y unificó selectores y reglas para pantallas grandes. No se trasladaron estilos a objetos JavaScript ni se ocultaron archivos del cálculo de lenguajes.
+En las dos pasadas de refactorización, antes de incorporar Franquicias y Nosotros, el CSS propio pasó de **257 a 140 declaraciones** (aproximadamente **46% menos**) y de **9846 a 6403 bytes** (aproximadamente **35% menos**), sumando todos los `.css` de `src/`. La segunda pasada reemplazó ajustes de la navbar por utilidades responsive de Bootstrap y unificó selectores y reglas para pantallas grandes. No se trasladaron estilos a objetos JavaScript ni se ocultaron archivos del cálculo de lenguajes.
 
 Estas cifras miden el CSS del proyecto, no el porcentaje final de lenguajes de GitHub ni el CSS de Bootstrap incluido en la compilación. El porcentaje que muestre el repositorio debe comprobarse después de subir los cambios.
 
@@ -71,7 +77,10 @@ src/
 │   ├── Banner.jsx                  # Imágenes responsive del inicio
 │   ├── EnvioGratis.jsx / .css      # Franja animada compartida
 │   ├── Footer.jsx / .css           # Pie de página
+│   ├── FranquiciasPage.jsx / .css  # Franquicias y estilos de las secciones con imagen
 │   ├── Navbar.jsx / .css           # Menú y modal de registro
+│   ├── NosotrosPage.jsx           # Imagen responsive de Nosotros
+│   ├── SeccionImagen.jsx          # Presentación con texto y botones de Franquicias
 │   ├── ProductoDetalle.jsx / .css  # Galería, descripción y cantidad
 │   ├── Productos.jsx              # Grilla del catálogo
 │   └── ProductosCard.jsx / .css    # Tarjeta y controles de fotos

@@ -4,7 +4,7 @@ import { formatoPrecio } from '../utils/precios'
 import './ProductoDetalle.css'
 import { FiShield, FiCheck, FiCornerUpLeft } from 'react-icons/fi'
 
-function ProductoDetalle({ product }) {
+function ProductoDetalle({ product, onAgregarAlCarrito }) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [cantidad, setCantidad] = useState(1)
 
@@ -93,7 +93,11 @@ function ProductoDetalle({ product }) {
               </button>
             </div>
 
-            <button type="button" className="producto-agregar border-0 text-white py-2">
+            <button
+              type="button"
+              className="producto-agregar border-0 text-white py-2"
+              onClick={() => onAgregarAlCarrito(product, cantidad)}
+            >
               Agregar al carrito
             </button>
           </div>

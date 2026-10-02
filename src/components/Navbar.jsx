@@ -1,28 +1,65 @@
 import { useState } from 'react'
-import { Button, Container, Modal, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
+import {
+  Button,
+  Container,
+  Modal,
+  Nav,
+  Navbar as BootstrapNavbar,
+} from 'react-bootstrap'
 import './Navbar.css'
 
-function Navbar({ onFranquiciasClick }) {
+function Navbar({
+  onFranquiciasClick,
+  mostrarPreguntas,
+  setMostrarPreguntas,
+}) {
   const [showRegister, setShowRegister] = useState(false)
-  const [menuExpanded, setMenuExpanded] = useState(false)
-  const [activeSection, setActiveSection] = useState(() => window.location.hash)
+  const [expanded, setExpanded] = useState(false)
+  const [activeSection, setActiveSection] = useState(
+    () => window.location.hash,
+  )
+
+  const cerrarSecciones = () => {
+    setMostrarPreguntas(false)
+    setExpanded(false)
+  }
 
   const sectionLink = (href, label) => (
     <Nav.Link
-      href={href === '#franquicias' && !window.location.search ? href : `?${href}`}
-      className={`fs-6 fw-normal${activeSection === href ? ' active' : ''}`}
-      onClick={() => setActiveSection(href)}
+      href={`?${href}`}
+      className={`fs-6 fw-normal${
+        !mostrarPreguntas && activeSection === href ? ' active' : ''
+      }`}
+      onClick={() => {
+        setActiveSection(href)
+        cerrarSecciones()
+      }}
     >
       {label}
     </Nav.Link>
   )
 
+  const abrirFranquicias = (event) => {
+    event.preventDefault()
+    setActiveSection('#franquicias')
+    setExpanded(false)
+    onFranquiciasClick()
+  }
+
+  const abrirPreguntas = (event) => {
+    event.preventDefault()
+    setActiveSection('#preguntas')
+    setMostrarPreguntas(true)
+    setExpanded(false)
+    window.scrollTo({ top: 0 })
+  }
+
   return (
     <>
       <BootstrapNavbar
         expand="xxl"
-        expanded={menuExpanded}
-        onToggle={setMenuExpanded}
+        expanded={expanded}
+        onToggle={setExpanded}
         className="position-relative py-2 bg-black weld-navbar"
       >
         <Container
@@ -33,25 +70,38 @@ function Navbar({ onFranquiciasClick }) {
             <BootstrapNavbar.Toggle
               className="z-3 m-0 p-1 border-0 rounded-0 shadow-none"
               aria-controls="weld-navbar-links"
-              aria-label={menuExpanded ? 'Cerrar menú' : 'Abrir menú'}
+              aria-label={expanded ? 'Cerrar menú' : 'Abrir menú'}
             />
 
-            <BootstrapNavbar.Collapse id="weld-navbar-links" className="flex-xxl-grow-0">
+            <BootstrapNavbar.Collapse
+              id="weld-navbar-links"
+              className="flex-xxl-grow-0"
+            >
               <Nav className="gap-0 gap-xxl-2 align-items-start align-items-xxl-stretch weld-section-links">
                 {sectionLink('#productos', 'SHOP NOW')}
+
                 <Nav.Link
                   href="#franquicias"
-                  className={`fs-6 fw-normal${activeSection === '#franquicias' ? ' active' : ''}`}
-                  onClick={(event) => {
-                    event.preventDefault()
-                    setActiveSection('#franquicias')
-                    setMenuExpanded(false)
-                    onFranquiciasClick()
-                  }}
+                  className={`fs-6 fw-normal${
+                    !mostrarPreguntas && activeSection === '#franquicias'
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={abrirFranquicias}
                 >
                   FRANQUICIAS
                 </Nav.Link>
-                {sectionLink('#preguntas', 'PREGUNTAS FRECUENTES')}
+
+                <Nav.Link
+                  href="#preguntas"
+                  className={`fs-6 fw-normal${
+                    mostrarPreguntas ? ' active' : ''
+                  }`}
+                  onClick={abrirPreguntas}
+                >
+                  PREGUNTAS FRECUENTES
+                </Nav.Link>
+
                 {sectionLink('#contacto', 'CONTACTANOS')}
                 {sectionLink('#nosotros', 'NOSOTROS')}
               </Nav>
@@ -61,9 +111,14 @@ function Navbar({ onFranquiciasClick }) {
           <BootstrapNavbar.Brand
             href="?#inicio"
             aria-label="Weld, inicio"
+            onClick={cerrarSecciones}
             className="weld-navbar-brand top-50 start-50 flex-shrink-0 z-2 p-0"
           >
-            <img src="/img/weldblanco.png" alt="Weld" className="logo-navbar object-fit-contain" />
+            <img
+              src="/img/weldblanco.png"
+              alt="Weld"
+              className="logo-navbar object-fit-contain"
+            />
           </BootstrapNavbar.Brand>
 
           <Nav className="d-flex align-items-center flex-row flex-nowrap flex-shrink-0 gap-1 ms-auto ms-xxl-0 z-3 text-nowrap weld-navbar-actions">
@@ -78,6 +133,7 @@ function Navbar({ onFranquiciasClick }) {
                 className="cart-logo d-block object-fit-contain"
               />
             </Nav.Link>
+
             <Button
               type="button"
               variant="link"
@@ -98,10 +154,15 @@ function Navbar({ onFranquiciasClick }) {
         </Container>
       </BootstrapNavbar>
 
-      <Modal show={showRegister} onHide={() => setShowRegister(false)} centered>
+      <Modal
+        show={showRegister}
+        onHide={() => setShowRegister(false)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Registrarse</Modal.Title>
         </Modal.Header>
+
         <Modal.Body>
           El formulario de registro se puede agregar cuando migremos esa sección.
         </Modal.Body>

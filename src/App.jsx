@@ -9,6 +9,7 @@ import FranquiciasPage from './components/FranquiciasPage'
 import NosotrosPage from './components/NosotrosPage'
 import PreguntasFrecuentes from './components/PreguntasFrecuentes'
 import Carrito from './components/Carrito'
+import Contacto from './components/Contacto'
 import { products } from './data/products'
 import { actualizarCarrito, calcularTotales } from './utils/carrito'
 
@@ -187,6 +188,8 @@ function App() {
 
             {mostrarPreguntas ? (
               <PreguntasFrecuentes />
+            ) : ubicacion.hash === '#contacto' ? (
+              <Contacto />
             ) : productId !== null ? (
               <>
                 <EnvioGratis />

@@ -1,6 +1,6 @@
 # Weld Company
 
-E-commerce frontend de indumentaria urbana desarrollado con React y Vite. Incluye catálogo, detalle de productos, carrito de compras, preguntas frecuentes y una sección de sucursales con mapas y galerías. La navegación entre vistas se resuelve con la URL y la API History del navegador, sin React Router.
+E-commerce frontend de indumentaria urbana desarrollado con React y Vite. Incluye catálogo, detalle de productos, carrito de compras, preguntas frecuentes, contacto y una sección de sucursales con mapas y galerías. La navegación entre vistas se resuelve con la URL y la API History del navegador, sin React Router.
 
 ## Integrantes
 
@@ -52,12 +52,13 @@ Abrí la dirección que muestra Vite. En PowerShell, si la política de ejecuci�
 - Sección Franquicias con sucursales de Tucumán, dirección, horario, mapa y carrusel de fotos.
 - Sección Nosotros con imágenes adaptadas a móvil y escritorio.
 - Preguntas frecuentes en un acordeón de Bootstrap.
+- Formulario de contacto con campos para nombre, correo y mensaje.
 - Footer con enlaces de navegación, Instagram, WhatsApp y correo electrónico.
 - Diseño responsive para móviles, tablets y escritorio.
 
 ## Alcance actual
 
-El carrito vive en el estado de React y se pierde al recargar la página. No se usa base de datos ni `localStorage`. El botón de registro abre un modal informativo; todavía no existe un formulario de alta, perfil de cliente, selección de provincia o carga de dirección de envío. Tampoco hay formulario de contacto: el footer enlaza a los canales externos de Weld.
+El carrito vive en el estado de React y se pierde al recargar la página. No se usa base de datos ni `localStorage`. El botón de registro abre un modal informativo; todavía no existe un formulario de alta, perfil de cliente, selección de provincia o carga de dirección de envío. El formulario de contacto tampoco está conectado a un servidor: al enviarlo solo muestra una confirmación en pantalla y limpia los campos.
 
 ## Carrito
 
@@ -70,6 +71,10 @@ El estado se administra en memoria desde `src/App.jsx`, sin persistencia local. 
 `src/components/FranquiciasPage.jsx` contiene los datos de las sucursales, las direcciones, los horarios y las imágenes de cada galería. Los mapas se generan con la dirección de cada sucursal. Para agregar o modificar una ubicación, actualizá el arreglo `branches` y sus fotos en `public/img/`.
 
 `src/components/NosotrosPage.jsx` selecciona imágenes distintas para móvil y escritorio. La imagen móvil se usa hasta 767 px y la de escritorio desde 768 px; ambas conservan su proporción.
+
+## Contacto
+
+La opción **CONTACTANOS** del menú abre la sección en `#contacto`. El formulario solicita nombre, correo y mensaje, y valida los campos antes de mostrar una confirmación. Actualmente el mensaje no se envía ni se guarda; para habilitarlo hace falta conectarlo a un servicio o backend.
 
 ## Editar productos
 
@@ -98,6 +103,7 @@ src/
 ├── components/
 │   ├── Banner.jsx                  # Imágenes responsive del inicio
 │   ├── Carrito.jsx / .css          # Panel lateral y resumen de compra
+│   ├── Contacto.jsx                # Formulario de contacto
 │   ├── EnvioGratis.jsx / .css      # Franja animada compartida
 │   ├── Footer.jsx / .css           # Pie de página
 │   ├── FranquiciasPage.jsx / .css  # Sucursales, mapas y galerías

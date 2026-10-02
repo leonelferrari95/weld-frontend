@@ -158,9 +158,7 @@ function Navbar({
           <Modal.Title>Registrarse</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
-          El formulario de registro se puede agregar cuando migremos esa sección.
-        </Modal.Body>
+        <Modal.Body>El formulario de registro se puede agregar cuando migremos esa sección.</Modal.Body>
       </Modal>
     </>
   )

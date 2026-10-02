@@ -1,0 +1,112 @@
+import { useState } from 'react'
+import Card from 'react-bootstrap/Card'
+import { formatoPrecio } from '../utils/precios'
+import './ProductosCard.css'
+
+function ProductosCard({ product }) {
+  const images = product.images?.length ? product.images : [product.image]
+  const [activeImage, setActiveImage] = useState(0)
+  const [isHovered, setIsHovered] = useState(false)
+  const [hoverImage, setHoverImage] = useState(0)
+  const hasMultipleImages = images.length > 1
+  const hoverImages =
+    images.length > 2 ? [images[2], images[0], images[1], ...images.slice(3)] : images
+  const showHoverOrder = isHovered && images.length > 2
+  const visibleImages = showHoverOrder ? hoverImages : images
+  const selectedImage = showHoverOrder ? hoverImage : activeImage
+  const displayedImage = visibleImages[selectedImage]
+
+  const showImage = (index) => {
+    const nextImage = (index + visibleImages.length) % visibleImages.length
+
+    if (showHoverOrder) {
+      setHoverImage(nextImage)
+      return
+    }
+
+    setActiveImage(nextImage)
+  }
+
+  const indicators = []
+  for (const [index, image] of visibleImages.entries()) {
+    indicators.push(
+      <button
+        key={`${image}-${index}`}
+        type="button"
+        className={`productos-card-image-indicator p-0 border border-white rounded-circle ${index === selectedImage ? 'bg-white' : 'bg-transparent'}`}
+        aria-label={`Ver foto ${index + 1} de ${product.name}`}
+        aria-current={index === selectedImage ? 'true' : undefined}
+        onClick={() => showImage(index)}
+      />,
+    )
+  }
+
+  const controls = []
+  for (const [direction, label, step] of [
+    ['previous', 'anterior', -1],
+    ['next', 'siguiente', 1],
+  ]) {
+    controls.push(
+      <button
+        key={direction}
+        type="button"
+        className={`position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle productos-card-image-control productos-card-image-control--${direction}`}
+        aria-label={`Ver foto ${label} de ${product.name}`}
+        onClick={() => showImage(selectedImage + step)}
+      >
+        <span className="productos-card-image-chevron" aria-hidden="true" />
+      </button>,
+    )
+  }
+
+  return (
+    <Card
+      className="h-100 d-flex flex-column overflow-hidden border-0 rounded-0 bg-transparent productos-card"
+      onMouseEnter={() => {
+        setHoverImage(0)
+        setIsHovered(true)
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false)
+        setHoverImage(0)
+      }}
+    >
+      <div className="position-relative w-100 overflow-hidden productos-card-image-frame">
+        <a
+          href={`?producto=${product.id}`}
+          className="d-block w-100 h-100"
+          aria-label={`Ver detalle de ${product.name}`}
+        >
+          <Card.Img
+            key={`${displayedImage}-${selectedImage}`}
+            variant="top"
+            src={displayedImage}
+            alt={`${product.name}, foto ${selectedImage + 1}`}
+            className="w-100 h-100 object-fit-cover rounded-0 productos-card-image"
+          />
+        </a>
+        {hasMultipleImages && (
+          <>
+            {controls}
+            <div
+              className="position-absolute start-0 end-0 d-flex justify-content-center productos-card-image-indicators"
+              aria-label="Fotos del producto"
+            >
+              {indicators}
+            </div>
+          </>
+        )}
+      </div>
+      <Card.Body className="flex-grow-1">
+        <Card.Title className="fw-normal">
+          <a className="text-reset text-decoration-none" href={`?producto=${product.id}`}>
+            {product.name}
+          </a>
+        </Card.Title>
+        <strong className="productos-card-price fw-semibold">{formatoPrecio(product.price)}</strong>
+      </Card.Body>
+    </Card>
+  )
+}
+
+export default ProductosCard

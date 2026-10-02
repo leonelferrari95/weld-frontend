@@ -1,0 +1,51 @@
+@media (min-width: 1400px) {
+  .producto-detalle-fondo {
+    min-height: 43.61vw;
+    background: #fff url('/img/bgweldfullscreen.png') center top / 100% 100% no-repeat;
+  }
+}
+
+.producto-detalle-miniatura {
+  width: 5rem;
+  padding: 0.2rem;
+}
+
+.producto-detalle-miniatura img {
+  aspect-ratio: 4 / 5;
+}
+
+.producto-detalle-descripcion {
+  white-space: pre-line;
+}
+
+.producto-precio-transferencia {
+  color: #a69764;
+}
+
+.producto-cantidad {
+  width: 110px;
+  min-height: 30px;
+  border: 1px solid #aaa;
+}
+
+.producto-cantidad button {
+  width: 32px;
+}
+
+.producto-cantidad button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.producto-agregar {
+  flex: 1;
+  min-width: 0;
+  max-width: 400px;
+  min-height: 52px;
+  padding-inline: 0.75rem;
+  background: #d81806;
+}
+
+.producto-agregar:hover {
+  background: #5e302c;
+}

@@ -1,0 +1,117 @@
+.productos-section h4 {
+  margin-left: -50vw;
+  padding: 1.75rem 0.75rem;
+  font-family: 'BBH Bartle', sans-serif;
+  font-variation-settings:
+    'XROT' 0,
+    'YROT' 0;
+}
+
+.productos-card-image-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.productos-card-image {
+  transform: scale(1.08);
+  animation: productos-card-image-enter 360ms ease both;
+}
+
+@keyframes productos-card-image-enter {
+  from {
+    opacity: 0.65;
+    transform: scale(1.12);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+.productos-card-image-control {
+  width: 1.6rem;
+  aspect-ratio: 1;
+  background: #fff;
+  color: #252525;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 180ms ease,
+    background-color 180ms ease,
+    visibility 180ms;
+}
+
+.productos-card-image-control:hover {
+  background: #ededed;
+}
+
+.productos-card-image-chevron {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+}
+
+.productos-card-image-control--previous {
+  left: 0.5rem;
+}
+
+.productos-card-image-control--previous .productos-card-image-chevron {
+  transform: translateX(0.12rem) rotate(-135deg);
+}
+
+.productos-card-image-control--next {
+  right: 0.5rem;
+}
+
+.productos-card-image-control--next .productos-card-image-chevron {
+  transform: translateX(-0.12rem) rotate(45deg);
+}
+
+.productos-card:is(:hover, :focus-within) .productos-card-image-control {
+  opacity: 1;
+  visibility: visible;
+}
+
+.productos-card-image-control:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.productos-card-image-indicators {
+  bottom: 0.75rem;
+  gap: 0.4rem;
+}
+
+.productos-card-image-indicator {
+  width: 0.45rem;
+  height: 0.45rem;
+}
+
+.productos-card .card-title {
+  font-size: 1rem;
+  color: #808080;
+}
+
+.productos-card-price {
+  font-size: 1.1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .productos-card-image,
+  .productos-card-image-control {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .productos-card .card-title {
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+
+  .productos-card-price {
+    font-size: 0.9rem;
+  }
+}

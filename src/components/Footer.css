@@ -1,0 +1,30 @@
+.weld-footer-heading,
+.weld-footer-link {
+  letter-spacing: 0.06em;
+}
+
+.weld-footer-link {
+  font-size: 0.95rem;
+  transition: color 180ms ease;
+}
+
+.weld-footer-link:is(:hover, :focus-visible) {
+  color: #aaa !important;
+}
+.weld-footer-logo {
+  width: 70%;
+  max-width: 320px;
+}
+
+@media (min-width: 1200px) {
+  .weld-footer-logo {
+    width: 12.5rem;
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weld-footer-link {
+    transition: none;
+  }
+}

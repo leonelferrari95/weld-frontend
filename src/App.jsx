@@ -16,6 +16,9 @@ function App() {
   const [ubicacion, setUbicacion] = useState(() => new URL(window.location.href))
   const [carrito, dispatchCarrito] = useReducer(actualizarCarrito, [])
   const [mostrarCarrito, setMostrarCarrito] = useState(false)
+  const [mostrarSucursales, setMostrarSucursales] = useState(
+    () => ubicacion.searchParams.get('sucursales') === '1',
+  )
   const [seccionAbierta, setSeccionAbierta] = useState(() => {
     const section = window.location.hash.slice(1)
     return section === 'franquicias' || section === 'nosotros' ? section : null
@@ -28,6 +31,7 @@ function App() {
       const section = url.hash.slice(1)
       setSeccionAbierta(section === 'franquicias' || section === 'nosotros' ? section : null)
       setMostrarPreguntas(section === 'preguntas')
+      setMostrarSucursales(url.searchParams.get('sucursales') === '1')
       setMostrarCarrito(false)
       setUbicacion(url)
     }
@@ -52,6 +56,14 @@ function App() {
   }, [seccionAbierta])
 
   const abrirSeccion = (section) => {
+    if (mostrarSucursales) {
+      const url = new URL(window.location.href)
+      url.searchParams.delete('sucursales')
+      url.hash = `#${section}`
+      window.history.pushState(null, '', url)
+      setUbicacion(url)
+    }
+    setMostrarSucursales(false)
     setMostrarPreguntas(false)
     setSeccionAbierta(section)
 
@@ -61,13 +73,40 @@ function App() {
   }
 
   const cerrarSeccion = () => {
+    const url = new URL(window.location.href)
+    if (url.searchParams.has('sucursales')) {
+      url.searchParams.delete('sucursales')
+      url.hash = ''
+      window.history.pushState(null, '', url)
+      setUbicacion(url)
+    }
+    setMostrarSucursales(false)
     setSeccionAbierta(null)
     window.scrollTo({ top: 0 })
   }
 
   const cambiarPreguntas = (mostrar) => {
+    if (mostrarSucursales) {
+      const url = new URL(window.location.href)
+      url.searchParams.delete('sucursales')
+      url.hash = mostrar ? '#preguntas' : ''
+      window.history.pushState(null, '', url)
+      setUbicacion(url)
+    }
+    setMostrarSucursales(false)
     setMostrarPreguntas(mostrar)
     setSeccionAbierta(null)
+  }
+
+  const volverAFranquicias = () => {
+    const url = new URL(window.location.href)
+    url.searchParams.delete('sucursales')
+    url.hash = '#franquicias'
+    window.history.pushState(null, '', url)
+    setUbicacion(url)
+    setMostrarSucursales(false)
+    setSeccionAbierta('franquicias')
+    window.scrollTo({ top: 0 })
   }
 
   // Los enlaces internos cambian la vista sin recargar ni perder el carrito en memoria.
@@ -92,6 +131,7 @@ function App() {
 
     event.preventDefault()
     if (url.href !== window.location.href) window.history.pushState(null, '', url)
+    setMostrarSucursales(false)
     setSeccionAbierta(null)
     setMostrarPreguntas(false)
     setUbicacion(url)
@@ -119,25 +159,49 @@ function App() {
         activeSection={ubicacion.hash}
       />
 
-      <main className={`flex-grow-1${productId !== null ? ' producto-detalle-fondo' : ''}`}>
-        {seccionAbierta === 'franquicias' && <FranquiciasPage onClose={cerrarSeccion} />}
-        {seccionAbierta === 'nosotros' && <NosotrosPage onClose={cerrarSeccion} />}
-
-        {mostrarPreguntas ? (
-          <PreguntasFrecuentes />
-        ) : productId !== null ? (
-          <>
-            <EnvioGratis />
-            <ProductoDetalle
-              key={productId}
-              product={product}
-              onAgregarAlCarrito={agregarAlCarrito}
-            />
-          </>
+      <main
+        className={`flex-grow-1${productId !== null ? ' producto-detalle-fondo bg-white' : ''}`}
+      >
+        {mostrarSucursales ? (
+          <FranquiciasPage showBranches onClose={cerrarSeccion} onBack={volverAFranquicias} />
         ) : (
           <>
-            <Banner />
-            <Productos />
+            {seccionAbierta === 'franquicias' && (
+              <FranquiciasPage
+                onClose={cerrarSeccion}
+                onMore={() => {
+                  const url = new URL(window.location.href)
+                  url.searchParams.set('sucursales', '1')
+                  url.hash = '#franquicias'
+                  window.history.pushState(null, '', url)
+                  setUbicacion(url)
+                  setMostrarSucursales(true)
+                  setSeccionAbierta(null)
+                  setMostrarPreguntas(false)
+                  setMostrarCarrito(false)
+                  window.scrollTo({ top: 0 })
+                }}
+              />
+            )}
+            {seccionAbierta === 'nosotros' && <NosotrosPage onClose={cerrarSeccion} />}
+
+            {mostrarPreguntas ? (
+              <PreguntasFrecuentes />
+            ) : productId !== null ? (
+              <>
+                <EnvioGratis />
+                <ProductoDetalle
+                  key={productId}
+                  product={product}
+                  onAgregarAlCarrito={agregarAlCarrito}
+                />
+              </>
+            ) : (
+              <>
+                <Banner />
+                <Productos />
+              </>
+            )}
           </>
         )}
       </main>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Alert, Button, Card, Col, Image, Offcanvas, Row, Stack } from 'react-bootstrap'
 import { calcularTotales } from '../utils/carrito'
 import { formatoPrecio } from '../utils/precios'
@@ -11,12 +11,10 @@ function Carrito({ show, onHide, items, onCambiarCantidad, onQuitar, onFinalizar
   const { subtotal, envio, total } = calcularTotales(items)
   const productos = []
 
-  useEffect(() => {
-    if (items.length > 0) {
-      setCompraRealizada(false)
-      setMostrarTotal(false)
-    }
-  }, [items.length])
+  const reiniciarMensajes = () => {
+    setCompraRealizada(false)
+    setMostrarTotal(false)
+  }
 
   for (const { product, cantidad } of items) {
     productos.push(
@@ -41,7 +39,7 @@ function Carrito({ show, onHide, items, onCambiarCantidad, onQuitar, onFinalizar
                 disabled={cantidad === 1}
                 aria-label={`Restar una unidad de ${product.name}`}
                 onClick={() => {
-                  setMostrarTotal(false)
+                  reiniciarMensajes()
                   onCambiarCantidad(product.id, -1)
                 }}
               >
@@ -55,7 +53,7 @@ function Carrito({ show, onHide, items, onCambiarCantidad, onQuitar, onFinalizar
                 className="text-dark text-decoration-none rounded-0 px-3"
                 aria-label={`Sumar una unidad de ${product.name}`}
                 onClick={() => {
-                  setMostrarTotal(false)
+                  reiniciarMensajes()
                   onCambiarCantidad(product.id, 1)
                 }}
               >
@@ -64,10 +62,10 @@ function Carrito({ show, onHide, items, onCambiarCantidad, onQuitar, onFinalizar
             </div>
             <Button
               variant="link"
-              className="carrito-quitar text-dark p-0 small"
+              className="carrito-quitar text-black p-0 small"
               aria-label={`Quitar ${product.name} del carrito`}
               onClick={() => {
-                setMostrarTotal(false)
+                reiniciarMensajes()
                 onQuitar(product.id)
               }}
             >
@@ -83,6 +81,7 @@ function Carrito({ show, onHide, items, onCambiarCantidad, onQuitar, onFinalizar
     <Offcanvas
       id="carrito"
       show={show}
+      onShow={reiniciarMensajes}
       onHide={onHide}
       onExited={() => setMostrarTotal(false)}
       placement="end"

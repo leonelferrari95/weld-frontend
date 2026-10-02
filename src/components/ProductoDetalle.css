@@ -1,7 +1,3 @@
-.producto-detalle-fondo {
-  background: #fff;
-}
-
 @media (min-width: 1400px) {
   .producto-detalle-fondo {
     min-height: 43.61vw;
@@ -12,11 +8,6 @@
 .producto-detalle-miniatura {
   width: 5rem;
   padding: 0.2rem;
-  border: 2px solid transparent;
-}
-
-.producto-detalle-miniatura[aria-pressed='true'] {
-  border-color: #000;
 }
 
 .producto-detalle-miniatura img {

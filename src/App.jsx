@@ -21,13 +21,10 @@ function App() {
   const product = products.find((item) => String(item.id) === productId)
 
   return (
-    <>
-      <Navbar
-        mostrarPreguntas={mostrarPreguntas}
-        setMostrarPreguntas={setMostrarPreguntas}
-      />
+    <div className="d-flex flex-column min-vh-100">
+      <Navbar mostrarPreguntas={mostrarPreguntas} setMostrarPreguntas={setMostrarPreguntas} />
 
-      <main className={productId !== null ? 'producto-detalle-fondo' : undefined}>
+      <main className={`flex-grow-1${productId !== null ? ' producto-detalle-fondo' : ''}`}>
         {mostrarPreguntas ? (
           <PreguntasFrecuentes />
         ) : productId !== null ? (
@@ -44,7 +41,7 @@ function App() {
       </main>
 
       <Footer />
-    </>
+    </div>
   )
 }
 

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Container, Modal, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
+import { Badge, Button, Container, Modal, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
 import './Navbar.css'
 
 function Navbar({
@@ -8,10 +8,12 @@ function Navbar({
   seccionAbierta,
   mostrarPreguntas,
   setMostrarPreguntas,
+  onCarritoClick,
+  cantidadCarrito,
+  activeSection,
 }) {
   const [showRegister, setShowRegister] = useState(false)
   const [expanded, setExpanded] = useState(false)
-  const [activeSection, setActiveSection] = useState(() => window.location.hash)
 
   const cerrarSecciones = () => {
     setMostrarPreguntas(false)
@@ -24,10 +26,7 @@ function Navbar({
       className={`fs-6 fw-normal${
         !mostrarPreguntas && !seccionAbierta && activeSection === href ? ' active' : ''
       }`}
-      onClick={() => {
-        setActiveSection(href)
-        cerrarSecciones()
-      }}
+      onClick={cerrarSecciones}
     >
       {label}
     </Nav.Link>
@@ -35,14 +34,12 @@ function Navbar({
 
   const abrirFranquicias = (event) => {
     event.preventDefault()
-    setActiveSection('#franquicias')
     setExpanded(false)
     onFranquiciasClick()
   }
 
   const abrirPreguntas = (event) => {
     event.preventDefault()
-    setActiveSection('#preguntas')
     setMostrarPreguntas(true)
     setExpanded(false)
     window.scrollTo({ top: 0 })
@@ -113,17 +110,28 @@ function Navbar({
           </BootstrapNavbar.Brand>
 
           <Nav className="d-flex align-items-center flex-row flex-nowrap flex-shrink-0 gap-1 ms-auto ms-xxl-0 z-3 text-nowrap weld-navbar-actions">
-            <Nav.Link
-              href="#carrito"
-              aria-label="Ver carrito"
-              className="d-inline-flex align-items-center justify-content-center p-0 border-0 rounded-0 bg-transparent weld-navbar-action"
+            <Button
+              type="button"
+              variant="link"
+              aria-label={`Abrir carrito, ${cantidadCarrito} productos`}
+              aria-controls="carrito"
+              onClick={() => {
+                setExpanded(false)
+                onCarritoClick()
+              }}
+              className="position-relative d-inline-flex align-items-center justify-content-center p-0 border-0 rounded-0 bg-transparent weld-navbar-action"
             >
               <img
                 src="/img/carritosinfondo.png"
                 alt=""
                 className="cart-logo d-block object-fit-contain"
               />
-            </Nav.Link>
+              {cantidadCarrito > 0 && (
+                <Badge bg="light" text="dark" pill className="position-absolute top-0 end-0">
+                  {cantidadCarrito}
+                </Badge>
+              )}
+            </Button>
 
             <Button
               type="button"

@@ -1,0 +1,42 @@
+.carrito-panel {
+  --bs-offcanvas-width: 35rem;
+}
+
+.carrito-panel .productos-card .card-title,
+.carrito-panel .productos-card-price,
+.carrito-ver-productos {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+}
+
+.carrito-panel .productos-card .card-title,
+.carrito-panel .productos-card-price {
+  color: #5e302c;
+}
+
+.carrito-panel .carrito-quitar {
+  color: #000 !important;
+}
+
+.carrito-ver-productos {
+  color: #5e302c;
+  border-color: #5e302c;
+}
+
+.carrito-ver-productos:hover,
+.carrito-ver-productos:focus-visible {
+  color: #fff;
+  background-color: #5e302c;
+  border-color: #5e302c;
+}
+
+.carrito-finalizar {
+  background-color: #d81806;
+  border-color: #d81806;
+}
+
+.carrito-finalizar:hover,
+.carrito-finalizar:focus-visible {
+  background-color: #5e302c;
+  border-color: #5e302c;
+}

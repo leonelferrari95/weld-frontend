@@ -6,11 +6,15 @@ import Footer from './components/Footer'
 import ProductoDetalle from './components/ProductoDetalle'
 import EnvioGratis from './components/EnvioGratis'
 import FranquiciasPage from './components/FranquiciasPage'
+import NosotrosPage from './components/NosotrosPage'
 import PreguntasFrecuentes from './components/PreguntasFrecuentes'
 import { products } from './data/products'
 
 function App() {
-  const [showFranquicias, setShowFranquicias] = useState(false)
+  const [seccionAbierta, setSeccionAbierta] = useState(() => {
+    const section = window.location.hash.slice(1)
+    return section === 'franquicias' || section === 'nosotros' ? section : null
+  })
   const [mostrarPreguntas, setMostrarPreguntas] = useState(false)
 
   useEffect(() => {
@@ -21,41 +25,47 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (showFranquicias) {
-      document.getElementById('franquicias')?.scrollIntoView()
+    if (seccionAbierta) {
+      document.getElementById(seccionAbierta)?.scrollIntoView()
     }
-  }, [showFranquicias])
+  }, [seccionAbierta])
 
-  const openFranquicias = () => {
+  const abrirSeccion = (section) => {
     setMostrarPreguntas(false)
-    setShowFranquicias(true)
+    setSeccionAbierta(section)
 
-    if (showFranquicias) {
-      document.getElementById('franquicias')?.scrollIntoView()
+    if (seccionAbierta === section) {
+      document.getElementById(section)?.scrollIntoView()
     }
   }
 
-  const closeFranquicias = () => {
-    setShowFranquicias(false)
+  const cerrarSeccion = () => {
+    setSeccionAbierta(null)
     window.scrollTo({ top: 0 })
   }
 
   const cambiarPreguntas = (mostrar) => {
     setMostrarPreguntas(mostrar)
-    setShowFranquicias(false)
+    setSeccionAbierta(null)
   }
 
   const productId = new URLSearchParams(window.location.search).get('producto')
   const product = products.find((item) => String(item.id) === productId)
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar
+        onFranquiciasClick={() => abrirSeccion('franquicias')}
+        onNosotrosClick={() => abrirSeccion('nosotros')}
+        seccionAbierta={seccionAbierta}
         mostrarPreguntas={mostrarPreguntas}
-        setMostrarPreguntas={setMostrarPreguntas}
+        setMostrarPreguntas={cambiarPreguntas}
       />
 
-      <main className={productId !== null ? 'producto-detalle-fondo' : undefined}>
+      <main className={`flex-grow-1${productId !== null ? ' producto-detalle-fondo' : ''}`}>
+        {seccionAbierta === 'franquicias' && <FranquiciasPage onClose={cerrarSeccion} />}
+        {seccionAbierta === 'nosotros' && <NosotrosPage onClose={cerrarSeccion} />}
+
         {mostrarPreguntas ? (
           <PreguntasFrecuentes />
         ) : productId !== null ? (
@@ -71,8 +81,11 @@ function App() {
         )}
       </main>
 
-      <Footer />
-    </>
+      <Footer
+        onFranquiciasClick={() => abrirSeccion('franquicias')}
+        onNosotrosClick={() => abrirSeccion('nosotros')}
+      />
+    </div>
   )
 }
 

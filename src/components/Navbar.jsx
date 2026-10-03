@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Badge, Button, Container, Modal, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
+import { Badge, Button, Container, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
 import './Navbar.css'
+import Registro from './Registro'
 
 function Navbar({
   onFranquiciasClick,
@@ -153,15 +154,11 @@ function Navbar({
         </Container>
       </BootstrapNavbar>
 
-      <Modal show={showRegister} onHide={() => setShowRegister(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Registrarse</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>El formulario de registro se puede agregar cuando migremos esa sección.</Modal.Body>
-      </Modal>
+     <Registro
+  show={showRegister}
+  onHide={() => setShowRegister(false)}
+/>
     </>
   )
 }
-
 export default Navbar

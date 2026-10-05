@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { formatoPrecio } from '../utils/precios'
@@ -12,37 +13,34 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
     return (
       <Container className="py-5s">
         <h1>Producto no encontrado</h1>
-        <a className="text-dark fw-normal text-decoration-none" href="?#productos">
+        <Link className="text-dark fw-normal text-decoration-none" to="/productos">
           Volver a productos
-        </a>
+        </Link>
       </Container>
     )
   }
 
-  const thumbnails = []
-  for (const [index, image] of product.images.entries()) {
-    thumbnails.push(
-      <button
-        key={`${image}-${index}`}
-        type="button"
-        className={`producto-detalle-miniatura bg-transparent border border-2 ${selectedImage === index ? 'border-black' : 'border-transparent'}`}
-        aria-label={`Ver foto ${index + 1}`}
-        aria-pressed={selectedImage === index}
-        onClick={() => setSelectedImage(index)}
-      >
-        <img className="d-block w-100 object-fit-cover" src={image} alt="" />
-      </button>,
-    )
-  }
+  const thumbnails = product.images.map((image, index) => (
+    <button
+      key={`${image}-${index}`}
+      type="button"
+      className={`miniatura-producto bg-transparent border border-2 ${selectedImage === index ? 'border-black' : 'border-transparent'}`}
+      aria-label={`Ver foto ${index + 1}`}
+      aria-pressed={selectedImage === index}
+      onClick={() => setSelectedImage(index)}
+    >
+      <img className="foto-marco d-block w-100 object-fit-cover" src={image} alt="" />
+    </button>
+  ))
 
   return (
     <Container className="py-4 py-lg-5 producto-detalle">
-      <a
+      <Link
         className="d-inline-block mb-4 text-dark fw-normal text-decoration-none"
-        href="?#productos"
+        to="/productos"
       >
         Volver a productos
-      </a>
+      </Link>
       <Row className="g-4 g-lg-5">
         <Col xs={12} lg={6}>
           <img
@@ -60,13 +58,13 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
         <Col xs={12} lg={6}>
           <h1 className="h4">{product.name}</h1>
           <p className="fs-5 fw-semibold mt-4 mb-2">{formatoPrecio(product.price)}</p>
-          <p className="producto-precio-transferencia fs-7 fw-medium mb-4">
+          <p className="precio-transferencia fs-7 fw-medium mb-4">
             {formatoPrecio(product.price * 0.9)} por transferencia (10% de descuento)
           </p>
           {product.description && (
             <>
               <h5 className="h7">Descripción</h5>
-              <p className="producto-detalle-descripcion">{product.description}</p>
+              <p className="descripcion-producto">{product.description}</p>
             </>
           )}
           <div className="d-flex mt-4">
@@ -95,7 +93,7 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
 
             <button
               type="button"
-              className="producto-agregar border-0 text-white py-2"
+              className="producto-agregar flex-grow-1 border-0 text-white py-2"
               onClick={() => onAgregarAlCarrito(product, cantidad)}
             >
               Agregar al carrito

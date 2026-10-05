@@ -1,13 +1,14 @@
-﻿import { Col, Container, Nav, Row } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { Col, Container, Nav, Row } from 'react-bootstrap'
 import './Footer.css'
 import { FaEnvelope, FaInstagram, FaWhatsapp } from 'react-icons/fa'
 const footerSections = [
   {
     title: 'WELD COMPANY',
     links: [
-      { label: 'INICIO', href: '#inicio' },
-      { label: 'NOSOTROS', href: '#nosotros' },
-      { label: 'FRANQUICIAS', href: '#franquicias' },
+      { label: 'INICIO', href: '/' },
+      { label: 'NOSOTROS', href: '/nosotros' },
+      { label: 'FRANQUICIAS', href: '/franquicias' },
     ],
   },
   {
@@ -19,51 +20,32 @@ const footerSections = [
     ],
   },
 ]
-function Footer({ onFranquiciasClick, onNosotrosClick }) {
-  const sections = []
-  for (const section of footerSections) {
-    const links = []
-    for (const link of section.links) {
-      const openSection =
-        link.href === '#franquicias'
-          ? onFranquiciasClick
-          : link.href === '#nosotros'
-            ? onNosotrosClick
-            : null
-      const href =
-        link.href === '#franquicias' && !window.location.search
-          ? link.href
-          : link.href.startsWith('#')
-            ? `?${link.href}`
-            : link.href
-      links.push(
+function Footer() {
+  const sections = footerSections.map((section) => {
+    const links = section.links.map((link) => {
+      const interno = link.href.startsWith('/')
+      return (
         <Nav.Link
           key={link.href}
           className="text-white text-decoration-none p-0 weld-footer-link"
-          href={href}
-          onClick={
-            openSection
-              ? (event) => {
-                  event.preventDefault()
-                  openSection()
-                }
-              : undefined
-          }
+          as={interno ? Link : 'a'}
+          to={interno ? link.href : undefined}
+          href={interno ? undefined : link.href}
         >
           {link.label}
-        </Nav.Link>,
+        </Nav.Link>
       )
-    }
-    sections.push(
+    })
+    return (
       <Col key={section.title} xs={6} xl={3}>
         <h2 className="h6 mb-3 weld-footer-heading">{section.title}</h2>
         <Nav className="flex-column gap-2">{links}</Nav>
-      </Col>,
+      </Col>
     )
-  }
+  })
 
   return (
-    <footer className="bg-black text-white">
+    <footer id="footer-contacto" className="bg-black text-white">
       <Container fluid className="px-3 px-xl-5 py-4">
         <Row className="g-4 align-items-start">
           <Col xs={12} xl={3}>

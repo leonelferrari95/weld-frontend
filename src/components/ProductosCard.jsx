@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import Card from 'react-bootstrap/Card'
+import { Card } from 'react-bootstrap'
 import { formatoPrecio } from '../utils/precios'
 import './ProductosCard.css'
 
@@ -27,37 +28,31 @@ function ProductosCard({ product }) {
     setActiveImage(nextImage)
   }
 
-  const indicators = []
-  for (const [index, image] of visibleImages.entries()) {
-    indicators.push(
-      <button
-        key={`${image}-${index}`}
-        type="button"
-        className={`productos-card-image-indicator p-0 border border-white rounded-circle ${index === selectedImage ? 'bg-white' : 'bg-transparent'}`}
-        aria-label={`Ver foto ${index + 1} de ${product.name}`}
-        aria-current={index === selectedImage ? 'true' : undefined}
-        onClick={() => showImage(index)}
-      />,
-    )
-  }
+  const indicators = visibleImages.map((image, index) => (
+    <button
+      key={`${image}-${index}`}
+      type="button"
+      className={`productos-card-image-indicator p-0 border border-white rounded-circle ${index === selectedImage ? 'bg-white' : 'bg-transparent'}`}
+      aria-label={`Ver foto ${index + 1} de ${product.name}`}
+      aria-current={index === selectedImage ? 'true' : undefined}
+      onClick={() => showImage(index)}
+    />
+  ))
 
-  const controls = []
-  for (const [direction, label, step] of [
+  const controls = [
     ['previous', 'anterior', -1],
     ['next', 'siguiente', 1],
-  ]) {
-    controls.push(
-      <button
-        key={direction}
-        type="button"
-        className={`position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle productos-card-image-control productos-card-image-control--${direction}`}
-        aria-label={`Ver foto ${label} de ${product.name}`}
-        onClick={() => showImage(selectedImage + step)}
-      >
-        <span className="productos-card-image-chevron" aria-hidden="true" />
-      </button>,
-    )
-  }
+  ].map(([direction, label, step]) => (
+    <button
+      key={direction}
+      type="button"
+      className={`position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle productos-card-image-control productos-card-image-control--${direction}`}
+      aria-label={`Ver foto ${label} de ${product.name}`}
+      onClick={() => showImage(selectedImage + step)}
+    >
+      <span className="productos-card-image-chevron" aria-hidden="true" />
+    </button>
+  ))
 
   return (
     <Card
@@ -72,8 +67,8 @@ function ProductosCard({ product }) {
       }}
     >
       <div className="position-relative w-100 overflow-hidden productos-card-image-frame">
-        <a
-          href={`?producto=${product.id}`}
+        <Link
+          to={`/producto/${product.id}`}
           className="d-block w-100 h-100"
           aria-label={`Ver detalle de ${product.name}`}
         >
@@ -84,7 +79,7 @@ function ProductosCard({ product }) {
             alt={`${product.name}, foto ${selectedImage + 1}`}
             className="w-100 h-100 object-fit-cover rounded-0 productos-card-image"
           />
-        </a>
+        </Link>
         {hasMultipleImages && (
           <>
             {controls}
@@ -99,9 +94,9 @@ function ProductosCard({ product }) {
       </div>
       <Card.Body className="flex-grow-1">
         <Card.Title className="fw-normal">
-          <a className="text-reset text-decoration-none" href={`?producto=${product.id}`}>
+          <Link className="text-reset text-decoration-none" to={`/producto/${product.id}`}>
             {product.name}
-          </a>
+          </Link>
         </Card.Title>
         <strong className="productos-card-price fw-semibold">{formatoPrecio(product.price)}</strong>
       </Card.Body>

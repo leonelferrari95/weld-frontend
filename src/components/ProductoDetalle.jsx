@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { formatoPrecio } from '../utils/precios'
@@ -12,37 +13,34 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
     return (
       <Container className="py-5s">
         <h1>Producto no encontrado</h1>
-        <a className="text-dark fw-normal text-decoration-none" href="?#productos">
+        <Link className="text-dark fw-normal text-decoration-none" to="/productos">
           Volver a productos
-        </a>
+        </Link>
       </Container>
     )
   }
 
-  const thumbnails = []
-  for (const [index, image] of product.images.entries()) {
-    thumbnails.push(
-      <button
-        key={`${image}-${index}`}
-        type="button"
-        className="producto-detalle-miniatura bg-transparent"
-        aria-label={`Ver foto ${index + 1}`}
-        aria-pressed={selectedImage === index}
-        onClick={() => setSelectedImage(index)}
-      >
-        <img className="d-block w-100 object-fit-cover" src={image} alt="" />
-      </button>,
-    )
-  }
+  const thumbnails = product.images.map((image, index) => (
+    <button
+      key={`${image}-${index}`}
+      type="button"
+      className="producto-detalle-miniatura bg-transparent"
+      aria-label={`Ver foto ${index + 1}`}
+      aria-pressed={selectedImage === index}
+      onClick={() => setSelectedImage(index)}
+    >
+      <img className="d-block w-100 object-fit-cover" src={image} alt="" />
+    </button>
+  ))
 
   return (
     <Container className="py-4 py-lg-5 producto-detalle">
-      <a
+      <Link
         className="d-inline-block mb-4 text-dark fw-normal text-decoration-none"
-        href="?#productos"
+        to="/productos"
       >
         Volver a productos
-      </a>
+      </Link>
       <Row className="g-4 g-lg-5">
         <Col xs={12} lg={6}>
           <img

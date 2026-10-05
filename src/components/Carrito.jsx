@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Alert, Button, Card, Col, Image, Offcanvas, Row, Stack } from 'react-bootstrap'
 import { calcularTotales } from '../utils/carrito'
@@ -9,7 +10,6 @@ function Carrito({ show, onHide, items, onCambiarCantidad, onQuitar, onFinalizar
   const [mostrarTotal, setMostrarTotal] = useState(false)
   const [compraRealizada, setCompraRealizada] = useState(false)
   const { subtotal, envio, total } = calcularTotales(items)
-  const productos = []
 
   useEffect(() => {
     if (items.length > 0) {
@@ -18,66 +18,64 @@ function Carrito({ show, onHide, items, onCambiarCantidad, onQuitar, onFinalizar
     }
   }, [items.length])
 
-  for (const { product, cantidad } of items) {
-    productos.push(
-      <Row as="li" key={product.id} className="g-3 mb-4 productos-card">
-        <Col xs={4}>
-          <Image src={product.images[0]} alt={product.name} fluid />
-        </Col>
-        <Col xs={8}>
-          <Card.Title as="h3" className="fw-normal text-break">
-            {product.name}
-          </Card.Title>
-          <p className="productos-card-price mb-3">{formatoPrecio(product.price)}</p>
-          <div className="d-flex flex-wrap align-items-center gap-3">
-            <div
-              className="d-inline-flex align-items-center border"
-              role="group"
-              aria-label={`Cantidad de ${product.name}`}
-            >
-              <Button
-                variant="link"
-                className="text-dark text-decoration-none rounded-0 px-3"
-                disabled={cantidad === 1}
-                aria-label={`Restar una unidad de ${product.name}`}
-                onClick={() => {
-                  setMostrarTotal(false)
-                  onCambiarCantidad(product.id, -1)
-                }}
-              >
-                −
-              </Button>
-              <span className="px-2" aria-live="polite" aria-atomic="true">
-                {cantidad}
-              </span>
-              <Button
-                variant="link"
-                className="text-dark text-decoration-none rounded-0 px-3"
-                aria-label={`Sumar una unidad de ${product.name}`}
-                onClick={() => {
-                  setMostrarTotal(false)
-                  onCambiarCantidad(product.id, 1)
-                }}
-              >
-                +
-              </Button>
-            </div>
+  const productos = items.map(({ product, cantidad }) => (
+    <Row as="li" key={product.id} className="g-3 mb-4 productos-card">
+      <Col xs={4}>
+        <Image src={product.images[0]} alt={product.name} fluid />
+      </Col>
+      <Col xs={8}>
+        <Card.Title as="h3" className="fw-normal text-break">
+          {product.name}
+        </Card.Title>
+        <p className="productos-card-price mb-3">{formatoPrecio(product.price)}</p>
+        <div className="d-flex flex-wrap align-items-center gap-3">
+          <div
+            className="d-inline-flex align-items-center border"
+            role="group"
+            aria-label={`Cantidad de ${product.name}`}
+          >
             <Button
               variant="link"
-              className="carrito-quitar text-dark p-0 small"
-              aria-label={`Quitar ${product.name} del carrito`}
+              className="text-dark text-decoration-none rounded-0 px-3"
+              disabled={cantidad === 1}
+              aria-label={`Restar una unidad de ${product.name}`}
               onClick={() => {
                 setMostrarTotal(false)
-                onQuitar(product.id)
+                onCambiarCantidad(product.id, -1)
               }}
             >
-              Quitar
+              −
+            </Button>
+            <span className="px-2" aria-live="polite" aria-atomic="true">
+              {cantidad}
+            </span>
+            <Button
+              variant="link"
+              className="text-dark text-decoration-none rounded-0 px-3"
+              aria-label={`Sumar una unidad de ${product.name}`}
+              onClick={() => {
+                setMostrarTotal(false)
+                onCambiarCantidad(product.id, 1)
+              }}
+            >
+              +
             </Button>
           </div>
-        </Col>
-      </Row>,
-    )
-  }
+          <Button
+            variant="link"
+            className="carrito-quitar text-dark p-0 small"
+            aria-label={`Quitar ${product.name} del carrito`}
+            onClick={() => {
+              setMostrarTotal(false)
+              onQuitar(product.id)
+            }}
+          >
+            Quitar
+          </Button>
+        </div>
+      </Col>
+    </Row>
+  ))
 
   return (
     <Offcanvas
@@ -105,8 +103,8 @@ function Carrito({ show, onHide, items, onCambiarCantidad, onQuitar, onFinalizar
 
       <div className="border-top p-3 p-sm-4 flex-shrink-0">
         <Button
-          as="a"
-          href="?#productos"
+          as={Link}
+          to="/productos"
           variant="outline-dark"
           className="carrito-ver-productos w-100 rounded-0 py-2 mb-3"
           onClick={onHide}

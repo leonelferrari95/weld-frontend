@@ -5,14 +5,11 @@ import EnvioGratis from './EnvioGratis'
 import { products } from '../data/products'
 
 function Productos() {
-  const cards = []
-  for (const product of products) {
-    cards.push(
-      <Col key={product.id} xs={6} lg={3}>
-        <ProductosCard product={product} />
-      </Col>,
-    )
-  }
+  const cards = products.map((product) => (
+    <Col key={product.id} xs={6} lg={3}>
+      <ProductosCard product={product} />
+    </Col>
+  ))
 
   return (
     <section id="productos" className="pb-5 productos-section">

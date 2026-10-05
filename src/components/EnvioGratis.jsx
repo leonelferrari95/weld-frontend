@@ -1,23 +1,17 @@
 import './EnvioGratis.css'
 
 function EnvioGratis() {
-  const items = []
-  for (let item = 0; item < 4; item++) {
-    items.push(
-      <div className="d-flex align-items-center flex-shrink-0 productos-marquee-item" key={item}>
-        <span>ENVÍO GRATIS: A PARTIR DE $120.000</span>
-        <span className="productos-marquee-brand">® WELD COMPANY</span>
-      </div>,
-    )
-  }
-  const groups = []
-  for (let copy = 0; copy < 2; copy++) {
-    groups.push(
-      <div className="d-flex align-items-center flex-shrink-0 productos-marquee-group" key={copy}>
-        {items}
-      </div>,
-    )
-  }
+  const items = [0, 1, 2, 3].map((item) => (
+    <div className="d-flex align-items-center flex-shrink-0 productos-marquee-item" key={item}>
+      <span>ENVÍO GRATIS: A PARTIR DE $120.000</span>
+      <span className="productos-marquee-brand">® WELD COMPANY</span>
+    </div>
+  ))
+  const groups = [0, 1].map((copy) => (
+    <div className="d-flex align-items-center flex-shrink-0 productos-marquee-group" key={copy}>
+      {items}
+    </div>
+  ))
 
   return (
     <div

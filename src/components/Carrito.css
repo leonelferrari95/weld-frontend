@@ -3,27 +3,15 @@
 }
 
 .carrito-panel .productos-card .card-title,
-.carrito-panel .productos-card-price,
-.carrito-ver-productos {
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
-}
-
-.carrito-panel .productos-card .card-title,
 .carrito-panel .productos-card-price {
   color: #5e302c;
 }
 
 .carrito-ver-productos {
-  color: #5e302c;
-  border-color: #5e302c;
-}
-
-.carrito-ver-productos:hover,
-.carrito-ver-productos:focus-visible {
-  color: #fff;
-  background-color: #5e302c;
-  border-color: #5e302c;
+  --bs-btn-color: #5e302c;
+  --bs-btn-border-color: #5e302c;
+  --bs-btn-hover-bg: #5e302c;
+  --bs-btn-hover-border-color: #5e302c;
 }
 
 .carrito-finalizar {
@@ -31,8 +19,7 @@
   border-color: #d81806;
 }
 
-.carrito-finalizar:hover,
-.carrito-finalizar:focus-visible {
+.carrito-finalizar:is(:hover, :focus-visible) {
   background-color: #5e302c;
   border-color: #5e302c;
 }

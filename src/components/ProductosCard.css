@@ -7,16 +7,16 @@
     'YROT' 0;
 }
 
-.productos-card-image-frame {
+.foto-marco {
   aspect-ratio: 4 / 5;
 }
 
-.productos-card-image {
+.foto-producto {
   transform: scale(1.08);
-  animation: productos-card-image-enter 360ms ease both;
+  animation: foto-entrada 360ms ease both;
 }
 
-@keyframes productos-card-image-enter {
+@keyframes foto-entrada {
   from {
     opacity: 0.65;
     transform: scale(1.12);
@@ -28,7 +28,7 @@
   }
 }
 
-.productos-card-image-control {
+.foto-control {
   width: 1.6rem;
   aspect-ratio: 1;
   background: #fff;
@@ -41,49 +41,49 @@
     visibility 180ms;
 }
 
-.productos-card-image-control:hover {
+.foto-control:hover {
   background: #ededed;
 }
 
-.productos-card-image-chevron {
+.foto-flecha {
   width: 0.42rem;
   height: 0.42rem;
   border-top: 1.5px solid currentColor;
   border-right: 1.5px solid currentColor;
 }
 
-.productos-card-image-control--previous {
+.foto-anterior {
   left: 0.5rem;
 }
 
-.productos-card-image-control--previous .productos-card-image-chevron {
+.foto-anterior .foto-flecha {
   transform: translateX(0.12rem) rotate(-135deg);
 }
 
-.productos-card-image-control--next {
+.foto-siguiente {
   right: 0.5rem;
 }
 
-.productos-card-image-control--next .productos-card-image-chevron {
+.foto-siguiente .foto-flecha {
   transform: translateX(-0.12rem) rotate(45deg);
 }
 
-.productos-card:is(:hover, :focus-within) .productos-card-image-control {
+.productos-card:is(:hover, :focus-within) .foto-control {
   opacity: 1;
   visibility: visible;
 }
 
-.productos-card-image-control:focus-visible {
+.foto-control:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 2px;
 }
 
-.productos-card-image-indicators {
+.foto-indicadores {
   bottom: 0.75rem;
   gap: 0.4rem;
 }
 
-.productos-card-image-indicator {
+.foto-indicador {
   width: 0.45rem;
   height: 0.45rem;
 }
@@ -98,8 +98,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .productos-card-image,
-  .productos-card-image-control {
+  .foto-producto,
+  .foto-control {
     animation: none;
     transition: none;
   }

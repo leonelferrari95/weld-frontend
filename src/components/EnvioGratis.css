@@ -1,41 +1,41 @@
-.productos-marquee {
+.envio-gratis {
   margin-left: -50vw;
   background: #bdbdbd;
   color: #333;
   font-size: 0.78rem;
 }
 
-.productos-marquee-track,
-.productos-marquee-group {
+.envio-track,
+.envio-grupo {
   width: max-content;
 }
 
-.productos-marquee-track {
-  animation: productos-marquee-scroll 28s linear infinite;
+.envio-track {
+  animation: envio-scroll 28s linear infinite;
 }
 
-.productos-marquee-group {
+.envio-grupo {
   min-height: 2.5rem;
   gap: clamp(2.5rem, 8vw, 7rem);
   padding: 0 clamp(1.25rem, 4vw, 3rem);
 }
 
-.productos-marquee-item {
+.envio-item {
   gap: clamp(2rem, 7vw, 6rem);
 }
 
-.productos-marquee-brand {
+.envio-marca {
   letter-spacing: 0.03em;
 }
 
-@keyframes productos-marquee-scroll {
+@keyframes envio-scroll {
   to {
     transform: translateX(-50%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .productos-marquee-track {
+  .envio-track {
     animation: none;
   }
 }

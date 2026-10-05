@@ -1,68 +1,63 @@
+.franquicias-page,
+.franquicias-contenedor,
+.sucursales {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
 .franquicias-page {
   --franquicias-red: #a61920;
   --franquicias-red-dark: #781217;
-  --franquicias-card-red: #ed6a63;
-
-  min-height: 100vh;
-  min-height: 100svh;
-  color: #fff;
   background-color: #242424;
   border-bottom: 1px solid #666;
 }
 
-.franquicias-page-container {
-  min-height: 100vh;
-  min-height: 100svh;
+.franquicias-contenedor {
   padding: 6rem 1.5rem;
 }
 
-.franquicias-home-link:hover,
-.franquicias-home-link:focus-visible {
+.franquicias-inicio:is(:hover, :focus-visible),
+.sucursales-volver:is(:hover, :focus-visible) {
   text-decoration: underline;
   text-underline-offset: 0.25em;
 }
 
-.franquicias-page-content {
-  width: 100%;
+.franquicias-contenido {
   transform: translateY(2rem);
 }
 
-.franquicias-page-title {
+.franquicias-titulo {
   max-width: 15ch;
   margin: 0 auto 2rem;
   font-family: 'BBH Bartle', sans-serif;
-  font-weight: 600;
   line-height: 1.05;
   color: #edeaeae4;
 }
 
-.franquicias-page .franquicias-more-button,
-.franquicias-page .franquicias-more-button:hover,
-.franquicias-page .franquicias-more-button:focus,
-.franquicias-page .franquicias-more-button:active {
+.franquicias-page .franquicias-boton:is(.btn, :hover, :focus, :active) {
   border-color: var(--franquicias-red);
   color: #fff;
   background-color: var(--franquicias-red);
 }
 
 @media (max-width: 767.98px) {
-  .franquicias-page-container {
+  .franquicias-contenedor {
     padding: 5rem 1rem 3rem;
   }
 
-  .franquicias-page-content {
+  .franquicias-contenido {
     max-width: 32rem;
     margin: 0 auto;
     transform: translateY(1rem);
   }
 
-  .franquicias-page-title {
+  .franquicias-titulo {
     max-width: 12ch;
     margin-bottom: 1.5rem;
     font-size: 2rem;
   }
 
-  .franquicias-page .franquicias-more-button {
+  .franquicias-page .franquicias-boton {
     width: min(100%, 16rem);
     padding: 0.65rem 1rem;
     font-size: 1rem;
@@ -70,208 +65,175 @@
 }
 
 @media (max-width: 480px) {
-  .franquicias-page-title {
+  .franquicias-titulo {
     max-width: 13ch;
     font-size: 1.75rem;
   }
 
-  .franquicias-page .franquicias-more-button {
+  .franquicias-page .franquicias-boton {
     width: min(100%, 14rem);
     padding: 0.6rem 0.75rem;
     font-size: 0.95rem;
   }
 }
 
-.franquicias-directory {
-  min-height: 100vh;
-  min-height: 100svh;
+.sucursales {
   padding: 1.5rem clamp(1rem, 4vw, 4.5rem) 4rem;
   color: var(--franquicias-red);
   background: #f4f3f0;
 }
 
-.franquicias-directory-topbar {
+.sucursales-barra {
   min-height: 2.5rem;
 }
 
-.franquicias-directory .franquicias-home-link,
-.franquicias-back-link {
+.sucursales .franquicias-inicio,
+.sucursales-volver {
   color: var(--franquicias-red);
   font-size: 0.95rem;
 }
 
-.franquicias-back-link {
+.sucursales-volver {
   font: inherit;
-  cursor: pointer;
 }
 
-.franquicias-back-link:hover,
-.franquicias-back-link:focus-visible {
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-}
-
-.franquicias-directory-header {
+.sucursales-cabecera {
   margin: 2.5rem 0 1.5rem;
 }
 
-.franquicias-directory-eyebrow,
-.franquicias-card-label {
+.sucursal-etiqueta {
   margin: 0 0 0.45rem;
-  color: var(--franquicias-red);
   font-size: 0.75rem;
-  font-weight: 700;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
-.franquicias-directory-title {
+.sucursales-titulo {
   font-family: 'BBH Bartle', sans-serif;
   font-size: clamp(1.8rem, 4vw, 3rem);
   line-height: 1.1;
 }
 
-.franquicias-branch-row {
-  display: grid;
+.sucursal-fila {
   grid-template-columns: minmax(13rem, 0.82fr) minmax(17rem, 1fr) minmax(20rem, 1.3fr);
   gap: 0.75rem;
-  align-items: stretch;
 }
 
-.franquicias-branch-card {
+.sucursal-panel {
+  background: rgb(31 20 16 / 82%);
   min-width: 0;
   padding: 1rem;
-  background: rgb(31 20 16 / 82%);
 }
 
-.franquicias-branch-info h2 {
+.sucursal-info h2 {
   margin: 0.8rem 0 1.3rem;
   font-family: 'Ropa Sans', sans-serif;
   font-size: 1.45rem;
   line-height: 1.15;
-  color: var(--franquicias-red);
 }
 
-.franquicias-branch-address,
-.franquicias-branch-hours {
+.sucursal-dato {
   gap: 0.6rem;
-  color: var(--franquicias-red);
   font-size: 0.98rem;
-  line-height: 1.5;
 }
 
-.franquicias-branch-address svg,
-.franquicias-branch-hours svg {
-  flex: 0 0 auto;
+.sucursal-dato svg {
   margin-top: 0.2rem;
-  color: var(--franquicias-red);
 }
 
-.franquicias-branch-map,
-.franquicias-branch-gallery {
+.sucursal-mapa,
+.sucursal-galeria,
+.sucursal-mapa iframe,
+.sucursal-foto > img {
   min-height: 17rem;
 }
 
-.franquicias-branch-map iframe {
-  min-height: 17rem;
-  flex: 1;
+.sucursal-mapa iframe {
   background: #e6e4df;
 }
 
-.franquicias-gallery-frame {
+.sucursal-foto {
   min-height: 0;
-  flex: 1;
   background: #292522;
 }
 
-.franquicias-gallery-frame > img {
-  min-height: 17rem;
-}
-
-.franquicias-gallery-arrow {
+.sucursal-flecha {
   width: 2.5rem;
   height: 2.5rem;
-  color: #fff;
   background: rgb(20 20 20 / 75%);
-  cursor: pointer;
 }
 
-.franquicias-gallery-arrow:hover,
-.franquicias-gallery-arrow:focus-visible {
+.sucursal-flecha:is(:hover, :focus-visible) {
   background: var(--franquicias-red-dark);
 }
 
-.franquicias-gallery-previous {
+.sucursal-anterior {
   left: 0.75rem;
 }
 
-.franquicias-gallery-next {
+.sucursal-siguiente {
   right: 0.75rem;
 }
 
-.franquicias-gallery-count {
-  position: absolute;
+.sucursal-contador {
   right: 0.75rem;
   bottom: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  color: #fff;
   background: rgb(20 20 20 / 75%);
   font-size: 0.8rem;
 }
 
 @media (max-width: 900px) {
-  .franquicias-branch-row {
+  .sucursal-fila {
     grid-template-columns: minmax(12rem, 0.85fr) minmax(15rem, 1fr);
   }
 
-  .franquicias-branch-gallery {
+  .sucursal-galeria {
     grid-column: 1 / -1;
   }
 
-  .franquicias-gallery-frame,
-  .franquicias-gallery-frame > img {
+  .sucursal-foto,
+  .sucursal-foto > img {
     min-height: 18rem;
   }
 }
 
 @media (max-width: 600px) {
-  .franquicias-directory {
+  .sucursales {
     padding: 1rem 0.75rem 2rem;
   }
 
-  .franquicias-directory-header {
+  .sucursales-cabecera {
     margin: 2rem 0 1.25rem;
   }
 
-  .franquicias-directory-topbar .franquicias-home-link,
-  .franquicias-back-link {
+  .sucursales-barra .franquicias-inicio,
+  .sucursales-volver {
     font-size: 0.85rem;
   }
 
-  .franquicias-branch-row {
+  .sucursal-fila {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.55rem;
   }
 
-  .franquicias-branch-gallery {
+  .sucursal-galeria {
     grid-column: auto;
   }
 
-  .franquicias-branch-info {
+  .sucursal-info {
     padding: 0.85rem;
   }
 
-  .franquicias-branch-map iframe {
+  .sucursal-mapa iframe {
     min-height: 16rem;
   }
 
-  .franquicias-branch-map,
-  .franquicias-branch-gallery {
+  .sucursal-mapa,
+  .sucursal-galeria {
     min-height: 14rem;
   }
 
-  .franquicias-gallery-frame,
-  .franquicias-gallery-frame > img {
+  .sucursal-foto,
+  .sucursal-foto > img {
     min-height: 14rem;
   }
 }

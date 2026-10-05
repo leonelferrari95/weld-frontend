@@ -1,49 +1,17 @@
 import { useState } from 'react'
-import { Badge, Button, Container, Modal, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
+import { Link, NavLink } from 'react-router-dom'
+import { Badge, Button, Container, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
 import './Navbar.css'
 
-function Navbar({
-  onFranquiciasClick,
-  onNosotrosClick,
-  seccionAbierta,
-  mostrarPreguntas,
-  setMostrarPreguntas,
-  onCarritoClick,
-  cantidadCarrito,
-  activeSection,
-}) {
-  const [showRegister, setShowRegister] = useState(false)
+function Navbar({ onCarritoClick, cantidadCarrito, perfil }) {
   const [expanded, setExpanded] = useState(false)
+  const cerrarMenu = () => setExpanded(false)
 
-  const cerrarSecciones = () => {
-    setMostrarPreguntas(false)
-    setExpanded(false)
-  }
-
-  const sectionLink = (href, label) => (
-    <Nav.Link
-      href={`?${href}`}
-      className={`fs-6 fw-normal${
-        !mostrarPreguntas && !seccionAbierta && activeSection === href ? ' active' : ''
-      }`}
-      onClick={cerrarSecciones}
-    >
+  const sectionLink = (to, label) => (
+    <Nav.Link as={NavLink} to={to} className="fs-6 fw-normal" onClick={cerrarMenu}>
       {label}
     </Nav.Link>
   )
-
-  const abrirFranquicias = (event) => {
-    event.preventDefault()
-    setExpanded(false)
-    onFranquiciasClick()
-  }
-
-  const abrirPreguntas = (event) => {
-    event.preventDefault()
-    setMostrarPreguntas(true)
-    setExpanded(false)
-    window.scrollTo({ top: 0 })
-  }
 
   return (
     <>
@@ -66,44 +34,20 @@ function Navbar({
 
             <BootstrapNavbar.Collapse id="weld-navbar-links" className="flex-xxl-grow-0">
               <Nav className="gap-0 gap-xxl-2 align-items-start align-items-xxl-stretch weld-section-links">
-                {sectionLink('#productos', 'SHOP NOW')}
-
-                <Nav.Link
-                  href="#franquicias"
-                  className={`fs-6 fw-normal${seccionAbierta === 'franquicias' ? ' active' : ''}`}
-                  onClick={abrirFranquicias}
-                >
-                  FRANQUICIAS
-                </Nav.Link>
-
-                <Nav.Link
-                  href="#preguntas"
-                  className={`fs-6 fw-normal${mostrarPreguntas ? ' active' : ''}`}
-                  onClick={abrirPreguntas}
-                >
-                  PREGUNTAS FRECUENTES
-                </Nav.Link>
-
-                {sectionLink('#contacto', 'CONTACTANOS')}
-                <Nav.Link
-                  href="#nosotros"
-                  className={`fs-6 fw-normal${seccionAbierta === 'nosotros' ? ' active' : ''}`}
-                  onClick={(event) => {
-                    event.preventDefault()
-                    setExpanded(false)
-                    onNosotrosClick()
-                  }}
-                >
-                  NOSOTROS
-                </Nav.Link>
+                {sectionLink('/productos', 'SHOP NOW')}
+                {sectionLink('/franquicias', 'FRANQUICIAS')}
+                {sectionLink('/preguntas', 'PREGUNTAS FRECUENTES')}
+                {sectionLink('/contacto', 'CONTACTANOS')}
+                {sectionLink('/nosotros', 'NOSOTROS')}
               </Nav>
             </BootstrapNavbar.Collapse>
           </div>
 
           <BootstrapNavbar.Brand
-            href="?#inicio"
+            as={Link}
+            to="/"
             aria-label="Weld, inicio"
-            onClick={cerrarSecciones}
+            onClick={cerrarMenu}
             className="weld-navbar-brand top-50 start-50 flex-shrink-0 z-2 p-0"
           >
             <img src="/img/weldblanco.png" alt="Weld" className="logo-navbar object-fit-contain" />
@@ -137,11 +81,14 @@ function Navbar({
               type="button"
               variant="link"
               className="d-inline-flex align-items-center justify-content-center p-0 border-0 rounded-0 bg-transparent weld-navbar-action"
-              aria-label="Registrarse"
-              onClick={() => setShowRegister(true)}
+              as={Link}
+              to={perfil ? '/perfil' : '/registro'}
+              aria-label="Mi cuenta"
+              onClick={cerrarMenu}
             >
               <svg
                 className="user-logo d-block"
+                fill="#fff"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
                 focusable="false"
@@ -152,14 +99,6 @@ function Navbar({
           </Nav>
         </Container>
       </BootstrapNavbar>
-
-      <Modal show={showRegister} onHide={() => setShowRegister(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Registrarse</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>El formulario de registro se puede agregar cuando migremos esa sección.</Modal.Body>
-      </Modal>
     </>
   )
 }

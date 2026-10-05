@@ -24,7 +24,7 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
     <button
       key={`${image}-${index}`}
       type="button"
-      className="producto-detalle-miniatura bg-transparent"
+      className={`producto-detalle-miniatura bg-transparent border border-2 ${selectedImage === index ? 'border-black' : 'border-transparent'}`}
       aria-label={`Ver foto ${index + 1}`}
       aria-pressed={selectedImage === index}
       onClick={() => setSelectedImage(index)}

@@ -38,7 +38,7 @@ function Navbar({ onCarritoClick, cantidadCarrito }) {
                 {sectionLink('/productos', 'SHOP NOW')}
                 {sectionLink('/franquicias', 'FRANQUICIAS')}
                 {sectionLink('/preguntas', 'PREGUNTAS FRECUENTES')}
-                {sectionLink('/#contacto', 'CONTACTANOS')}
+                {sectionLink('/contacto', 'CONTACTANOS')}
                 {sectionLink('/nosotros', 'NOSOTROS')}
               </Nav>
             </BootstrapNavbar.Collapse>

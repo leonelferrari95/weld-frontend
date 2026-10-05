@@ -29,7 +29,7 @@ function App() {
     <div className="d-flex flex-column min-vh-100">
       <Navbar onCarritoClick={() => setMostrarCarrito(true)} cantidadCarrito={cantidad} />
       <main
-        className={`flex-grow-1${pathname.startsWith('/producto/') ? ' producto-detalle-fondo' : ''}`}
+        className={`flex-grow-1${pathname.startsWith('/producto/') ? ' producto-detalle-fondo bg-white' : ''}`}
       >
         <Rutas onAgregarAlCarrito={agregarAlCarrito} />
       </main>

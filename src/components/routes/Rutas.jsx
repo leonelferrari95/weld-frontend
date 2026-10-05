@@ -4,6 +4,7 @@ import Productos from '../Productos'
 import PreguntasFrecuentes from '../PreguntasFrecuentes'
 import NosotrosPage from '../NosotrosPage'
 import FranquiciasPage from '../FranquiciasPage'
+import Contacto from '../Contacto'
 import ProductoDetalle from '../ProductoDetalle'
 import EnvioGratis from '../EnvioGratis'
 import { products } from '../../data/products'
@@ -37,7 +38,26 @@ const Rutas = ({ onAgregarAlCarrito }) => {
       <Route path="/productos" element={<Productos />} />
       <Route path="/preguntas" element={<PreguntasFrecuentes />} />
       <Route path="/nosotros" element={<NosotrosPage onClose={() => navigate('/')} />} />
-      <Route path="/franquicias" element={<FranquiciasPage onClose={() => navigate('/')} />} />
+      <Route path="/contacto" element={<Contacto />} />
+      <Route
+        path="/franquicias"
+        element={
+          <FranquiciasPage
+            onClose={() => navigate('/')}
+            onMore={() => navigate('/franquicias/sucursales')}
+          />
+        }
+      />
+      <Route
+        path="/franquicias/sucursales"
+        element={
+          <FranquiciasPage
+            showBranches
+            onClose={() => navigate('/')}
+            onBack={() => navigate('/franquicias')}
+          />
+        }
+      />
       <Route
         path="/producto/:id"
         element={<DetalleProductoRuta onAgregarAlCarrito={onAgregarAlCarrito} />}

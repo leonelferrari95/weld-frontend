@@ -45,7 +45,7 @@ function Footer() {
   })
 
   return (
-    <footer id="contacto" className="bg-black text-white">
+    <footer id="footer-contacto" className="bg-black text-white">
       <Container fluid className="px-3 px-xl-5 py-4">
         <Row className="g-4 align-items-start">
           <Col xs={12} xl={3}>

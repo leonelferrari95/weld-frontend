@@ -30,7 +30,6 @@
 
 .weld-section-links .nav-link.active {
   color: #a8a8a8;
-  background: transparent;
 }
 
 .weld-navbar-action {
@@ -50,10 +49,6 @@
 .weld-navbar .navbar-toggler-icon {
   width: 1.5rem;
   height: 1.5rem;
-}
-
-.user-logo {
-  fill: #fff;
 }
 
 .cart-logo {

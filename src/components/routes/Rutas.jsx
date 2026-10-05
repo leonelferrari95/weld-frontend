@@ -1,4 +1,6 @@
-import { Link, Route, Routes, useNavigate, useParams } from 'react-router-dom'
+import Perfil from '../../pages/Perfil'
+import Registro from '../../pages/Registro'
+import { Link, Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import Banner from '../Banner'
 import Productos from '../Productos'
 import PreguntasFrecuentes from '../PreguntasFrecuentes'
@@ -21,11 +23,29 @@ function DetalleProductoRuta({ onAgregarAlCarrito }) {
   )
 }
 
-const Rutas = ({ onAgregarAlCarrito }) => {
+const Rutas = ({ onAgregarAlCarrito, perfil, onCrearPerfil, onCerrarPerfil }) => {
   const navigate = useNavigate()
 
   return (
     <Routes>
+      <Route path="/login" element={<Navigate to={perfil ? '/perfil' : '/registro'} replace />} />
+      <Route
+        path="/registro"
+        element={
+          perfil ? (
+            <Navigate to="/perfil" replace />
+          ) : (
+            <Registro
+              onCrearPerfil={(datos) => {
+                const error = onCrearPerfil(datos)
+                if (error) return error
+                navigate('/perfil')
+              }}
+            />
+          )
+        }
+      />
+      <Route path="/perfil" element={<Perfil perfil={perfil} onCerrarPerfil={onCerrarPerfil} />} />
       <Route
         path="/"
         element={

@@ -32,7 +32,7 @@ function ProductosCard({ product }) {
     <button
       key={`${image}-${index}`}
       type="button"
-      className={`productos-card-image-indicator p-0 border border-white rounded-circle ${index === selectedImage ? 'bg-white' : 'bg-transparent'}`}
+      className={`foto-indicador p-0 border border-white rounded-circle ${index === selectedImage ? 'bg-white' : 'bg-transparent'}`}
       aria-label={`Ver foto ${index + 1} de ${product.name}`}
       aria-current={index === selectedImage ? 'true' : undefined}
       onClick={() => showImage(index)}
@@ -46,11 +46,11 @@ function ProductosCard({ product }) {
     <button
       key={direction}
       type="button"
-      className={`position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle productos-card-image-control productos-card-image-control--${direction}`}
+      className={`position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle foto-control ${direction === 'previous' ? 'foto-anterior' : 'foto-siguiente'}`}
       aria-label={`Ver foto ${label} de ${product.name}`}
       onClick={() => showImage(selectedImage + step)}
     >
-      <span className="productos-card-image-chevron" aria-hidden="true" />
+      <span className="foto-flecha" aria-hidden="true" />
     </button>
   ))
 
@@ -66,7 +66,7 @@ function ProductosCard({ product }) {
         setHoverImage(0)
       }}
     >
-      <div className="position-relative w-100 overflow-hidden productos-card-image-frame">
+      <div className="position-relative w-100 overflow-hidden foto-marco">
         <Link
           to={`/producto/${product.id}`}
           className="d-block w-100 h-100"
@@ -77,14 +77,14 @@ function ProductosCard({ product }) {
             variant="top"
             src={displayedImage}
             alt={`${product.name}, foto ${selectedImage + 1}`}
-            className="w-100 h-100 object-fit-cover rounded-0 productos-card-image"
+            className="w-100 h-100 object-fit-cover rounded-0 foto-producto"
           />
         </Link>
         {hasMultipleImages && (
           <>
             {controls}
             <div
-              className="position-absolute start-0 end-0 d-flex justify-content-center productos-card-image-indicators"
+              className="position-absolute start-0 end-0 d-flex justify-content-center foto-indicadores"
               aria-label="Fotos del producto"
             >
               {indicators}

@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Badge, Button, Container, Modal, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
+import { Badge, Button, Container, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
 import './Navbar.css'
 
-function Navbar({ onCarritoClick, cantidadCarrito }) {
-  const [showRegister, setShowRegister] = useState(false)
+function Navbar({ onCarritoClick, cantidadCarrito, perfil }) {
   const [expanded, setExpanded] = useState(false)
   const cerrarMenu = () => setExpanded(false)
 
@@ -82,11 +81,14 @@ function Navbar({ onCarritoClick, cantidadCarrito }) {
               type="button"
               variant="link"
               className="d-inline-flex align-items-center justify-content-center p-0 border-0 rounded-0 bg-transparent weld-navbar-action"
-              aria-label="Registrarse"
-              onClick={() => setShowRegister(true)}
+              as={Link}
+              to={perfil ? '/perfil' : '/registro'}
+              aria-label="Mi cuenta"
+              onClick={cerrarMenu}
             >
               <svg
                 className="user-logo d-block"
+                fill="#fff"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
                 focusable="false"
@@ -97,16 +99,6 @@ function Navbar({ onCarritoClick, cantidadCarrito }) {
           </Nav>
         </Container>
       </BootstrapNavbar>
-
-      <Modal show={showRegister} onHide={() => setShowRegister(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Registrarse</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          El formulario de registro se puede agregar cuando migremos esa sección.
-        </Modal.Body>
-      </Modal>
     </>
   )
 }

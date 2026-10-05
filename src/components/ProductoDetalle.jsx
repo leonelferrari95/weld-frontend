@@ -24,12 +24,12 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
     <button
       key={`${image}-${index}`}
       type="button"
-      className={`producto-detalle-miniatura bg-transparent border border-2 ${selectedImage === index ? 'border-black' : 'border-transparent'}`}
+      className={`miniatura-producto bg-transparent border border-2 ${selectedImage === index ? 'border-black' : 'border-transparent'}`}
       aria-label={`Ver foto ${index + 1}`}
       aria-pressed={selectedImage === index}
       onClick={() => setSelectedImage(index)}
     >
-      <img className="d-block w-100 object-fit-cover" src={image} alt="" />
+      <img className="foto-marco d-block w-100 object-fit-cover" src={image} alt="" />
     </button>
   ))
 
@@ -58,13 +58,13 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
         <Col xs={12} lg={6}>
           <h1 className="h4">{product.name}</h1>
           <p className="fs-5 fw-semibold mt-4 mb-2">{formatoPrecio(product.price)}</p>
-          <p className="producto-precio-transferencia fs-7 fw-medium mb-4">
+          <p className="precio-transferencia fs-7 fw-medium mb-4">
             {formatoPrecio(product.price * 0.9)} por transferencia (10% de descuento)
           </p>
           {product.description && (
             <>
               <h5 className="h7">Descripción</h5>
-              <p className="producto-detalle-descripcion">{product.description}</p>
+              <p className="descripcion-producto">{product.description}</p>
             </>
           )}
           <div className="d-flex mt-4">
@@ -93,7 +93,7 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
 
             <button
               type="button"
-              className="producto-agregar border-0 text-white py-2"
+              className="producto-agregar flex-grow-1 border-0 text-white py-2"
               onClick={() => onAgregarAlCarrito(product, cantidad)}
             >
               Agregar al carrito

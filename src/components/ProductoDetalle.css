@@ -5,20 +5,16 @@
   }
 }
 
-.producto-detalle-miniatura {
+.miniatura-producto {
   width: 5rem;
   padding: 0.2rem;
 }
 
-.producto-detalle-miniatura img {
-  aspect-ratio: 4 / 5;
-}
-
-.producto-detalle-descripcion {
+.descripcion-producto {
   white-space: pre-line;
 }
 
-.producto-precio-transferencia {
+.precio-transferencia {
   color: #a69764;
 }
 
@@ -38,11 +34,10 @@
 }
 
 .producto-agregar {
-  flex: 1;
+  padding-inline: 0.75rem;
   min-width: 0;
   max-width: 400px;
   min-height: 52px;
-  padding-inline: 0.75rem;
   background: #d81806;
 }
 

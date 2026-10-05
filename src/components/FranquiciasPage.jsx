@@ -47,15 +47,15 @@ function FranquiciasPage({ onClose, onMore, onBack, showBranches = false }) {
     const mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(branch.address)}&output=embed`
 
     return (
-      <article className="franquicias-branch-row" key={branch.id}>
-        <section className="franquicias-branch-card franquicias-branch-info bg-white">
-          <span className="franquicias-card-label">Sucursal</span>
+      <article className="sucursal-fila d-grid align-items-stretch" key={branch.id}>
+        <section className="sucursal-panel sucursal-info bg-white">
+          <span className="sucursal-etiqueta fw-bold text-uppercase">Sucursal</span>
           <h2>{branch.name}</h2>
-          <p className="franquicias-branch-address d-flex align-items-start mb-3">
-            <FiMapPin aria-hidden="true" />
+          <p className="sucursal-dato d-flex align-items-start mb-3">
+            <FiMapPin aria-hidden="true" className="flex-shrink-0" />
             <span>{branch.address}</span>
           </p>
-          <p className="franquicias-branch-hours d-flex align-items-start mb-0">
+          <p className="sucursal-dato d-flex align-items-start mb-0">
             <FiClock aria-hidden="true" />
             <span>
               Lunes a sábado
@@ -64,17 +64,17 @@ function FranquiciasPage({ onClose, onMore, onBack, showBranches = false }) {
             </span>
           </p>
         </section>
-        <section className="franquicias-branch-card franquicias-branch-map d-flex flex-column p-0 overflow-hidden border-0">
+        <section className="sucursal-panel sucursal-mapa d-flex flex-column p-0 overflow-hidden border-0">
           <iframe
             title={`Mapa de ${branch.name}`}
             src={mapUrl}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            className="w-100 border-0"
+            className="w-100 border-0 flex-grow-1"
           />
         </section>
-        <section className="franquicias-branch-card franquicias-branch-gallery d-flex flex-column p-0 overflow-hidden border-0">
-          <div className="franquicias-gallery-frame position-relative flex-grow-1 overflow-hidden">
+        <section className="sucursal-panel sucursal-galeria d-flex flex-column p-0 overflow-hidden border-0">
+          <div className="sucursal-foto position-relative flex-grow-1 overflow-hidden">
             <Image
               src={photo.src}
               alt={`${branch.name}: ${photo.alt}`}
@@ -82,7 +82,7 @@ function FranquiciasPage({ onClose, onMore, onBack, showBranches = false }) {
             />
             <button
               type="button"
-              className="franquicias-gallery-arrow position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle franquicias-gallery-previous"
+              className="sucursal-flecha position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle text-white sucursal-anterior"
               onClick={() => changePhoto(branch.id, -1)}
               aria-label={`Foto anterior de ${branch.name}`}
             >
@@ -90,13 +90,13 @@ function FranquiciasPage({ onClose, onMore, onBack, showBranches = false }) {
             </button>
             <button
               type="button"
-              className="franquicias-gallery-arrow position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle franquicias-gallery-next"
+              className="sucursal-flecha position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle text-white sucursal-siguiente"
               onClick={() => changePhoto(branch.id, 1)}
               aria-label={`Foto siguiente de ${branch.name}`}
             >
               <FiArrowRight aria-hidden="true" />
             </button>
-            <span className="franquicias-gallery-count">
+            <span className="sucursal-contador position-absolute py-1 px-2 text-white">
               {photoIndex + 1} / {branch.photos.length}
             </span>
           </div>
@@ -108,31 +108,31 @@ function FranquiciasPage({ onClose, onMore, onBack, showBranches = false }) {
   return (
     <section
       id={showBranches ? 'franquicias' : undefined}
-      className="franquicias-page position-relative overflow-hidden"
+      className="franquicias-page text-white position-relative overflow-hidden"
     >
       {showBranches ? (
-        <Container fluid className="franquicias-directory text-start">
-          <div className="franquicias-directory-topbar d-flex align-items-center justify-content-between">
+        <Container fluid className="sucursales text-start">
+          <div className="sucursales-barra d-flex align-items-center justify-content-between">
             <button
               type="button"
-              className="franquicias-home-link position-static d-inline-flex align-items-center py-1 px-0 border-0 bg-transparent text-decoration-none"
+              className="franquicias-inicio position-static d-inline-flex align-items-center py-1 px-0 border-0 bg-transparent text-decoration-none"
               onClick={onClose}
             >
               Volver al inicio
             </button>
             <button
               type="button"
-              className="franquicias-back-link d-inline-flex align-items-center gap-2 py-1 px-0 border-0 bg-transparent"
+              className="sucursales-volver d-inline-flex align-items-center gap-2 py-1 px-0 border-0 bg-transparent"
               onClick={onBack}
             >
               <FiArrowLeft aria-hidden="true" /> Volver a Franquicias
             </button>
           </div>
-          <header className="franquicias-directory-header">
-            <p className="franquicias-directory-eyebrow">Weld · Tucumán</p>
-            <h1 className="franquicias-directory-title m-0">Nuestras sucursales</h1>
+          <header className="sucursales-cabecera">
+            <p className="sucursal-etiqueta fw-bold text-uppercase">Weld · Tucumán</p>
+            <h1 className="sucursales-titulo m-0">Nuestras sucursales</h1>
           </header>
-          <div className="franquicias-branch-list d-grid gap-3">{branchCards}</div>
+          <div className="sucursales-lista d-grid gap-3">{branchCards}</div>
         </Container>
       ) : (
         <SeccionImagen

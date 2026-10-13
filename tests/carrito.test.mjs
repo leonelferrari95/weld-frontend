@@ -6,6 +6,45 @@ import { products } from '../src/data/products.js'
 const camisa = products[0]
 const remera = products[1]
 
+test('rechaza cantidades inválidas sin alterar el carrito ni sus totales', () => {
+  const original = [{ product: camisa, cantidad: 1 }]
+  for (const cantidad of [0, -1, 1.5, NaN, Infinity, undefined, '2']) {
+    assert.strictEqual(
+      actualizarCarrito(original, { tipo: 'agregar', product: camisa, cantidad }),
+      original,
+    )
+  }
+  for (const cambio of [1.5, NaN, Infinity, undefined, '1']) {
+    assert.strictEqual(
+      actualizarCarrito(original, { tipo: 'cantidad', id: camisa.id, cambio }),
+      original,
+    )
+  }
+  assert.equal(calcularTotales(original).total, 65000)
+})
+
+test('rechaza productos sin un precio válido', () => {
+  const original = []
+  for (const price of [-1, NaN, Infinity, undefined]) {
+    assert.strictEqual(
+      actualizarCarrito(original, {
+        tipo: 'agregar',
+        product: { ...camisa, price },
+        cantidad: 1,
+      }),
+      original,
+    )
+  }
+})
+
+test('evita cantidades fuera del rango entero seguro al sumar unidades', () => {
+  const original = [{ product: camisa, cantidad: Number.MAX_SAFE_INTEGER }]
+  assert.strictEqual(
+    actualizarCarrito(original, { tipo: 'cantidad', id: camisa.id, cambio: 1 }),
+    original,
+  )
+})
+
 test('el carrito vacío no cobra envío', () => {
   assert.deepEqual(calcularTotales([]), { subtotal: 0, envio: 0, total: 0, cantidad: 0 })
 })
@@ -78,4 +117,35 @@ test('finalizar la compra vacía completamente el carrito sin mutar el estado an
 
   assert.deepEqual(actualizarCarrito(original, { tipo: 'vaciar' }), [])
   assert.equal(original.length, 2)
+})
+
+test('separa talles y modifica solo la variante elegida', () => {
+  let carrito = actualizarCarrito([], { tipo: 'agregar', product: camisa, cantidad: 1, talle: 'S' })
+  carrito = actualizarCarrito(carrito, {
+    tipo: 'agregar',
+    product: camisa,
+    cantidad: 2,
+    talle: 'M',
+  })
+  carrito = actualizarCarrito(carrito, {
+    tipo: 'agregar',
+    product: camisa,
+    cantidad: 1,
+    talle: 'S',
+  })
+  assert.equal(carrito.length, 2)
+  assert.deepEqual(
+    carrito.map(({ talle, cantidad }) => ({ talle, cantidad })),
+    [
+      { talle: 'S', cantidad: 2 },
+      { talle: 'M', cantidad: 2 },
+    ],
+  )
+  carrito = actualizarCarrito(carrito, { tipo: 'cantidad', id: camisa.id, cambio: -1, talle: 'M' })
+  assert.equal(carrito[0].cantidad, 2)
+  assert.equal(carrito[1].cantidad, 1)
+  carrito = actualizarCarrito(carrito, { tipo: 'quitar', id: camisa.id, talle: 'S' })
+  assert.equal(carrito.length, 1)
+  assert.equal(carrito[0].talle, 'M')
+  assert.equal(calcularTotales(carrito).subtotal, camisa.price)
 })

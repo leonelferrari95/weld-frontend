@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Swal from 'sweetalert2'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 
 function Contacto() {
@@ -11,6 +12,7 @@ function Contacto() {
   const [enviado, setEnviado] = useState(false)
 
   const handleChange = (event) => {
+    setEnviado(false)
     const { name, value } = event.target
     setFormData((actual) => ({ ...actual, [name]: value }))
   }
@@ -27,9 +29,13 @@ function Contacto() {
     const campoFaltante = campos.find(({ key }) => !formData[key].trim())
 
     if (campoFaltante) {
-      const input = document.querySelector(`[name="${campoFaltante.key}"]`)
+      const input = event.currentTarget.elements.namedItem(campoFaltante.key)
       input?.focus()
-      alert(`Falta completar: ${campoFaltante.label}`)
+      void Swal.fire({
+        icon: 'error',
+        title: 'Datos incompletos',
+        text: `Falta completar: ${campoFaltante.label}`,
+      })
       return
     }
 
@@ -60,6 +66,7 @@ function Contacto() {
                     <Form.Control
                       type="text"
                       name="nombre"
+                      aria-label="Nombre"
                       value={formData.nombre}
                       onChange={handleChange}
                       placeholder="Nombre"
@@ -79,6 +86,7 @@ function Contacto() {
                     <Form.Control
                       type="email"
                       name="correo"
+                      aria-label="Correo electrónico"
                       value={formData.correo}
                       onChange={handleChange}
                       placeholder="Correo"
@@ -100,6 +108,7 @@ function Contacto() {
                     as="textarea"
                     rows={5}
                     name="mensaje"
+                    aria-label="Mensaje"
                     value={formData.mensaje}
                     onChange={handleChange}
                     placeholder="Mensaje"
@@ -133,8 +142,8 @@ function Contacto() {
                 </div>
 
                 {enviado && (
-                  <p className="text-success mt-3 mb-0 text-center">
-                    ¡Tu mensaje fue enviado correctamente!
+                  <p className="text-secondary mt-3 mb-0 text-center" role="status">
+                    Este formulario es de demostración. No se envió ningún mensaje.
                   </p>
                 )}
               </Form>

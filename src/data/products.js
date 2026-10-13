@@ -2,6 +2,7 @@ export const products = [
   {
     id: 1,
     name: 'CAMISA WELD BLUE',
+    sizes: ['S', 'M', 'L', 'XL'],
     price: 55000,
     description:
       'Las rayas de siempre, a tu manera. Llevá la Weld Blue abierta o cerrada y dale tu propio ritmo al look.',
@@ -10,6 +11,7 @@ export const products = [
   {
     id: 2,
     name: 'REMERA WELD WHITE',
+    sizes: ['S', 'M', 'L', 'XL'],
     price: 45000,
     description:
       'Tu próxima favorita empieza en blanco. Una remera para combinar con todo y repetir sin pensarlo.',
@@ -18,6 +20,7 @@ export const products = [
   {
     id: 3,
     name: 'POLO WELD RED WOMEN',
+    sizes: ['S', 'M', 'L', 'XL'],
     price: 40000,
     description:
       'Rojo para salir a jugar. Un toque deportivo y toda la actitud para llevar el look a tu terreno.',
@@ -26,6 +29,7 @@ export const products = [
   {
     id: 4,
     name: 'SHORT WELD SHINE',
+    sizes: ['S', 'M', 'L', 'XL'],
     price: 75000,
     description:
       'Que el brillo hable por vos. La Weld Shine pone el foco en los detalles y se lleva todas las miradas.',
@@ -35,6 +39,7 @@ export const products = [
   {
     id: 5,
     name: 'POLO WELD BLUE',
+    sizes: ['S', 'M', 'L', 'XL'],
     price: 80000,
     description:
       'Espíritu retro, presente en la calle. La Weld Blue le da otra vuelta al clásico polo para que lo hagas tuyo.',
@@ -43,6 +48,7 @@ export const products = [
   {
     id: 6,
     name: 'ZIPHOODIE WELD BLACK',
+    sizes: ['S', 'M', 'L', 'XL'],
     price: 100000,
     description:
       'Subí el cierre y salí a la tuya. Un hoodie negro con identidad Weld para completar tus looks de todos los días.',
@@ -51,6 +57,7 @@ export const products = [
   {
     id: 7,
     name: 'CAMPERA WELD BLACK',
+    sizes: ['S', 'M', 'L', 'XL'],
     price: 150000,
     description:
       'Marcá tu propio circuito. Inspiración racing y actitud de calle en una campera que toma el protagonismo.',
@@ -59,6 +66,7 @@ export const products = [
   {
     id: 8,
     name: 'JEAN WELD BLACK',
+    sizes: ['S', 'M', 'L', 'XL'],
     price: 90000,
     description:
       'Ampliá tu estilo. Un jean de silueta ancha y carácter urbano para llevar con tus remeras y hoodies favoritos.',

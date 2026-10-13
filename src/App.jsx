@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useState } from 'react'
 import { Alert } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Carrito from './components/Carrito'
@@ -38,7 +39,10 @@ function App() {
       setPerfil(datos)
       setErrorPerfil('')
     } catch {
-      return 'No se pudo guardar el perfil. Habilitá el almacenamiento del navegador e intentá nuevamente.'
+      const mensaje =
+        'No se pudo guardar el perfil. Habilitá el almacenamiento del navegador e intentá nuevamente.'
+      void Swal.fire({ icon: 'error', title: 'Error al guardar el perfil', text: mensaje })
+      return mensaje
     }
   }
 
@@ -49,6 +53,11 @@ function App() {
       setErrorPerfil('')
     } catch {
       setErrorPerfil('No se pudo borrar el perfil guardado. Intentá nuevamente.')
+      void Swal.fire({
+        icon: 'error',
+        title: 'No se pudo cerrar sesión',
+        text: 'No se pudo borrar el perfil guardado. Intentá nuevamente.',
+      })
     }
   }
   const [carrito, dispatchCarrito] = useReducer(actualizarCarrito, [])
@@ -64,8 +73,8 @@ function App() {
     }
   }, [pathname, hash])
 
-  const agregarAlCarrito = (product, cantidad) => {
-    dispatchCarrito({ tipo: 'agregar', product, cantidad })
+  const agregarAlCarrito = (product, cantidad, talle) => {
+    dispatchCarrito({ tipo: 'agregar', product, cantidad, talle })
     setMostrarCarrito(true)
   }
 
@@ -97,8 +106,10 @@ function App() {
         onHide={() => setMostrarCarrito(false)}
         items={carrito}
         perfil={perfil}
-        onCambiarCantidad={(id, cambio) => dispatchCarrito({ tipo: 'cantidad', id, cambio })}
-        onQuitar={(id) => dispatchCarrito({ tipo: 'quitar', id })}
+        onCambiarCantidad={(id, cambio, talle) =>
+          dispatchCarrito({ tipo: 'cantidad', id, cambio, talle })
+        }
+        onQuitar={(id, talle) => dispatchCarrito({ tipo: 'quitar', id, talle })}
         onFinalizarCompra={() => dispatchCarrito({ tipo: 'vaciar' })}
       />
     </div>

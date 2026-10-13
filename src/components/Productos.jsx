@@ -19,7 +19,7 @@ function Productos() {
         </h4>
         <EnvioGratis />
 
-        <Row className="gx-3 gy-6 mt-3">{cards}</Row>
+        <Row className="gx-3 gy-5 mt-3">{cards}</Row>
       </Container>
     </section>
   )

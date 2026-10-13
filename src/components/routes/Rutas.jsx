@@ -1,7 +1,7 @@
+import { Link, Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import Perfil from '../../pages/Perfil'
 import Registro from '../../pages/Registro'
-import { Link, Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom'
-import Banner from '../Banner'
+import Home from '../home'
 import Productos from '../Productos'
 import PreguntasFrecuentes from '../PreguntasFrecuentes'
 import NosotrosPage from '../NosotrosPage'
@@ -46,15 +46,7 @@ const Rutas = ({ onAgregarAlCarrito, perfil, onCrearPerfil, onCerrarPerfil }) =>
         }
       />
       <Route path="/perfil" element={<Perfil perfil={perfil} onCerrarPerfil={onCerrarPerfil} />} />
-      <Route
-        path="/"
-        element={
-          <>
-            <Banner />
-            <Productos />
-          </>
-        }
-      />
+      <Route path="/" element={<Home />} />
       <Route path="/productos" element={<Productos />} />
       <Route path="/preguntas" element={<PreguntasFrecuentes />} />
       <Route path="/nosotros" element={<NosotrosPage onClose={() => navigate('/')} />} />
@@ -86,7 +78,7 @@ const Rutas = ({ onAgregarAlCarrito, perfil, onCrearPerfil, onCerrarPerfil }) =>
         path="*"
         element={
           <section className="container py-5">
-            <h1>Pagina no encontrada</h1>
+            <h1>Página no encontrada</h1>
             <Link to="/">Volver al inicio</Link>
           </section>
         }

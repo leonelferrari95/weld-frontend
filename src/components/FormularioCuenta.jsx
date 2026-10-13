@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Alert, Breadcrumb, Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 function CampoCuenta({ campo }) {
   return (
@@ -11,6 +12,7 @@ function CampoCuenta({ campo }) {
           <Form.Select
             name={campo.name}
             required
+            disabled={campo.disabled}
             autoComplete={campo.autoComplete}
             defaultValue=""
             className="rounded-0 py-3 shadow-none"
@@ -59,13 +61,19 @@ function FormularioCuenta({ titulo, descripcion, campos, onEnviar }) {
 
   const enviar = (event) => {
     event.preventDefault()
-    const datos = new FormData(event.currentTarget)
+    const formulario = event.currentTarget
+    const datos = new FormData(formulario)
     setMensaje('')
     const valores = Object.fromEntries(
       [...datos.entries()].map(([clave, valor]) => [clave, valor.trim()]),
     )
     if (campos.some((campo) => campo.required !== false && !valores[campo.name])) {
       setError('Completá todos los campos obligatorios.')
+      void Swal.fire({
+        icon: 'error',
+        title: 'Datos incompletos',
+        text: 'Completá todos los campos obligatorios.',
+      })
       return
     }
     const resultado = onEnviar?.(valores)
@@ -75,7 +83,7 @@ function FormularioCuenta({ titulo, descripcion, campos, onEnviar }) {
     }
     setError('')
     setMensaje('Perfil guardado en este navegador.')
-    event.currentTarget.reset()
+    formulario.reset()
   }
 
   return (
@@ -119,7 +127,12 @@ function FormularioCuenta({ titulo, descripcion, campos, onEnviar }) {
                   {mensaje}
                 </Alert>
               )}
-              <Button type="submit" variant="dark" className="w-100 rounded-0 py-3">
+              <Button
+                type="submit"
+                variant="dark"
+                className="w-100 rounded-0 py-3"
+                disabled={campos.some((campo) => campo.disabled)}
+              >
                 {titulo}
               </Button>
             </Form>

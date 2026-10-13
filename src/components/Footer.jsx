@@ -14,9 +14,21 @@ const footerSections = [
   {
     title: 'CONTACTO',
     links: [
-      { label: <FaInstagram size="1.25rem" />, href: 'https://www.instagram.com/weld/' },
-      { label: <FaWhatsapp size="1.25rem" />, href: 'https://wa.me/5493816414960' },
-      { label: <FaEnvelope size="1.25rem" />, href: 'mailto:info@weldcompany.com' },
+      {
+        label: <FaInstagram size="1.25rem" />,
+        href: 'https://www.instagram.com/weld/',
+        nombre: 'Instagram de WELD',
+      },
+      {
+        label: <FaWhatsapp size="1.25rem" />,
+        href: 'https://wa.me/5493816414960',
+        nombre: 'WhatsApp de WELD',
+      },
+      {
+        label: <FaEnvelope size="1.25rem" />,
+        href: 'mailto:weldventas@gmail.com',
+        nombre: 'Correo de WELD',
+      },
     ],
   },
 ]
@@ -31,6 +43,7 @@ function Footer() {
           as={interno ? Link : 'a'}
           to={interno ? link.href : undefined}
           href={interno ? undefined : link.href}
+          aria-label={link.nombre}
         >
           {link.label}
         </Nav.Link>

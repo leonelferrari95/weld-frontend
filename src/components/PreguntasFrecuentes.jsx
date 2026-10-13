@@ -4,7 +4,7 @@ const preguntas = [
   {
     pregunta: '¿Cómo puedo realizar una compra?',
     respuesta:
-      'Elegí un producto, abrí su detalle y seleccioná la cantidad que querés. Tocá "Agregar al carrito" y revisá tu selección. Antes de finalizar, creá tu perfil con tus datos y dirección de entrega. Luego confirmá la compra desde el carrito.',
+      'Elegí un producto, abrí su detalle y seleccioná el talle y la cantidad que querés. Tocá "Agregar al carrito" y revisá tu selección. Antes de finalizar, creá tu perfil con tus datos y dirección de entrega. Luego confirmá la compra desde el carrito.',
   },
   {
     pregunta: '¿Realizan envíos y cuánto cuestan?',

@@ -1,23 +1,74 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import Swal from 'sweetalert2'
 import { Alert, Button, Card, Col, Image, Offcanvas, Row, Stack } from 'react-bootstrap'
 import { calcularTotales } from '../utils/carrito'
 import { formatoPrecio } from '../utils/precios'
 import './Carrito.css'
 import './ProductosCard.css'
+import { enviarCorreoPedido } from '../services/emailService'
 
 function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onFinalizarCompra }) {
-  const [mostrarTotal, setMostrarTotal] = useState(false)
   const [compraRealizada, setCompraRealizada] = useState(null)
+  const [enviandoCorreo, setEnviandoCorreo] = useState(false)
+  const [errorCorreo, setErrorCorreo] = useState('')
+  const [alertaAbierta, setAlertaAbierta] = useState(false)
+  const envioEnCurso = useRef(false)
   const { subtotal, envio, total } = calcularTotales(items)
+  const mostrarAlerta = async (opciones) => {
+    setAlertaAbierta(true)
+    try {
+      return await Swal.fire({ confirmButtonColor: '#111', ...opciones })
+    } finally {
+      setAlertaAbierta(false)
+    }
+  }
+
+  const finalizarCompra = async () => {
+    if (!items.length || !perfil || envioEnCurso.current) return
+
+    envioEnCurso.current = true
+    setEnviandoCorreo(true)
+    setErrorCorreo('')
+
+    try {
+      const pedidoId = `WELD-${crypto.randomUUID().toUpperCase()}`
+      const direccion = [perfil.direccion, perfil.localidad, perfil.provincia, perfil.pais].join(
+        ', ',
+      )
+      await enviarCorreoPedido({
+        nombre: `${perfil.nombre} ${perfil.apellido}`,
+        email: perfil.email,
+        pedidoId,
+        productos: items,
+        total,
+        direccion,
+      })
+
+      setCompraRealizada({ ...perfil, total, pedidoId })
+      onFinalizarCompra()
+    } catch (error) {
+      console.error('Error al enviar el correo:', error)
+      setErrorCorreo('No pudimos enviar el correo del pedido. Intentá nuevamente.')
+      await mostrarAlerta({
+        icon: 'error',
+        title: 'No se pudo enviar el correo',
+        text: 'Tus productos siguen en el carrito. Intentá nuevamente.',
+        confirmButtonText: 'Entendido',
+      })
+    } finally {
+      envioEnCurso.current = false
+      setEnviandoCorreo(false)
+    }
+  }
 
   const reiniciarMensajes = () => {
     setCompraRealizada(null)
-    setMostrarTotal(false)
+    setErrorCorreo('')
   }
 
-  const productos = items.map(({ product, cantidad }) => (
-    <Row as="li" key={product.id} className="g-3 mb-4 productos-card">
+  const productos = items.map(({ product, cantidad, talle }) => (
+    <Row as="li" key={`${product.id}-${talle ?? ''}`} className="g-3 mb-4 productos-card">
       <Col xs={4}>
         <Image src={product.images[0]} alt={product.name} fluid />
       </Col>
@@ -25,21 +76,22 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
         <Card.Title as="h3" className="fw-normal text-break text-uppercase">
           {product.name}
         </Card.Title>
+        {talle && <p className="small mb-2">Talle: {talle}</p>}
         <p className="productos-card-price mb-3 text-uppercase">{formatoPrecio(product.price)}</p>
         <div className="d-flex flex-wrap align-items-center gap-3">
           <div
             className="d-inline-flex align-items-center border"
             role="group"
-            aria-label={`Cantidad de ${product.name}`}
+            aria-label={`Cantidad de ${product.name}${talle ? `, talle ${talle}` : ''}`}
           >
             <Button
               variant="link"
               className="text-dark text-decoration-none rounded-0 px-3"
-              disabled={cantidad === 1}
-              aria-label={`Restar una unidad de ${product.name}`}
+              disabled={cantidad === 1 || enviandoCorreo}
+              aria-label={`Restar una unidad de ${product.name}${talle ? `, talle ${talle}` : ''}`}
               onClick={() => {
                 reiniciarMensajes()
-                onCambiarCantidad(product.id, -1)
+                onCambiarCantidad(product.id, -1, talle)
               }}
             >
               −
@@ -50,10 +102,11 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
             <Button
               variant="link"
               className="text-dark text-decoration-none rounded-0 px-3"
-              aria-label={`Sumar una unidad de ${product.name}`}
+              aria-label={`Sumar una unidad de ${product.name}${talle ? `, talle ${talle}` : ''}`}
+              disabled={enviandoCorreo}
               onClick={() => {
                 reiniciarMensajes()
-                onCambiarCantidad(product.id, 1)
+                onCambiarCantidad(product.id, 1, talle)
               }}
             >
               +
@@ -62,10 +115,11 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
           <Button
             variant="link"
             className="carrito-quitar text-black p-0 small"
-            aria-label={`Quitar ${product.name} del carrito`}
+            disabled={enviandoCorreo}
+            aria-label={`Quitar ${product.name}${talle ? `, talle ${talle}` : ''} del carrito`}
             onClick={() => {
               reiniciarMensajes()
-              onQuitar(product.id)
+              onQuitar(product.id, talle)
             }}
           >
             Quitar
@@ -79,9 +133,11 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
     <Offcanvas
       id="carrito"
       show={show}
+      enforceFocus={!alertaAbierta}
       onShow={reiniciarMensajes}
-      onHide={onHide}
-      onExited={() => setMostrarTotal(false)}
+      onHide={() => {
+        if (!enviandoCorreo) onHide()
+      }}
       placement="end"
       className="carrito-panel text-dark overflow-y-auto"
       aria-labelledby="carrito-titulo"
@@ -107,6 +163,7 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
           variant="outline-dark"
           className="carrito-ver-productos text-uppercase w-100 rounded-0 py-2 mb-3"
           onClick={onHide}
+          disabled={enviandoCorreo}
         >
           VER MÁS PRODUCTOS
         </Button>
@@ -120,12 +177,6 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
               <span>Envío</span>
               <span>{formatoPrecio(envio)}</span>
             </Stack>
-            {mostrarTotal && (
-              <Alert variant="light" className="border text-dark" role="status" aria-atomic="true">
-                <strong className="d-block">Total de tu compra: {formatoPrecio(total)}</strong>
-                <span className="small">Incluye {formatoPrecio(envio)} de envío.</span>
-              </Alert>
-            )}
           </>
         )}
         <div className="bg-light border p-3 mb-3 small">
@@ -146,17 +197,17 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
         <Button
           variant="danger"
           className="carrito-finalizar w-100 rounded-0 py-3 d-flex flex-wrap justify-content-center gap-2"
-          disabled={!items.length || !perfil}
-          onClick={() => {
-            if (!items.length || !perfil) return
-            setCompraRealizada({ ...perfil, total })
-            setMostrarTotal(false)
-            onFinalizarCompra()
-          }}
+          disabled={!items.length || !perfil || enviandoCorreo}
+          onClick={finalizarCompra}
         >
-          <span>FINALIZAR COMPRA</span>
+          <span>{enviandoCorreo ? 'ENVIANDO PEDIDO...' : 'FINALIZAR COMPRA'}</span>
           {items.length > 0 && <span>· {formatoPrecio(total)}</span>}
         </Button>
+        {errorCorreo && (
+          <Alert variant="danger" className="mt-3" role="alert">
+            {errorCorreo}
+          </Alert>
+        )}
         {compraRealizada && (
           <p className="carrito-confirmacion mt-3 mb-0 text-center" role="status">
             ¡Gracias, {compraRealizada.nombre}! Tu compra de demostración por{' '}

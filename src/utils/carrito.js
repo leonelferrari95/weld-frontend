@@ -5,17 +5,25 @@ export function actualizarCarrito(carrito, accion) {
   if (accion.tipo === 'vaciar') return []
 
   if (accion.tipo === 'quitar') {
-    return carrito.filter((item) => item.product.id !== accion.id)
+    return carrito.filter((item) => item.product.id !== accion.id || item.talle !== accion.talle)
   }
 
   if (accion.tipo !== 'agregar' && accion.tipo !== 'cantidad') return carrito
+
+  const cambio = accion.tipo === 'agregar' ? accion.cantidad : accion.cambio
+  if (!Number.isSafeInteger(cambio) || (accion.tipo === 'agregar' && cambio < 1)) return carrito
+  if (
+    accion.tipo === 'agregar' &&
+    (!accion.product || !Number.isFinite(accion.product.price) || accion.product.price < 0)
+  )
+    return carrito
 
   const siguiente = []
   let encontrado = false
   const id = accion.product?.id ?? accion.id
 
   for (const item of carrito) {
-    if (item.product.id !== id) {
+    if (item.product.id !== id || item.talle !== accion.talle) {
       siguiente.push(item)
       continue
     }
@@ -23,11 +31,16 @@ export function actualizarCarrito(carrito, accion) {
     encontrado = true
     const cantidad =
       accion.tipo === 'agregar' ? item.cantidad + accion.cantidad : item.cantidad + accion.cambio
+    if (!Number.isSafeInteger(cantidad)) return carrito
     siguiente.push({ ...item, cantidad: Math.max(1, cantidad) })
   }
 
   if (accion.tipo === 'agregar' && !encontrado) {
-    siguiente.push({ product: accion.product, cantidad: accion.cantidad })
+    siguiente.push({
+      product: accion.product,
+      cantidad: accion.cantidad,
+      ...(accion.talle ? { talle: accion.talle } : {}),
+    })
   }
 
   return siguiente

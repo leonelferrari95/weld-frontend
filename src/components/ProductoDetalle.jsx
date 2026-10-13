@@ -8,10 +8,11 @@ import { FiShield, FiCheck, FiCornerUpLeft } from 'react-icons/fi'
 function ProductoDetalle({ product, onAgregarAlCarrito }) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [cantidad, setCantidad] = useState(1)
+  const [talle, setTalle] = useState('')
 
   if (!product) {
     return (
-      <Container className="py-5s">
+      <Container className="py-5">
         <h1>Producto no encontrado</h1>
         <Link className="text-dark fw-normal text-decoration-none" to="/productos">
           Volver a productos
@@ -24,7 +25,7 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
     <button
       key={`${image}-${index}`}
       type="button"
-      className={`miniatura-producto bg-transparent border border-2 ${selectedImage === index ? 'border-black' : 'border-transparent'}`}
+      className={`miniatura-producto bg-transparent border border-2 ${selectedImage === index ? 'border-black' : 'miniatura-sin-seleccionar'}`}
       aria-label={`Ver foto ${index + 1}`}
       aria-pressed={selectedImage === index}
       onClick={() => setSelectedImage(index)}
@@ -58,15 +59,38 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
         <Col xs={12} lg={6}>
           <h1 className="h4">{product.name}</h1>
           <p className="fs-5 fw-semibold mt-4 mb-2">{formatoPrecio(product.price)}</p>
-          <p className="precio-transferencia fs-7 fw-medium mb-4">
-            {formatoPrecio(product.price * 0.9)} por transferencia (10% de descuento)
+          <p className="precio-transferencia small fw-medium mb-4">
+            {formatoPrecio(product.price * 0.9)} por transferencia (10% de descuento informativo; no
+            aplicado en el carrito)
           </p>
           {product.description && (
             <>
-              <h5 className="h7">Descripción</h5>
+              <h2 className="h6">Descripción</h2>
               <p className="descripcion-producto">{product.description}</p>
             </>
           )}
+          <fieldset className="border-0 p-0 mt-4">
+            <legend className="fs-6 fw-semibold mb-2">Talle</legend>
+            <div className="d-flex flex-wrap gap-2">
+              {product.sizes.map((size) => (
+                <label key={size} className="producto-talle">
+                  <input
+                    type="radio"
+                    name="talle"
+                    value={size}
+                    checked={talle === size}
+                    onChange={() => setTalle(size)}
+                  />
+                  <span>{size}</span>
+                </label>
+              ))}
+            </div>
+            <p id="talle-ayuda" className="small text-secondary mt-2 mb-0" aria-live="polite">
+              {talle
+                ? 'Talle seleccionado: ' + talle
+                : 'Elegí un talle para agregar la prenda al carrito.'}
+            </p>
+          </fieldset>
           <div className="d-flex mt-4">
             <div className="producto-cantidad d-flex flex-shrink-0 align-items-center justify-content-between bg-white text-black">
               <button
@@ -94,7 +118,9 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
             <button
               type="button"
               className="producto-agregar flex-grow-1 border-0 text-white py-2"
-              onClick={() => onAgregarAlCarrito(product, cantidad)}
+              disabled={!talle}
+              aria-describedby="talle-ayuda"
+              onClick={() => onAgregarAlCarrito(product, cantidad, talle)}
             >
               Agregar al carrito
             </button>
@@ -118,7 +144,7 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
               <div>
                 <p className="fw-semibold mb-0">Cambios y devoluciones</p>
                 <p className="mb-0">
-                  Si no estas conforme con tu compra, Podés cambiarlo por otro o devolverlo.
+                  Si no estás conforme con tu compra, podés cambiarlo por otro o devolverlo.
                 </p>
               </div>
             </div>

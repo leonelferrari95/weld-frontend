@@ -1,4 +1,8 @@
 import FormularioCuenta from '../components/FormularioCuenta'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import Swal from 'sweetalert2'
+const API_URL = import.meta.env.VITE_API_URL
 
 const campos = [
   {
@@ -47,32 +51,7 @@ const campos = [
     name: 'provincia',
     label: 'Provincia',
     type: 'select',
-    options: [
-      'Buenos Aires',
-      'Ciudad Autónoma de Buenos Aires',
-      'Catamarca',
-      'Chaco',
-      'Chubut',
-      'Córdoba',
-      'Corrientes',
-      'Entre Ríos',
-      'Formosa',
-      'Jujuy',
-      'La Pampa',
-      'La Rioja',
-      'Mendoza',
-      'Misiones',
-      'Neuquén',
-      'Río Negro',
-      'Salta',
-      'San Juan',
-      'San Luis',
-      'Santa Cruz',
-      'Santa Fe',
-      'Santiago del Estero',
-      'Tierra del Fuego',
-      'Tucumán',
-    ],
+    options: [],
     autoComplete: 'address-level1',
   },
   {
@@ -92,13 +71,107 @@ const campos = [
 ]
 
 function Registro({ onCrearPerfil }) {
+  const [provincias, setProvincias] = useState([])
+  const [cargando, setCargando] = useState(true)
+  const [error, setError] = useState('')
+  const [intento, setIntento] = useState(0)
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    const cargarProvincias = async () => {
+      setCargando(true)
+      setError('')
+      try {
+        if (!API_URL) throw new Error('Falta configurar VITE_API_URL')
+
+        const response = await axios.get(`${API_URL.replace(/\/$/, '')}/provincias`, {
+          params: {
+            orden: 'nombre',
+            max: 24,
+          },
+          signal: controller.signal,
+          timeout: 15000,
+        })
+
+        if (
+          !Array.isArray(response.data?.provincias) ||
+          !response.data.provincias.length ||
+          !response.data.provincias.every((provincia) => typeof provincia?.nombre === 'string')
+        ) {
+          throw new Error('La API no devolvió una lista válida de provincias')
+        }
+
+        if (!controller.signal.aborted) setProvincias(response.data.provincias)
+      } catch (errorPeticion) {
+        if (controller.signal.aborted || axios.isCancel(errorPeticion)) return
+
+        const mensaje = !API_URL
+          ? 'Falta configurar VITE_API_URL. Reiniciá el servidor de Vite después de agregarla.'
+          : errorPeticion.code === 'ECONNABORTED'
+            ? 'La API tardó demasiado en responder. Volvé a intentar.'
+            : errorPeticion.response
+              ? `La API devolvió un error (${errorPeticion.response.status}). Volvé a intentar.`
+              : errorPeticion.code === 'ERR_NETWORK'
+                ? 'No se pudo conectar con la API de provincias. Revisá tu conexión y volvé a intentar.'
+                : 'La API no devolvió una lista válida de provincias. Revisá la URL configurada.'
+        setError(mensaje)
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar provincias',
+          text: mensaje,
+        })
+      } finally {
+        if (!controller.signal.aborted) {
+          setCargando(false)
+        }
+      }
+    }
+
+    cargarProvincias()
+
+    return () => controller.abort()
+  }, [intento])
+
+  const camposConProvincias = campos.map((campo) =>
+    campo.name === 'provincia'
+      ? {
+          ...campo,
+          options: provincias.map((provincia) => provincia.nombre),
+          disabled: cargando || Boolean(error),
+        }
+      : campo,
+  )
+
   return (
-    <FormularioCuenta
-      titulo="Crear perfil"
-      descripcion="Completá tus datos y dirección de entrega en Weld Company."
-      campos={campos}
-      onEnviar={onCrearPerfil}
-    />
+    <>
+      {cargando && (
+        <p className="container mt-3" role="status">
+          Cargando provincias...
+        </p>
+      )}
+      {error && (
+        <div className="container mt-3">
+          <p className="text-danger" role="alert">
+            {error}
+          </p>
+          <button
+            type="button"
+            className="btn btn-outline-dark"
+            onClick={() => setIntento((actual) => actual + 1)}
+          >
+            Reintentar cargar provincias
+          </button>
+        </div>
+      )}
+      <FormularioCuenta
+        titulo="Crear perfil"
+        descripcion="Completá tus datos y dirección de entrega en Weld Company."
+        campos={camposConProvincias}
+        onEnviar={onCrearPerfil}
+      />
+    </>
   )
 }
 export default Registro

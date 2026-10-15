@@ -30,7 +30,6 @@ Configurá los identificadores de tu cuenta y plantilla de EmailJS. Reiniciá Vi
 | `npm run build`        | Compilación en `dist/`     |
 | `npm run preview`      | Vista previa de producción |
 | `npm run lint`         | ESLint                     |
-| `npm test`             | Pruebas del carrito        |
 | `npm run format`       | Formato con Prettier       |
 | `npm run format:check` | Verificar formato          |
 
@@ -77,7 +76,23 @@ Cada producto requiere `id` único, `name`, `sizes`, `price` numérico, `descrip
 
 El envío se ajusta con `COSTO_ENVIO` y `UMBRAL_ENVIO_GRATIS` en `carrito.js`. Las sucursales se editan en el arreglo `branches`. El correo usa la primera imagen de cada producto y el dominio público definido en `emailService.js`; las imágenes deben estar accesibles desde internet.
 
-`index.html` contiene las fuentes, título, metadescripción, robots, Open Graph, favicon y color del navegador. El registro actualiza título y descripción; las demás rutas usan los valores generales. Open Graph configura la vista previa al compartir enlaces.
+## Etiquetas SEO
+
+Las etiquetas generales se configuran en el `<head>` de `index.html`:
+
+| Etiqueta | Configuración y función |
+| --- | --- |
+| `<html lang="es">` | Indica que el contenido está en español. |
+| `<title>` | Define el título general: `Weld Company \| Ropa urbana`. |
+| `meta name="description"` | Resume la marca y su colección de ropa urbana. |
+| `meta name="keywords"` | Incluye la marca y términos del catálogo, como streetwear, remeras, camisas y jeans. |
+| `meta name="author"` | Identifica a `Weld Company` como autor. |
+| `meta name="robots"` | Declara `index, follow` para permitir la indexación y el seguimiento de enlaces. |
+| `meta name="viewport"` | Ajusta la visualización al ancho del dispositivo. |
+| Open Graph | `og:site_name`, `og:title`, `og:description` y `og:type` describen el sitio al compartir enlaces. |
+| Imagen Open Graph | `og:image` apunta a `/img/weldbannercompu.png`; `og:image:alt` contiene `Weld Company: ropa urbana`. |
+
+Además, `index.html` define UTF-8, el favicon y el color del navegador (`theme-color`).
 
 ## Rutas y despliegue
 
@@ -88,10 +103,9 @@ El envío se ajusta con `COSTO_ENVIO` y `UMBRAL_ENVIO_GRATIS` en `carrito.js`. L
 ## Verificación
 
 ```bash
-npm test
 npm run lint
 npm run format:check
 npm run build
 ```
 
-Las pruebas cubren variantes, cantidades inválidas, precios inválidos, envío, eliminación, vaciado e inmutabilidad del carrito. Para revisar la interfaz: crear un perfil, recargar, agregar productos de distintos talles, comprobar envío y dirección, finalizar y cerrar sesión. El envío real depende de la configuración de EmailJS y la consulta de provincias de la disponibilidad de Georef.
+Para revisar la interfaz: crear un perfil, recargar, agregar productos de distintos talles, comprobar envío y dirección, finalizar y cerrar sesión. El envío real depende de la configuración de EmailJS y la consulta de provincias de la disponibilidad de Georef.

@@ -2,19 +2,36 @@ import { Link } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import Swal from 'sweetalert2'
 import { Alert, Button, Card, Col, Image, Offcanvas, Row, Stack } from 'react-bootstrap'
-import { calcularTotales } from '../utils/carrito'
-import { formatoPrecio } from '../utils/precios'
 import './Carrito.css'
 import './ProductosCard.css'
 import { enviarCorreoPedido } from '../services/emailService'
 
-function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onFinalizarCompra }) {
+const formatoPesos = new Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})
+
+const formatoPrecio = (precio) => formatoPesos.format(precio)
+
+function Carrito({
+  show,
+  onHide,
+  items,
+  subtotal,
+  envio,
+  total,
+  perfil,
+  onCambiarCantidad,
+  onQuitar,
+  onFinalizarCompra,
+}) {
   const [compraRealizada, setCompraRealizada] = useState(null)
   const [enviandoCorreo, setEnviandoCorreo] = useState(false)
   const [errorCorreo, setErrorCorreo] = useState('')
   const [alertaAbierta, setAlertaAbierta] = useState(false)
   const envioEnCurso = useRef(false)
-  const { subtotal, envio, total } = calcularTotales(items)
   const mostrarAlerta = async (opciones) => {
     setAlertaAbierta(true)
     try {
@@ -83,16 +100,11 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
         {talle && <p className="small mb-2">Talle: {talle}</p>}
         <p className="productos-card-price mb-3 text-uppercase">{formatoPrecio(product.price)}</p>
         <div className="d-flex flex-wrap align-items-center gap-3">
-          <div
-            className="d-inline-flex align-items-center border"
-            role="group"
-            aria-label={`Cantidad de ${product.name}${talle ? `, talle ${talle}` : ''}`}
-          >
+          <div className="d-inline-flex align-items-center border" role="group">
             <Button
               variant="link"
               className="text-dark text-decoration-none rounded-0 px-3"
               disabled={cantidad === 1 || enviandoCorreo}
-              aria-label={`Restar una unidad de ${product.name}${talle ? `, talle ${talle}` : ''}`}
               onClick={() => {
                 reiniciarMensajes()
                 onCambiarCantidad(product.id, -1, talle)
@@ -100,13 +112,10 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
             >
               −
             </Button>
-            <span className="px-2" aria-live="polite" aria-atomic="true">
-              {cantidad}
-            </span>
+            <span className="px-2">{cantidad}</span>
             <Button
               variant="link"
               className="text-dark text-decoration-none rounded-0 px-3"
-              aria-label={`Sumar una unidad de ${product.name}${talle ? `, talle ${talle}` : ''}`}
               disabled={enviandoCorreo}
               onClick={() => {
                 reiniciarMensajes()
@@ -120,7 +129,6 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
             variant="link"
             className="carrito-quitar text-black p-0 small"
             disabled={enviandoCorreo}
-            aria-label={`Quitar ${product.name}${talle ? `, talle ${talle}` : ''} del carrito`}
             onClick={() => {
               reiniciarMensajes()
               onQuitar(product.id, talle)
@@ -144,7 +152,6 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
       }}
       placement="end"
       className="carrito-panel text-dark overflow-y-auto"
-      aria-labelledby="carrito-titulo"
     >
       <Offcanvas.Header closeButton closeLabel="Cerrar carrito" className="border-bottom p-4">
         <Offcanvas.Title id="carrito-titulo" className="h5 fw-normal mb-0">

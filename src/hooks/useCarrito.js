@@ -1,7 +1,9 @@
-export const COSTO_ENVIO = 10000
-export const UMBRAL_ENVIO_GRATIS = 120000
+import { useReducer, useState } from 'react'
 
-export function actualizarCarrito(carrito, accion) {
+const COSTO_ENVIO = 10000
+const UMBRAL_ENVIO_GRATIS = 120000
+
+function actualizarCarrito(carrito, accion) {
   if (accion.tipo === 'vaciar') return []
 
   if (accion.tipo === 'quitar') {
@@ -46,7 +48,7 @@ export function actualizarCarrito(carrito, accion) {
   return siguiente
 }
 
-export function calcularTotales(carrito) {
+function calcularTotales(carrito) {
   let subtotal = 0
   let cantidad = 0
 
@@ -57,4 +59,38 @@ export function calcularTotales(carrito) {
 
   const envio = cantidad > 0 && subtotal < UMBRAL_ENVIO_GRATIS ? COSTO_ENVIO : 0
   return { subtotal, envio, total: subtotal + envio, cantidad }
+}
+
+export default function useCarrito() {
+  const [carrito, actualizarEstadoCarrito] = useReducer(actualizarCarrito, [])
+  const [mostrarCarrito, setMostrarCarrito] = useState(false)
+
+  const agregarAlCarrito = (product, cantidad, talle) => {
+    actualizarEstadoCarrito({ tipo: 'agregar', product, cantidad, talle })
+    setMostrarCarrito(true)
+  }
+
+  const cambiarCantidad = (id, cambio, talle) => {
+    actualizarEstadoCarrito({ tipo: 'cantidad', id, cambio, talle })
+  }
+
+  const quitarProducto = (id, talle) => {
+    actualizarEstadoCarrito({ tipo: 'quitar', id, talle })
+  }
+
+  const vaciarCarrito = () => {
+    actualizarEstadoCarrito({ tipo: 'vaciar' })
+  }
+
+  return {
+    carrito,
+    mostrarCarrito,
+    ...calcularTotales(carrito),
+    abrirCarrito: () => setMostrarCarrito(true),
+    cerrarCarrito: () => setMostrarCarrito(false),
+    agregarAlCarrito,
+    cambiarCantidad,
+    quitarProducto,
+    vaciarCarrito,
+  }
 }

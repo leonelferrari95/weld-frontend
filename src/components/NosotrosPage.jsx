@@ -1,14 +1,14 @@
 import { Button, Container } from 'react-bootstrap'
 
-function NosotrosPage({ onClose }) {
+function NosotrosPage({ onCerrar }) {
   return (
-    <section id="nosotros" aria-label="Nosotros">
+    <section id="nosotros">
       <Container fluid className="bg-black px-3 px-lg-5 py-3">
         <Button
           type="button"
           variant="link"
           className="p-0 text-white fw-normal text-decoration-none"
-          onClick={onClose}
+          onClick={onCerrar}
         >
           Volver al inicio
         </Button>

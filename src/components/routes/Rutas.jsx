@@ -24,7 +24,7 @@ function DetalleProductoRuta({ onAgregarAlCarrito }) {
 }
 
 const Rutas = ({ onAgregarAlCarrito, perfil, onCrearPerfil, onCerrarPerfil }) => {
-  const navigate = useNavigate()
+  const navegar = useNavigate()
 
   return (
     <Routes>
@@ -37,9 +37,8 @@ const Rutas = ({ onAgregarAlCarrito, perfil, onCrearPerfil, onCerrarPerfil }) =>
           ) : (
             <Registro
               onCrearPerfil={(datos) => {
-                const error = onCrearPerfil(datos)
-                if (error) return error
-                navigate('/perfil')
+                onCrearPerfil(datos)
+                navegar('/perfil')
               }}
             />
           )
@@ -49,14 +48,14 @@ const Rutas = ({ onAgregarAlCarrito, perfil, onCrearPerfil, onCerrarPerfil }) =>
       <Route path="/" element={<Home />} />
       <Route path="/productos" element={<Productos />} />
       <Route path="/preguntas" element={<PreguntasFrecuentes />} />
-      <Route path="/nosotros" element={<NosotrosPage onClose={() => navigate('/')} />} />
+      <Route path="/nosotros" element={<NosotrosPage onCerrar={() => navegar('/')} />} />
       <Route path="/contacto" element={<Contacto />} />
       <Route
         path="/franquicias"
         element={
           <FranquiciasPage
-            onClose={() => navigate('/')}
-            onMore={() => navigate('/franquicias/sucursales')}
+            onCerrar={() => navegar('/')}
+            onVerMas={() => navegar('/franquicias/sucursales')}
           />
         }
       />
@@ -65,8 +64,8 @@ const Rutas = ({ onAgregarAlCarrito, perfil, onCrearPerfil, onCerrarPerfil }) =>
         element={
           <FranquiciasPage
             showBranches
-            onClose={() => navigate('/')}
-            onBack={() => navigate('/franquicias')}
+            onCerrar={() => navegar('/')}
+            onVolver={() => navegar('/franquicias')}
           />
         }
       />

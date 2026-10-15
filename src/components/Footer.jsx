@@ -43,7 +43,6 @@ function Footer() {
           as={interno ? Link : 'a'}
           to={interno ? link.href : undefined}
           href={interno ? undefined : link.href}
-          aria-label={link.nombre}
         >
           {link.label}
         </Nav.Link>

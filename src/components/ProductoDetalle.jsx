@@ -1,12 +1,20 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { formatoPrecio } from '../utils/precios'
 import './ProductoDetalle.css'
 import { FiShield, FiCheck, FiCornerUpLeft } from 'react-icons/fi'
 
+const formatoPesos = new Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})
+
+const formatoPrecio = (precio) => formatoPesos.format(precio)
+
 function ProductoDetalle({ product, onAgregarAlCarrito }) {
-  const [selectedImage, setSelectedImage] = useState(0)
+  const [selectedImage, actualizarImagenSeleccionada] = useState(0)
   const [cantidad, setCantidad] = useState(1)
   const [talle, setTalle] = useState('')
 
@@ -26,9 +34,7 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
       key={`${image}-${index}`}
       type="button"
       className={`miniatura-producto bg-transparent border border-2 ${selectedImage === index ? 'border-black' : 'miniatura-sin-seleccionar'}`}
-      aria-label={`Ver foto ${index + 1}`}
-      aria-pressed={selectedImage === index}
-      onClick={() => setSelectedImage(index)}
+      onClick={() => actualizarImagenSeleccionada(index)}
     >
       <img className="foto-marco d-block w-100 object-fit-cover" src={image} alt="" />
     </button>
@@ -49,12 +55,7 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
             src={product.images[selectedImage]}
             alt={`${product.name}, foto ${selectedImage + 1}`}
           />
-          <div
-            className="d-flex flex-wrap justify-content-center gap-2 mt-3"
-            aria-label="Fotos del producto"
-          >
-            {thumbnails}
-          </div>
+          <div className="d-flex flex-wrap justify-content-center gap-2 mt-3">{thumbnails}</div>
         </Col>
         <Col xs={12} lg={6}>
           <h1 className="h4">{product.name}</h1>
@@ -85,7 +86,7 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
                 </label>
               ))}
             </div>
-            <p id="talle-ayuda" className="small text-secondary mt-2 mb-0" aria-live="polite">
+            <p id="talle-ayuda" className="small text-secondary mt-2 mb-0">
               {talle
                 ? 'Talle seleccionado: ' + talle
                 : 'Elegí un talle para agregar la prenda al carrito.'}
@@ -96,19 +97,17 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
               <button
                 type="button"
                 className="align-self-stretch border-0 bg-transparent text-reset fs-5"
-                aria-label="Restar cantidad"
                 disabled={cantidad === 1}
                 onClick={() => setCantidad((actual) => Math.max(1, actual - 1))}
               >
                 −
               </button>
 
-              <span aria-live="polite">{cantidad}</span>
+              <span>{cantidad}</span>
 
               <button
                 type="button"
                 className="align-self-stretch border-0 bg-transparent text-reset fs-5"
-                aria-label="Sumar cantidad"
                 onClick={() => setCantidad((actual) => actual + 1)}
               >
                 +
@@ -119,7 +118,6 @@ function ProductoDetalle({ product, onAgregarAlCarrito }) {
               type="button"
               className="producto-agregar flex-grow-1 border-0 text-white py-2"
               disabled={!talle}
-              aria-describedby="talle-ayuda"
               onClick={() => onAgregarAlCarrito(product, cantidad, talle)}
             >
               Agregar al carrito

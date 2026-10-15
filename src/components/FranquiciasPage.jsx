@@ -27,14 +27,14 @@ const branches = [
   },
 ]
 
-function FranquiciasPage({ onClose, onMore, onBack, showBranches = false }) {
-  const [photoIndexes, setPhotoIndexes] = useState({})
+function FranquiciasPage({ onCerrar, onVerMas, onVolver, showBranches = false }) {
+  const [photoIndexes, actualizarIndicesFotos] = useState({})
 
-  const changePhoto = (branchId, direction) => {
+  const cambiarFoto = (branchId, direction) => {
     const branch = branches.find((item) => item.id === branchId)
     if (!branch) return
 
-    setPhotoIndexes((currentIndexes) => {
+    actualizarIndicesFotos((currentIndexes) => {
       const photoCount = branch.photos.length
       const nextIndex = ((currentIndexes[branchId] || 0) + direction + photoCount) % photoCount
       return { ...currentIndexes, [branchId]: nextIndex }
@@ -52,11 +52,11 @@ function FranquiciasPage({ onClose, onMore, onBack, showBranches = false }) {
           <span className="sucursal-etiqueta fw-bold text-uppercase">Sucursal</span>
           <h2>{branch.name}</h2>
           <p className="sucursal-dato d-flex align-items-start mb-3">
-            <FiMapPin aria-hidden="true" className="flex-shrink-0" />
+            <FiMapPin className="flex-shrink-0" />
             <span>{branch.address}</span>
           </p>
           <p className="sucursal-dato d-flex align-items-start mb-0">
-            <FiClock aria-hidden="true" />
+            <FiClock />
             <span>
               Lunes a sábado
               <br />
@@ -83,18 +83,16 @@ function FranquiciasPage({ onClose, onMore, onBack, showBranches = false }) {
             <button
               type="button"
               className="sucursal-flecha position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle text-white sucursal-anterior"
-              onClick={() => changePhoto(branch.id, -1)}
-              aria-label={`Foto anterior de ${branch.name}`}
+              onClick={() => cambiarFoto(branch.id, -1)}
             >
-              <FiArrowLeft aria-hidden="true" />
+              <FiArrowLeft />
             </button>
             <button
               type="button"
               className="sucursal-flecha position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle text-white sucursal-siguiente"
-              onClick={() => changePhoto(branch.id, 1)}
-              aria-label={`Foto siguiente de ${branch.name}`}
+              onClick={() => cambiarFoto(branch.id, 1)}
             >
-              <FiArrowRight aria-hidden="true" />
+              <FiArrowRight />
             </button>
             <span className="sucursal-contador position-absolute py-1 px-2 text-white">
               {photoIndex + 1} / {branch.photos.length}
@@ -116,16 +114,16 @@ function FranquiciasPage({ onClose, onMore, onBack, showBranches = false }) {
             <button
               type="button"
               className="franquicias-inicio position-static d-inline-flex align-items-center py-1 px-0 border-0 bg-transparent text-decoration-none"
-              onClick={onClose}
+              onClick={onCerrar}
             >
               Volver al inicio
             </button>
             <button
               type="button"
               className="sucursales-volver d-inline-flex align-items-center gap-2 py-1 px-0 border-0 bg-transparent"
-              onClick={onBack}
+              onClick={onVolver}
             >
-              <FiArrowLeft aria-hidden="true" /> Volver a Franquicias
+              <FiArrowLeft /> Volver a Franquicias
             </button>
           </div>
           <header className="sucursales-cabecera">
@@ -138,8 +136,8 @@ function FranquiciasPage({ onClose, onMore, onBack, showBranches = false }) {
         <SeccionImagen
           id="franquicias"
           title="Conoce nuestras sucursales"
-          onClose={onClose}
-          onMore={onMore}
+          onCerrar={onCerrar}
+          onVerMas={onVerMas}
           mobileImage={{ src: '/img/sucursalweldcel.png', width: 950, height: 1656 }}
           desktopImage={{ src: '/img/sucursalweldpc.png', width: 1672, height: 941 }}
         />

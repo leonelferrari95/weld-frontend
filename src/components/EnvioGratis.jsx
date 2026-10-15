@@ -14,13 +14,8 @@ function EnvioGratis() {
   ))
 
   return (
-    <div
-      className="envio-gratis position-relative start-50 vw-100 overflow-hidden text-nowrap fw-medium"
-      aria-label="Envío gratis a partir de $120.000. Weld Company."
-    >
-      <div className="d-flex align-items-center envio-track" aria-hidden="true">
-        {groups}
-      </div>
+    <div className="envio-gratis position-relative start-50 vw-100 overflow-hidden text-nowrap fw-medium">
+      <div className="d-flex align-items-center envio-track">{groups}</div>
     </div>
   )
 }

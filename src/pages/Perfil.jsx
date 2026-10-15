@@ -21,7 +21,7 @@ function Perfil({ perfil, onCerrarPerfil }) {
               {perfil.pais}
             </address>
             <p className="small text-secondary">
-              Tus datos quedan guardados en este navegador hasta que cierres sesión.
+              Tu perfil se mantiene mientras navegás. Al recargar la página o cerrar sesión, se pierde.
             </p>
             <Button as={Link} to="/productos" variant="dark" className="rounded-0 me-3">
               Ver productos

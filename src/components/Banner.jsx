@@ -1,6 +1,6 @@
 function Banner() {
   return (
-    <section id="inicio" aria-label="Presentación de Weld">
+    <section id="inicio">
       <picture className="d-block w-100">
         <source
           media="(max-width: 767px)"

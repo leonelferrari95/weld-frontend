@@ -37,11 +37,11 @@ Configurá los identificadores de tu cuenta y plantilla de EmailJS. Reiniciá Vi
 
 - Catálogo de ocho productos en ARS, galería, talles y cantidades. El descuento por transferencia del 10% es informativo y no se aplica al carrito.
 - Carrito lateral con variantes por producto y talle, subtotal, envío y total. El envío cuesta **$10.000**; es gratis desde **$120.000 de subtotal**.
-- Perfil y dirección guardados en `localStorage` bajo `weld-perfil`. Las provincias se cargan desde Georef con Axios, `useEffect`, estados de datos/carga/error y opción de reintento.
+- Perfil y dirección mantenidos en el estado de React durante la visita; se pierden al recargar la página. Las provincias se cargan desde Georef con Axios, `useEffect`, estados de datos/carga/error y opción de reintento.
 - Finalizar requiere un perfil. EmailJS envía el número de pedido, productos y dirección; el carrito se vacía si el envío resulta correcto y se conserva si falla.
 - Inicio, Nosotros, preguntas frecuentes, sucursales con mapas y galerías, contacto y enlaces a redes. Diseño responsive y franja de envío que respeta la preferencia de reducir movimiento.
 
-**Límites:** el carrito vive en memoria y se pierde al recargar o abrir otra pestaña. No hay base de datos, contraseñas, autenticación ni procesamiento/verificación de pagos. Los pedidos son de demostración y no se registran en un servidor. El formulario de contacto valida los campos, pero no envía ni guarda mensajes. Los textos de pagos y entregas no representan integraciones implementadas.
+**Límites:** el perfil y el carrito viven en memoria y se pierden al recargar o abrir otra pestaña. No hay base de datos, contraseñas, autenticación ni procesamiento/verificación de pagos. Los pedidos son de demostración y no se registran en un servidor. El formulario de contacto valida los campos, pero no envía ni guarda mensajes. Los textos de pagos y entregas no representan integraciones implementadas.
 
 ## Archivos y edición
 
@@ -74,7 +74,7 @@ Cada producto requiere `id` único, `name`, `sizes`, `price` numérico, `descrip
 }
 ```
 
-El envío se ajusta con `COSTO_ENVIO` y `UMBRAL_ENVIO_GRATIS` en `carrito.js`. Las sucursales se editan en el arreglo `branches`. El correo usa la primera imagen de cada producto y el dominio público definido en `emailService.js`; las imágenes deben estar accesibles desde internet.
+El envío se ajusta con `COSTO_ENVIO` y `UMBRAL_ENVIO_GRATIS` en `src/hooks/useCarrito.js`. Las sucursales se editan en el arreglo `branches`. El correo usa la primera imagen de cada producto y el dominio público definido en `emailService.js`; las imágenes deben estar accesibles desde internet.
 
 ## Etiquetas SEO
 
@@ -108,4 +108,4 @@ npm run format:check
 npm run build
 ```
 
-Para revisar la interfaz: crear un perfil, recargar, agregar productos de distintos talles, comprobar envío y dirección, finalizar y cerrar sesión. El envío real depende de la configuración de EmailJS y la consulta de provincias de la disponibilidad de Georef.
+Para revisar la interfaz: crear un perfil, agregar productos de distintos talles, comprobar envío y dirección, finalizar y cerrar sesión. El envío real depende de la configuración de EmailJS y la consulta de provincias de la disponibilidad de Georef.

@@ -1,14 +1,22 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { Card } from 'react-bootstrap'
-import { formatoPrecio } from '../utils/precios'
 import './ProductosCard.css'
+
+const formatoPesos = new Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})
+
+const formatoPrecio = (precio) => formatoPesos.format(precio)
 
 function ProductosCard({ product }) {
   const images = product.images?.length ? product.images : [product.image]
-  const [activeImage, setActiveImage] = useState(0)
-  const [isHovered, setIsHovered] = useState(false)
-  const [hoverImage, setHoverImage] = useState(0)
+  const [activeImage, actualizarImagenActiva] = useState(0)
+  const [isHovered, actualizarCursorEncima] = useState(false)
+  const [hoverImage, actualizarImagenAlPasarCursor] = useState(0)
   const hasMultipleImages = images.length > 1
   const hoverImages =
     images.length > 2 ? [images[2], images[0], images[1], ...images.slice(3)] : images
@@ -17,15 +25,15 @@ function ProductosCard({ product }) {
   const selectedImage = showHoverOrder ? hoverImage : activeImage
   const displayedImage = visibleImages[selectedImage]
 
-  const showImage = (index) => {
+  const mostrarImagen = (index) => {
     const nextImage = (index + visibleImages.length) % visibleImages.length
 
     if (showHoverOrder) {
-      setHoverImage(nextImage)
+      actualizarImagenAlPasarCursor(nextImage)
       return
     }
 
-    setActiveImage(nextImage)
+    actualizarImagenActiva(nextImage)
   }
 
   const indicators = visibleImages.map((image, index) => (
@@ -33,24 +41,21 @@ function ProductosCard({ product }) {
       key={`${image}-${index}`}
       type="button"
       className={`foto-indicador p-0 border border-white rounded-circle ${index === selectedImage ? 'bg-white' : 'bg-transparent'}`}
-      aria-label={`Ver foto ${index + 1} de ${product.name}`}
-      aria-current={index === selectedImage ? 'true' : undefined}
-      onClick={() => showImage(index)}
+      onClick={() => mostrarImagen(index)}
     />
   ))
 
   const controls = [
-    ['previous', 'anterior', -1],
-    ['next', 'siguiente', 1],
-  ].map(([direction, label, step]) => (
+    ['previous', -1],
+    ['next', 1],
+  ].map(([direction, step]) => (
     <button
       key={direction}
       type="button"
       className={`position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center border-0 rounded-circle foto-control ${direction === 'previous' ? 'foto-anterior' : 'foto-siguiente'}`}
-      aria-label={`Ver foto ${label} de ${product.name}`}
-      onClick={() => showImage(selectedImage + step)}
+      onClick={() => mostrarImagen(selectedImage + step)}
     >
-      <span className="foto-flecha" aria-hidden="true" />
+      <span className="foto-flecha" />
     </button>
   ))
 
@@ -58,20 +63,16 @@ function ProductosCard({ product }) {
     <Card
       className="h-100 d-flex flex-column overflow-hidden border-0 rounded-0 bg-transparent productos-card"
       onMouseEnter={() => {
-        setHoverImage(0)
-        setIsHovered(true)
+        actualizarImagenAlPasarCursor(0)
+        actualizarCursorEncima(true)
       }}
       onMouseLeave={() => {
-        setIsHovered(false)
-        setHoverImage(0)
+        actualizarCursorEncima(false)
+        actualizarImagenAlPasarCursor(0)
       }}
     >
       <div className="position-relative w-100 overflow-hidden foto-marco">
-        <Link
-          to={`/producto/${product.id}`}
-          className="d-block w-100 h-100"
-          aria-label={`Ver detalle de ${product.name}`}
-        >
+        <Link to={`/producto/${product.id}`} className="d-block w-100 h-100">
           <Card.Img
             key={`${displayedImage}-${selectedImage}`}
             variant="top"
@@ -83,10 +84,7 @@ function ProductosCard({ product }) {
         {hasMultipleImages && (
           <>
             {controls}
-            <div
-              className="position-absolute start-0 end-0 d-flex justify-content-center foto-indicadores"
-              aria-label="Fotos del producto"
-            >
+            <div className="position-absolute start-0 end-0 d-flex justify-content-center foto-indicadores">
               {indicators}
             </div>
           </>

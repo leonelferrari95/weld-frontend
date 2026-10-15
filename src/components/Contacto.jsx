@@ -3,7 +3,7 @@ import Swal from 'sweetalert2'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 
 function Contacto() {
-  const [formData, setFormData] = useState({
+  const [datosFormulario, actualizarDatosFormulario] = useState({
     nombre: '',
     correo: '',
     mensaje: '',
@@ -11,13 +11,13 @@ function Contacto() {
 
   const [enviado, setEnviado] = useState(false)
 
-  const handleChange = (event) => {
+  const manejarCambio = (event) => {
     setEnviado(false)
     const { name, value } = event.target
-    setFormData((actual) => ({ ...actual, [name]: value }))
+    actualizarDatosFormulario((actual) => ({ ...actual, [name]: value }))
   }
 
-  const handleSubmit = (event) => {
+  const enviarFormulario = (event) => {
     event.preventDefault()
 
     const campos = [
@@ -26,7 +26,7 @@ function Contacto() {
       { key: 'mensaje', label: 'Mensaje' },
     ]
 
-    const campoFaltante = campos.find(({ key }) => !formData[key].trim())
+    const campoFaltante = campos.find(({ key }) => !datosFormulario[key].trim())
 
     if (campoFaltante) {
       const input = event.currentTarget.elements.namedItem(campoFaltante.key)
@@ -40,7 +40,7 @@ function Contacto() {
     }
 
     setEnviado(true)
-    setFormData({ nombre: '', correo: '', mensaje: '' })
+    actualizarDatosFormulario({ nombre: '', correo: '', mensaje: '' })
   }
 
   return (
@@ -60,15 +60,14 @@ function Contacto() {
                 transform: 'none',
               }}
             >
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={enviarFormulario}>
                 <Row className="g-3 mb-3">
                   <Col md={6}>
                     <Form.Control
                       type="text"
                       name="nombre"
-                      aria-label="Nombre"
-                      value={formData.nombre}
-                      onChange={handleChange}
+                      value={datosFormulario.nombre}
+                      onChange={manejarCambio}
                       placeholder="Nombre"
                       required
                       style={{
@@ -86,9 +85,8 @@ function Contacto() {
                     <Form.Control
                       type="email"
                       name="correo"
-                      aria-label="Correo electrónico"
-                      value={formData.correo}
-                      onChange={handleChange}
+                      value={datosFormulario.correo}
+                      onChange={manejarCambio}
                       placeholder="Correo"
                       required
                       style={{
@@ -108,9 +106,8 @@ function Contacto() {
                     as="textarea"
                     rows={5}
                     name="mensaje"
-                    aria-label="Mensaje"
-                    value={formData.mensaje}
-                    onChange={handleChange}
+                    value={datosFormulario.mensaje}
+                    onChange={manejarCambio}
                     placeholder="Mensaje"
                     required
                     style={{

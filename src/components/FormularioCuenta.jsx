@@ -82,12 +82,12 @@ function FormularioCuenta({ titulo, descripcion, campos, onEnviar }) {
       return
     }
     setError('')
-    setMensaje('Perfil guardado en este navegador.')
+    setMensaje('Perfil creado para esta visita.')
     formulario.reset()
   }
 
   return (
-    <section className="bg-white text-dark py-4 py-lg-5" aria-labelledby="titulo-cuenta">
+    <section className="bg-white text-dark py-4 py-lg-5">
       <Container>
         <Row>
           <Col xs={12} md={8} lg={6}>
@@ -115,7 +115,8 @@ function FormularioCuenta({ titulo, descripcion, campos, onEnviar }) {
                 <CampoCuenta key={campo.name} campo={campo} />
               ))}
               <p className="small text-secondary">
-                Tus datos se guardan en este navegador hasta que cierres sesión.
+                Tu perfil se mantiene mientras navegás. Al recargar la página o cerrar sesión, se
+                pierde.
               </p>
               {error && (
                 <Alert variant="danger" role="alert">

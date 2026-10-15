@@ -49,11 +49,15 @@ function Carrito({ show, onHide, items, perfil, onCambiarCantidad, onQuitar, onF
       onFinalizarCompra()
     } catch (error) {
       console.error('Error al enviar el correo:', error)
-      setErrorCorreo('No pudimos enviar el correo del pedido. Intentá nuevamente.')
+      const mensaje = Number.isInteger(error?.status)
+        ? `No pudimos enviar el correo del pedido (error ${error.status}). Intentá nuevamente.`
+        : 'No pudimos enviar el correo del pedido. Intentá nuevamente.'
+      setEnviandoCorreo(false)
+      setErrorCorreo(mensaje)
       await mostrarAlerta({
         icon: 'error',
         title: 'No se pudo enviar el correo',
-        text: 'Tus productos siguen en el carrito. Intentá nuevamente.',
+        text: `${mensaje} Tus productos siguen en el carrito.`,
         confirmButtonText: 'Entendido',
       })
     } finally {

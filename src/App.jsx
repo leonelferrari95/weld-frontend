@@ -7,6 +7,7 @@ import Rutas from './components/routes/Rutas'
 import useCarrito from './hooks/useCarrito'
 import usePerfil from './hooks/usePerfil'
 
+
 function App() {
   const { perfil, crearPerfil, cerrarPerfil } = usePerfil()
   const {
@@ -23,15 +24,11 @@ function App() {
     quitarProducto,
     vaciarCarrito,
   } = useCarrito()
-  const { pathname, hash } = useLocation()
+  const { pathname, } = useLocation()
 
   useEffect(() => {
-    if (hash) {
-      document.getElementById(hash.slice(1))?.scrollIntoView()
-    } else {
       window.scrollTo({ top: 0, behavior: 'instant' })
-    }
-  }, [pathname, hash])
+  }, [pathname,])
 
   return (
     <div className="d-flex flex-column min-vh-100">

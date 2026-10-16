@@ -77,8 +77,6 @@ function Registro({ onCrearPerfil }) {
   const [intento, setIntento] = useState(0)
 
   useEffect(() => {
-    const controller = new AbortController()
-
     const cargarProvincias = async () => {
       setCargando(true)
       setError('')
@@ -90,7 +88,6 @@ function Registro({ onCrearPerfil }) {
             orden: 'nombre',
             max: 24,
           },
-          signal: controller.signal,
           timeout: 15000,
         })
 
@@ -102,10 +99,8 @@ function Registro({ onCrearPerfil }) {
           throw new Error('La API no devolvió una lista válida de provincias')
         }
 
-        if (!controller.signal.aborted) setProvincias(response.data.provincias)
+        setProvincias(response.data.provincias)
       } catch (errorPeticion) {
-        if (controller.signal.aborted || axios.isCancel(errorPeticion)) return
-
         const mensaje = !API_URL
           ? 'Falta configurar VITE_API_URL. Reiniciá el servidor de Vite después de agregarla.'
           : errorPeticion.code === 'ECONNABORTED'
@@ -123,15 +118,11 @@ function Registro({ onCrearPerfil }) {
           text: mensaje,
         })
       } finally {
-        if (!controller.signal.aborted) {
-          setCargando(false)
-        }
+        setCargando(false)
       }
     }
 
     cargarProvincias()
-
-    return () => controller.abort()
   }, [intento])
 
   const camposConProvincias = campos.map((campo) =>

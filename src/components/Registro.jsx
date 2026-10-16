@@ -1,4 +1,4 @@
-import FormularioCuenta from '../components/FormularioCuenta'
+import FormularioCuenta from './FormularioCuenta'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'

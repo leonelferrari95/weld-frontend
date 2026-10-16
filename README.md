@@ -45,21 +45,22 @@ Configurá los identificadores de tu cuenta y plantilla de EmailJS. Reiniciá Vi
 
 ## Archivos y edición
 
-| Archivo o carpeta                                          | Responsabilidad                                  |
-| ---------------------------------------------------------- | ------------------------------------------------ |
-| `src/main.jsx` y `src/App.jsx`                             | Entrada, Bootstrap, estructura, perfil y carrito |
-| `src/components/home.jsx`                                  | Inicio con `Banner` y `Productos`                |
-| `src/components/routes/Rutas.jsx`                          | Rutas                                            |
-| `src/pages/Registro.jsx` y `Perfil.jsx`                    | Registro, provincias y perfil local              |
-| `src/components/FormularioCuenta.jsx`                      | Campos reutilizables del registro                |
-| `src/data/products.js`                                     | Catálogo                                         |
-| `src/components/ProductosCard.jsx` y `ProductoDetalle.jsx` | Fotos, detalle, talle y cantidad                 |
-| `src/components/Carrito.jsx`                               | Resumen y finalización                           |
-| `src/utils/carrito.js` y `precios.js`                      | Operaciones, envío y formato ARS                 |
-| `src/services/emailService.js`                             | Parámetros y HTML de productos para EmailJS      |
-| `src/components/FranquiciasPage.jsx`                       | Datos de sucursales y galerías                   |
-| `public/img/`                                              | Imágenes referenciadas como `/img/archivo.png`   |
-| `src/index.css` y CSS de componentes                       | Estilos globales y responsive                    |
+| Archivo o carpeta                                           | Responsabilidad                                  |
+| ----------------------------------------------------------- | ------------------------------------------------ |
+| `src/main.jsx` y `src/App.jsx`                              | Entrada, Bootstrap, estructura, perfil y carrito |
+| `src/components/home.jsx`                                   | Inicio con `Banner` y `Productos`                |
+| `src/components/routes/Rutas.jsx`                           | Rutas                                            |
+| `src/components/Registro.jsx` y `Perfil.jsx`                | Registro, provincias y perfil local              |
+| `src/components/FormularioCuenta.jsx`                       | Campos reutilizables del registro                |
+| `src/data/products.js`                                      | Catálogo                                         |
+| `src/components/ProductosCard.jsx` y `ProductoDetalle.jsx`  | Fotos, detalle, talle y cantidad                 |
+| `src/components/Carrito.jsx`                                | Resumen y finalización                           |
+| `src/hooks/useCarrito.js`                                   | Estado, operaciones y totales del carrito        |
+| `src/hooks/usePerfil.js`                                    | Creación y cierre del perfil en memoria          |
+| `src/services/emailService.js`                              | Parámetros y HTML de productos para EmailJS      |
+| `src/components/FranquiciasPage.jsx` y `SucursalesPage.jsx` | Datos de sucursales y galerías                   |
+| `public/img/`                                               | Imágenes referenciadas como `/img/archivo.png`   |
+| `src/index.css` y CSS de componentes                        | Estilos globales y responsive                    |
 
 Cada producto requiere `id` único, `name`, `sizes`, `price` numérico, `description` e `images`:
 
@@ -74,31 +75,35 @@ Cada producto requiere `id` único, `name`, `sizes`, `price` numérico, `descrip
 }
 ```
 
-El envío se ajusta con `COSTO_ENVIO` y `UMBRAL_ENVIO_GRATIS` en `src/hooks/useCarrito.js`. Las sucursales se editan en el arreglo `branches`. El correo usa la primera imagen de cada producto y el dominio público definido en `emailService.js`; las imágenes deben estar accesibles desde internet.
+El envío se ajusta con `COSTO_ENVIO` y `UMBRAL_ENVIO_GRATIS` en `src/hooks/useCarrito.js`. El formato ARS se aplica en los componentes que muestran precios. Las sucursales se editan en el arreglo `branches` de `src/components/SucursalesPage.jsx`. `FranquiciasPage.jsx` contiene la presentación y las imágenes para celular y computadora. El correo usa la primera imagen de cada producto y el dominio público definido en `emailService.js`; las imágenes deben estar accesibles desde internet.
 
 ## Etiquetas SEO
 
 Las etiquetas generales se configuran en el `<head>` de `index.html`:
 
-| Etiqueta | Configuración y función |
-| --- | --- |
-| `<html lang="es">` | Indica que el contenido está en español. |
-| `<title>` | Define el título general: `Weld Company \| Ropa urbana`. |
-| `meta name="description"` | Resume la marca y su colección de ropa urbana. |
-| `meta name="keywords"` | Incluye la marca y términos del catálogo, como streetwear, remeras, camisas y jeans. |
-| `meta name="author"` | Identifica a `Weld Company` como autor. |
-| `meta name="robots"` | Declara `index, follow` para permitir la indexación y el seguimiento de enlaces. |
-| `meta name="viewport"` | Ajusta la visualización al ancho del dispositivo. |
-| Open Graph | `og:site_name`, `og:title`, `og:description` y `og:type` describen el sitio al compartir enlaces. |
-| Imagen Open Graph | `og:image` apunta a `/img/weldbannercompu.png`; `og:image:alt` contiene `Weld Company: ropa urbana`. |
+| Etiqueta                  | Configuración y función                                                                              |
+| ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `<html lang="es">`        | Indica que el contenido está en español.                                                             |
+| `<title>`                 | Define el título general: `Weld Company \| Ropa urbana`.                                             |
+| `meta name="description"` | Resume la marca y su colección de ropa urbana.                                                       |
+| `meta name="keywords"`    | Incluye la marca y términos del catálogo, como streetwear, remeras, camisas y jeans.                 |
+| `meta name="author"`      | Identifica a `Weld Company` como autor.                                                              |
+| `meta name="robots"`      | Declara `index, follow` para permitir la indexación y el seguimiento de enlaces.                     |
+| `meta name="viewport"`    | Ajusta la visualización al ancho del dispositivo.                                                    |
+| Open Graph                | `og:site_name`, `og:title`, `og:description` y `og:type` describen el sitio al compartir enlaces.    |
+| Imagen Open Graph         | `og:image` apunta a `/img/weldbannercompu.png`; `og:image:alt` contiene `Weld Company: ropa urbana`. |
 
 Además, `index.html` define UTF-8, el favicon y el color del navegador (`theme-color`).
+
+`FormularioCuenta.jsx` actualiza el título de la pestaña y la metadescripción mientras se muestra el formulario, y restaura los valores anteriores al salir.
 
 ## Rutas y despliegue
 
 `/`, `/productos`, `/producto/:id`, `/registro`, `/perfil`, `/preguntas`, `/contacto`, `/nosotros`, `/franquicias` y `/franquicias/sucursales`.
 
-`/login` redirige a registro o perfil; las rutas desconocidas muestran una página no encontrada. El hosting debe servir `index.html` para las rutas de React Router; `vercel.json` incluye esa configuración.
+Las rutas desconocidas muestran una página no encontrada. El hosting debe servir `index.html` para las rutas de React Router; `vercel.json` incluye esa configuración.
+
+`/registro` muestra el formulario aunque ya exista un perfil; completarlo reemplaza el perfil actual y navega a `/perfil`. La consulta de provincias permite reintentar y tiene un timeout de 15 segundos; no se cancela al salir del registro.
 
 ## Verificación
 

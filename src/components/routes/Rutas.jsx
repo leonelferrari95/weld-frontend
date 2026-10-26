@@ -1,6 +1,7 @@
 import { Link, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import Perfil from '../Perfil'
 import Registro from '../Registro'
+import Login from '../Login'
 import Home from '../home'
 import Productos from '../Productos'
 import PreguntasFrecuentes from '../PreguntasFrecuentes'
@@ -29,6 +30,7 @@ const Rutas = ({ onAgregarAlCarrito, perfil, onCrearPerfil, onCerrarPerfil }) =>
 
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
       <Route path="/registro" element={<Registro onCrearPerfil={(datos) => { onCrearPerfil(datos); navegar('/perfil') }} />} />
       <Route path="/perfil" element={<Perfil perfil={perfil} onCerrarPerfil={onCerrarPerfil} />} />
       <Route path="/" element={<Home />} />

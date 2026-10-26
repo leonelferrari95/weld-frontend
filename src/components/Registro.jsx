@@ -2,6 +2,7 @@ import FormularioCuenta from './FormularioCuenta'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { Link } from 'react-router-dom'
 const API_URL = import.meta.env.VITE_API_URL
 
 const campos = [
@@ -162,6 +163,9 @@ function Registro({ onCrearPerfil }) {
         campos={camposConProvincias}
         onEnviar={onCrearPerfil}
       />
+      <p className="container pb-4 small text-dark">
+        ¿Ya tenés una cuenta? <Link to="/login" className="text-dark">Iniciar sesión</Link>
+      </p>
     </>
   )
 }
